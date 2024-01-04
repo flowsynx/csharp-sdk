@@ -1,2 +1,2 @@
-# DotNet-SDK
-.NET SDK for FlowSynx
+# C# SDK
+C# SDK for FlowSynx
