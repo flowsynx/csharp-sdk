@@ -5,7 +5,7 @@ VisualStudioVersion = 17.8.34322.80
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowSynx.Client", "src\FlowSynx.Client\FlowSynx.Client.csproj", "{8EF6DA77-E70C-416D-BB70-1CADFE414707}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowSynx.AspNetCore", "src\FlowSynx.AspNetCore\FlowSynx.AspNetCore.csproj", "{5680DDCE-D45F-4930-A0A0-13062B0F0C34}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowSynx.Client.AspNetCore", "src\FlowSynx.Client.AspNetCore\FlowSynx.Client.AspNetCore.csproj", "{5680DDCE-D45F-4930-A0A0-13062B0F0C34}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{97C3ACA1-DA64-40A4-BB95-4663438B90E0}"
 EndProject

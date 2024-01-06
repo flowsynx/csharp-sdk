@@ -1,5 +1,5 @@
-using FlowSynx.AspNetCore;
 using FlowSynx.Client;
+using FlowSynx.Client.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCore

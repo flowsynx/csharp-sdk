@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\FlowSynx.AspNetCore\FlowSynx.AspNetCore.csproj" />
+    <ProjectReference Include="..\..\src\FlowSynx.Client.AspNetCore\FlowSynx.Client.AspNetCore.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,8 +1,7 @@
-﻿using FlowSynx.Client;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
-namespace FlowSynx.AspNetCore;
+namespace FlowSynx.Client.AspNetCore;
 
 public static class FlowSynxServiceCollectionExtensions
 {
