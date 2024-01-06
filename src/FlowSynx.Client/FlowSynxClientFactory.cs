@@ -1,8 +1,8 @@
 ﻿namespace FlowSynx.Client;
 
-public static class FlowSynxClientFactory
+public class FlowSynxClientFactory
 {
-    public static IFlowSynxClient CreateClient()
+    public IFlowSynxClient CreateClient()
     {
         return new FlowSynxClient();
     }
