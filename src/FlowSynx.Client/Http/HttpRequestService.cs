@@ -21,65 +21,73 @@ internal class HttpRequestService : IHttpRequestService
         return new HttpRequestService(FlowSynxEnvironments.GetDefaultHttpEndpoint());
     }
 
-    public async Task<TResult?> SendRequestAsync<TResult>(Request request, CancellationToken cancellationToken)
+    public async Task<TResult> SendRequestAsync<TResult>(Request request, CancellationToken cancellationToken)
     {
         try
         {
             var response = await CreateHttpRequestAsync(request, cancellationToken).ConfigureAwait(false);
             var responseContent = response.Content;
             var responseString = await responseContent.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<TResult>(responseString);
+            var deserialized = JsonConvert.DeserializeObject<TResult>(responseString);
+            if (deserialized == null)
+                throw new FlowSynxClientException(Resources.PayloadCouldNotBeDeserialized);
+
+            return deserialized;
         }
         catch (HttpRequestException)
         {
-            throw new RequestServiceException(Resources.RequestServiceHttpRequestExceptionMessage);
+            throw new FlowSynxClientException(Resources.RequestServiceHttpRequestExceptionMessage);
         }
         catch (TimeoutException)
         {
-            throw new RequestServiceException(Resources.RequestServiceTimeoutException);
+            throw new FlowSynxClientException(Resources.RequestServiceTimeoutException);
         }
         catch (OperationCanceledException)
         {
-            throw new RequestServiceException(Resources.RequestServiceOperationCanceledException);
+            throw new FlowSynxClientException(Resources.RequestServiceOperationCanceledException);
         }
         catch (JsonException ex)
         {
-            throw new RequestServiceException(Resources.PayloadCouldNotBeDeserialized, ex);
+            throw new FlowSynxClientException(Resources.PayloadCouldNotBeDeserialized, ex);
         }
         catch (Exception ex)
         {
-            throw new RequestServiceException(string.Format(Resources.RequestServiceException, ex.Message));
+            throw new FlowSynxClientException(string.Format(Resources.RequestServiceException, ex.Message));
         }
     }
 
-    public async Task<TResult?> SendRequestAsync<TRequest, TResult>(Request<TRequest> request, CancellationToken cancellationToken)
+    public async Task<TResult> SendRequestAsync<TRequest, TResult>(Request<TRequest> request, CancellationToken cancellationToken)
     {
         try
         {
             var response = await CreateHttpRequestAsync(request, cancellationToken).ConfigureAwait(false);
             var responseContent = response.Content;
             var responseString = await responseContent.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-            return JsonConvert.DeserializeObject<TResult>(responseString);
+            var deserialized = JsonConvert.DeserializeObject<TResult>(responseString);
+            if (deserialized == null)
+                throw new FlowSynxClientException(Resources.PayloadCouldNotBeDeserialized);
+
+            return deserialized;
         }
         catch (HttpRequestException)
         {
-            throw new RequestServiceException(Resources.RequestServiceHttpRequestExceptionMessage);
+            throw new FlowSynxClientException(Resources.RequestServiceHttpRequestExceptionMessage);
         }
         catch (TimeoutException)
         {
-            throw new RequestServiceException(Resources.RequestServiceTimeoutException);
+            throw new FlowSynxClientException(Resources.RequestServiceTimeoutException);
         }
         catch (OperationCanceledException)
         {
-            throw new RequestServiceException(Resources.RequestServiceOperationCanceledException);
+            throw new FlowSynxClientException(Resources.RequestServiceOperationCanceledException);
         }
         catch (JsonException ex)
         {
-            throw new RequestServiceException(Resources.PayloadCouldNotBeDeserialized, ex);
+            throw new FlowSynxClientException(Resources.PayloadCouldNotBeDeserialized, ex);
         }
         catch (Exception ex)
         {
-            throw new RequestServiceException(string.Format(Resources.RequestServiceException, ex.Message));
+            throw new FlowSynxClientException(string.Format(Resources.RequestServiceException, ex.Message));
         }
     }
 
@@ -92,23 +100,23 @@ internal class HttpRequestService : IHttpRequestService
         }
         catch (HttpRequestException)
         {
-            throw new RequestServiceException(Resources.RequestServiceHttpRequestExceptionMessage);
+            throw new FlowSynxClientException(Resources.RequestServiceHttpRequestExceptionMessage);
         }
         catch (TimeoutException)
         {
-            throw new RequestServiceException(Resources.RequestServiceTimeoutException);
+            throw new FlowSynxClientException(Resources.RequestServiceTimeoutException);
         }
         catch (OperationCanceledException)
         {
-            throw new RequestServiceException(Resources.RequestServiceOperationCanceledException);
+            throw new FlowSynxClientException(Resources.RequestServiceOperationCanceledException);
         }
         catch (JsonException ex)
         {
-            throw new RequestServiceException(Resources.PayloadCouldNotBeDeserialized, ex);
+            throw new FlowSynxClientException(Resources.PayloadCouldNotBeDeserialized, ex);
         }
         catch (Exception ex)
         {
-            throw new RequestServiceException(string.Format(Resources.RequestServiceException, ex.Message));
+            throw new FlowSynxClientException(string.Format(Resources.RequestServiceException, ex.Message));
         }
     }
 
@@ -121,23 +129,23 @@ internal class HttpRequestService : IHttpRequestService
         }
         catch (HttpRequestException)
         {
-            throw new RequestServiceException(Resources.RequestServiceHttpRequestExceptionMessage);
+            throw new FlowSynxClientException(Resources.RequestServiceHttpRequestExceptionMessage);
         }
         catch (TimeoutException)
         {
-            throw new RequestServiceException(Resources.RequestServiceTimeoutException);
+            throw new FlowSynxClientException(Resources.RequestServiceTimeoutException);
         }
         catch (OperationCanceledException)
         {
-            throw new RequestServiceException(Resources.RequestServiceOperationCanceledException);
+            throw new FlowSynxClientException(Resources.RequestServiceOperationCanceledException);
         }
         catch (JsonException ex)
         {
-            throw new RequestServiceException(Resources.PayloadCouldNotBeDeserialized, ex);
+            throw new FlowSynxClientException(Resources.PayloadCouldNotBeDeserialized, ex);
         }
         catch (Exception ex)
         {
-            throw new RequestServiceException(string.Format(Resources.RequestServiceException, ex.Message));
+            throw new FlowSynxClientException(string.Format(Resources.RequestServiceException, ex.Message));
         }
     }
 
