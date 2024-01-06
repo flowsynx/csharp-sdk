@@ -1,7 +1,6 @@
 ﻿using FlowSynx.Client.Http;
 using FlowSynx.Client.Requests;
 using FlowSynx.Client.Requests.Config;
-using FlowSynx.Client.Requests.Health;
 using FlowSynx.Client.Requests.Plugins;
 using FlowSynx.Client.Requests.Storage;
 using FlowSynx.Client.Responses;
@@ -23,7 +22,7 @@ public class FlowSynxClient : IFlowSynxClient
     }
 
     #region Configuration
-    public async Task<Result<AddConfigResponse>?> AddConfig(AddConfigRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<AddConfigResponse>> AddConfig(AddConfigRequest request, CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request<AddConfigRequest>
         {
@@ -35,7 +34,7 @@ public class FlowSynxClient : IFlowSynxClient
         return await _httpRequestService.SendRequestAsync<AddConfigRequest, Result<AddConfigResponse>>(requestMessage, cancellationToken);
     }
 
-    public async Task<Result<ConfigDetailsResponse>?> ConfigDetails(ConfigDetailsRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<ConfigDetailsResponse>> ConfigDetails(ConfigDetailsRequest request, CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request
         {
@@ -46,7 +45,7 @@ public class FlowSynxClient : IFlowSynxClient
         return await _httpRequestService.SendRequestAsync<Result<ConfigDetailsResponse>>(requestMessage, cancellationToken);
     }
 
-    public async Task<Result<IEnumerable<ConfigListResponse>>?> ConfigList(ConfigListRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<IEnumerable<ConfigListResponse>>> ConfigList(ConfigListRequest request, CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request<ConfigListRequest>
         {
@@ -58,7 +57,7 @@ public class FlowSynxClient : IFlowSynxClient
         return await _httpRequestService.SendRequestAsync<ConfigListRequest, Result<IEnumerable<ConfigListResponse>>>(requestMessage, cancellationToken);
     }
 
-    public async Task<Result<DeleteConfigResponse>?> DeleteConfig(DeleteConfigRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<DeleteConfigResponse>> DeleteConfig(DeleteConfigRequest request, CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request<DeleteConfigRequest>
         {
@@ -72,22 +71,21 @@ public class FlowSynxClient : IFlowSynxClient
     #endregion
 
     #region Health
-    public async Task<Result<HealthCheckResponse>?> Health(HealthCheckRequest request, CancellationToken cancellationToken = default)
+    public async Task<HealthCheckResponse> Health(CancellationToken cancellationToken = default)
     {
-        var requestMessage = new Request<HealthCheckRequest>
+        var requestMessage = new Request
         {
             HttpMethod = HttpMethod.Get,
             Uri = "health",
-            Content = request
         };
 
-        return await _httpRequestService.SendRequestAsync<HealthCheckRequest, Result<HealthCheckResponse>>(requestMessage, cancellationToken);
+        return await _httpRequestService.SendRequestAsync<HealthCheckResponse>(requestMessage, cancellationToken);
     }
     #endregion
 
     #region Plugins
 
-    public async Task<Result<PluginDetailsResponse>?> PluginDetails(PluginDetailsRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<PluginDetailsResponse>> PluginDetails(PluginDetailsRequest request, CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request
         {
@@ -98,7 +96,7 @@ public class FlowSynxClient : IFlowSynxClient
         return await _httpRequestService.SendRequestAsync<Result<PluginDetailsResponse>>(requestMessage, cancellationToken);
     }
 
-    public async Task<Result<IEnumerable<PluginsListResponse>>?> PluginsList(PluginsListRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<IEnumerable<PluginsListResponse>>> PluginsList(PluginsListRequest request, CancellationToken cancellationToken = default)
     {
         var uri = string.IsNullOrEmpty(request.Type) ? "plugins" : $"plugins/{request.Type}";
         var requestMessage = new Request<PluginsListRequest>
@@ -113,7 +111,7 @@ public class FlowSynxClient : IFlowSynxClient
     #endregion
 
     #region Storage
-    public async Task<Result<AboutResponse>?> About(AboutRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<AboutResponse>> About(AboutRequest request, CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request<AboutRequest>
         {
@@ -125,7 +123,7 @@ public class FlowSynxClient : IFlowSynxClient
         return await _httpRequestService.SendRequestAsync<AboutRequest, Result<AboutResponse>>(requestMessage, cancellationToken);
     }
 
-    public async Task<Result<CopyResponse>?> Copy(CopyRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<CopyResponse>> Copy(CopyRequest request, CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request<CopyRequest>
         {
@@ -137,7 +135,7 @@ public class FlowSynxClient : IFlowSynxClient
         return await _httpRequestService.SendRequestAsync<CopyRequest, Result<CopyResponse>>(requestMessage, cancellationToken);
     }
 
-    public async Task<Result<DeleteFileResponse>?> DeleteFile(DeleteFileRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<DeleteFileResponse>> DeleteFile(DeleteFileRequest request, CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request<DeleteFileRequest>
         {
@@ -149,7 +147,7 @@ public class FlowSynxClient : IFlowSynxClient
         return await _httpRequestService.SendRequestAsync<DeleteFileRequest, Result<DeleteFileResponse>>(requestMessage, cancellationToken);
     }
 
-    public async Task<Result<DeleteResponse>?> Delete(DeleteRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<DeleteResponse>> Delete(DeleteRequest request, CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request<DeleteRequest>
         {
@@ -161,7 +159,7 @@ public class FlowSynxClient : IFlowSynxClient
         return await _httpRequestService.SendRequestAsync<DeleteRequest, Result<DeleteResponse>>(requestMessage, cancellationToken);
     }
 
-    public async Task<Result<IEnumerable<ListResponse>>?> List(ListRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<IEnumerable<ListResponse>>> List(ListRequest request, CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request<ListRequest>
         {
@@ -173,7 +171,7 @@ public class FlowSynxClient : IFlowSynxClient
         return await _httpRequestService.SendRequestAsync<ListRequest, Result<IEnumerable<ListResponse>>>(requestMessage, cancellationToken);
     }
 
-    public async Task<Result<MakeDirectoryResponse>?> MakeDirectory(MakeDirectoryRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<MakeDirectoryResponse>> MakeDirectory(MakeDirectoryRequest request, CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request<MakeDirectoryRequest>
         {
@@ -185,7 +183,7 @@ public class FlowSynxClient : IFlowSynxClient
         return await _httpRequestService.SendRequestAsync<MakeDirectoryRequest, Result<MakeDirectoryResponse>>(requestMessage, cancellationToken);
     }
 
-    public async Task<Result<MoveResponse>?> Move(MoveRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<MoveResponse>> Move(MoveRequest request, CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request<MoveRequest>
         {
@@ -197,7 +195,7 @@ public class FlowSynxClient : IFlowSynxClient
         return await _httpRequestService.SendRequestAsync<MoveRequest, Result<MoveResponse>>(requestMessage, cancellationToken);
     }
 
-    public async Task<Result<PurgeDirectoryResponse>?> PurgeDirectory(PurgeDirectoryRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<PurgeDirectoryResponse>> PurgeDirectory(PurgeDirectoryRequest request, CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request<PurgeDirectoryRequest>
         {
@@ -221,7 +219,7 @@ public class FlowSynxClient : IFlowSynxClient
         return await _httpRequestService.SendRequestAsync(requestMessage, cancellationToken);
     }
 
-    public async Task<Result<SizeResponse>?> Size(SizeRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<SizeResponse>> Size(SizeRequest request, CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request<SizeRequest>
         {
@@ -233,7 +231,7 @@ public class FlowSynxClient : IFlowSynxClient
         return await _httpRequestService.SendRequestAsync<SizeRequest, Result<SizeResponse>>(requestMessage, cancellationToken);
     }
 
-    public async Task<Result<WriteResponse>?> Write(WriteRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<WriteResponse>> Write(WriteRequest request, CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request<WriteRequest>
         {
@@ -247,7 +245,7 @@ public class FlowSynxClient : IFlowSynxClient
     #endregion
 
     #region Version
-    public async Task<Result<VersionResponse>?> Version(CancellationToken cancellationToken = default)
+    public async Task<Result<VersionResponse>> Version(CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request
         {
@@ -261,6 +259,6 @@ public class FlowSynxClient : IFlowSynxClient
 
     public void Dispose()
     {
-        throw new NotImplementedException();
+        _httpRequestService.Dispose();
     }
 }
