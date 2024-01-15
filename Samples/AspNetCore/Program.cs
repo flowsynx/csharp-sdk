@@ -1,5 +1,7 @@
 using FlowSynx.Client;
 using FlowSynx.Client.AspNetCore;
+using FlowSynx.Client.Requests.Plugins;
+using FlowSynx.Client.Requests.Storage;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCore
@@ -17,12 +19,24 @@ namespace AspNetCore
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
 
-            app.MapGet("/version", async ([FromServices] IFlowSynxClient client) => await client.Version());
+            app.MapGet("/health", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) => 
+                await client.Health(cancellationToken));
+
+            app.MapGet("/version", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) => 
+                await client.Version(cancellationToken));
+
+            app.MapGet("/about", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) =>
+                await client.About(new AboutRequest() { Path = @"C:\", Full = true }, cancellationToken));
+
+            app.MapGet("/list", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) => 
+                await client.List(new ListRequest { Path = @"C:\", Sorting = "kind asc" }, cancellationToken));
+
+            app.MapGet("/plugins", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) =>
+                await client.PluginsList(new PluginsListRequest(), cancellationToken));
 
             app.Run();
         }
