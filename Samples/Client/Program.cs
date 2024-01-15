@@ -4,10 +4,13 @@
     {
         private static readonly Example[] Examples = new Example[]
         {
-            new ConfigListExample(),
+            new ConfigExample.ConfigList(),
+            new ConfigExample.AddConfig(),
             new HealthExample(),
-            new PluginsListExample(),
-            new StorageListExample(),
+            new PluginsExample.PluginsList(),
+            new PluginsExample.PluginsDetails(),
+            new StorageExample.StorageList(),
+            new StorageExample.About(),
             new VersionExample(),
         };
 

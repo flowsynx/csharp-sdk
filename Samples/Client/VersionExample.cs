@@ -14,7 +14,10 @@ internal class VersionExample: Example
         if (!result.Succeeded)
         {
             Console.WriteLine(@"The operation is not successes");
-            Console.WriteLine(result.Messages);
+            foreach (var message in result.Messages)
+            {
+                Console.WriteLine(message);
+            }
         }
         else
         {
