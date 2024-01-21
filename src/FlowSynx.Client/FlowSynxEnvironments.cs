@@ -8,9 +8,7 @@ internal class FlowSynxEnvironments
     {
         if (string.IsNullOrEmpty(_httpEndpoint))
         {
-            var port = Environment.GetEnvironmentVariable("FLOWSYNX_HTTP_PORT");
-            port = string.IsNullOrEmpty(port) ? "5860" : port;
-            _httpEndpoint = $"http://127.0.0.1:{port}";
+            _httpEndpoint = $"http://localhost:{5860}";
         }
 
         return _httpEndpoint;
