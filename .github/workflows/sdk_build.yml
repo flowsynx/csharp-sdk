@@ -52,3 +52,10 @@ jobs:
 
     - name: Push package to GitHub packages 
       run: dotnet nuget push **/*.nupkg --api-key ${{secrets.NUGET_PACKAGE_TOKEN}} --source https://api.nuget.org/v3/index.json
+
+    #Create release
+    - name: Create Release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: ${{ inputs.rel_version }}
+        name: Release v${{ inputs.rel_version }}
