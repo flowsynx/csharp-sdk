@@ -2,6 +2,7 @@
 using FlowSynx.Client.Requests;
 using System.Net.Http.Headers;
 using System.Text;
+using FlowSynx.Client.Responses;
 using Newtonsoft.Json;
 
 namespace FlowSynx.Client.Http;
@@ -21,18 +22,23 @@ internal class HttpRequestService : IHttpRequestService
         return new HttpRequestService(FlowSynxEnvironments.GetDefaultHttpEndpoint());
     }
 
-    public async Task<TResult> SendRequestAsync<TResult>(Request request, CancellationToken cancellationToken)
+    public async Task<HttpResult<TResult>> SendRequestAsync<TResult>(Request request, CancellationToken cancellationToken)
     {
         try
         {
             var response = await CreateHttpRequestAsync(request, cancellationToken).ConfigureAwait(false);
+            var headers = response.Headers.Concat(response.Content.Headers);
             var responseContent = response.Content;
             var responseString = await responseContent.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
             var deserialized = JsonConvert.DeserializeObject<TResult>(responseString);
             if (deserialized == null)
                 throw new FlowSynxClientException(Resources.PayloadCouldNotBeDeserialized);
 
-            return deserialized;
+            return new HttpResult<TResult>()
+            {
+                Headers = headers,
+                Payload = deserialized
+            };
         }
         catch (HttpRequestException)
         {
@@ -56,18 +62,23 @@ internal class HttpRequestService : IHttpRequestService
         }
     }
 
-    public async Task<TResult> SendRequestAsync<TRequest, TResult>(Request<TRequest> request, CancellationToken cancellationToken)
+    public async Task<HttpResult<TResult>> SendRequestAsync<TRequest, TResult>(Request<TRequest> request, CancellationToken cancellationToken)
     {
         try
         {
             var response = await CreateHttpRequestAsync(request, cancellationToken).ConfigureAwait(false);
+            var headers = response.Headers.Concat(response.Content.Headers);
             var responseContent = response.Content;
             var responseString = await responseContent.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
             var deserialized = JsonConvert.DeserializeObject<TResult>(responseString);
             if (deserialized == null)
                 throw new FlowSynxClientException(Resources.PayloadCouldNotBeDeserialized);
 
-            return deserialized;
+            return new HttpResult<TResult>()
+            {
+                Headers = headers,
+                Payload = deserialized
+            };
         }
         catch (HttpRequestException)
         {
@@ -91,12 +102,19 @@ internal class HttpRequestService : IHttpRequestService
         }
     }
 
-    public async Task<Stream> SendRequestAsync<TRequest>(Request<TRequest> request, CancellationToken cancellationToken)
+    public async Task<HttpResult<Stream>> SendRequestAsync<TRequest>(Request<TRequest> request, CancellationToken cancellationToken)
     {
         try
         {
             var response = await CreateHttpRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            return await response.Content.ReadAsStreamAsync(cancellationToken);
+            var headers = response.Headers.Concat(response.Content.Headers);
+            var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);
+
+            return new HttpResult<Stream>()
+            {
+                Headers = headers,
+                Payload = responseStream
+            };
         }
         catch (HttpRequestException)
         {
@@ -120,12 +138,19 @@ internal class HttpRequestService : IHttpRequestService
         }
     }
 
-    public async Task<Stream> SendRequestAsync(Request request, CancellationToken cancellationToken)
+    public async Task<HttpResult<Stream>> SendRequestAsync(Request request, CancellationToken cancellationToken)
     {
         try
         {
             var response = await CreateHttpRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            return await response.Content.ReadAsStreamAsync(cancellationToken);
+            var headers = response.Headers.Concat(response.Content.Headers);
+            var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);
+
+            return new HttpResult<Stream>()
+            {
+                Headers = headers,
+                Payload = responseStream
+            };
         }
         catch (HttpRequestException)
         {

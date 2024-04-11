@@ -31,8 +31,11 @@ public interface IFlowSynxClient : IDisposable
     #region Storage
     Task<Result<AboutResponse>> About(AboutRequest request, CancellationToken cancellationToken = default);
     Task<Result<CopyResponse>> Copy(CopyRequest request, CancellationToken cancellationToken = default);
+    Task<Result<CheckResponse>> Check(CheckRequest request, CancellationToken cancellationToken = default);
+    Task<Result<CompressResponse>> Compress(CompressRequest request, CancellationToken cancellationToken = default);
     Task<Result<DeleteFileResponse>> DeleteFile(DeleteFileRequest request, CancellationToken cancellationToken = default);
     Task<Result<DeleteResponse>> Delete(DeleteRequest request, CancellationToken cancellationToken = default);
+    Task<Result<ExistResponse>> Exist(ExistRequest request, CancellationToken cancellationToken = default);
     Task<Result<IEnumerable<ListResponse>>> List(ListRequest request, CancellationToken cancellationToken = default);
     Task<Result<MakeDirectoryResponse>> MakeDirectory(MakeDirectoryRequest request, CancellationToken cancellationToken = default);
     Task<Result<MoveResponse>> Move(MoveRequest request, CancellationToken cancellationToken = default);

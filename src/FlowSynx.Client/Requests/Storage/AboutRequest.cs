@@ -2,6 +2,6 @@
 
 public class AboutRequest
 {
-    public required string Path { get; set; }
+    public string? Path { get; set; } = string.Empty;
     public bool? Full { get; set; } = false;
 }
