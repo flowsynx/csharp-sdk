@@ -30,7 +30,7 @@ internal class StorageExample
                     Console.WriteLine($@"Name:         {item.Name}");
                     Console.WriteLine($@"Kind:         {item.Kind}");
                     Console.WriteLine($@"Size:         {item.Size}");
-                    Console.WriteLine($@"MimeType:     {item.MimeType}");
+                    Console.WriteLine($@"ContentType:     {item.ContentType}");
                     Console.WriteLine($@"ModifiedTime: {item.ModifiedTime}");
                     Console.WriteLine();
                 }

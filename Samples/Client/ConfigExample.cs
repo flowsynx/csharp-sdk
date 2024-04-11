@@ -49,7 +49,7 @@ internal class ConfigExample
             {
                 Name = "test",
                 Type = "FlowSynx.Storage/LocalFileSystem",
-                Specifications = new Dictionary<string, string?>()
+                Specifications = new Dictionary<string, object?>()
                 {
                     {"accountName", "<NAME>"},
                     {"accountKey", "<KEY>"}
