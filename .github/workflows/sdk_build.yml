@@ -1,0 +1,63 @@
+name: Build the project, create nuget package, and create release and tag
+
+on:      
+  workflow_dispatch:
+    inputs:
+      rel_version:
+        description: 'Release version (examples: 1.9.0-rc.1, 1.9.1)'
+        required: true 
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest    
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0 #fetch-depth is needed for GitVersion
+
+    #Build/pack the project
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3.2.0
+      with:
+        dotnet-version: 8.0.x
+
+    - name: Build
+      run: dotnet build --configuration Release /p:Version='${{ inputs.rel_version }}'
+
+    - name: Test
+      run: dotnet test --configuration Release /p:Version='${{ inputs.rel_version }}' --no-build
+
+    - name: Create the package
+      run: dotnet pack --configuration Release /p:Version='${{ inputs.rel_version }}' --no-build
+
+    - name: Upload NuGet package to nuget.org
+      uses: actions/upload-artifact@v2
+      with:
+        name: nugetPackage
+        path: src/ 
+        
+  release:
+    runs-on: ubuntu-latest    
+    needs: build
+    if: github.ref == 'refs/heads/master' # only run job if on the master branch   
+    
+    steps:  
+    #Push NuGet package to GitHub packages
+    - name: Download nuget package artifact
+      uses: actions/download-artifact@v1.0.0
+      with:
+        name: nugetPackage
+
+    - name: Push package to GitHub packages 
+      run: dotnet nuget push **/*.nupkg --api-key ${{secrets.NUGET_PACKAGE_TOKEN}} --source https://api.nuget.org/v3/index.json
+
+    #Create release
+    - name: Create Release
+      uses: ncipollo/release-action@v1
+      with:
+        tag: v${{ inputs.rel_version }}
+        name: v${{ inputs.rel_version }}
+        body: "This is the v${{ inputs.rel_version }} release of FlowSynx C# SDK"
+        token: ${{ secrets.NUGET_PACKAGE_TOKEN }}
