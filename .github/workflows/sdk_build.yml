@@ -50,8 +50,8 @@ jobs:
       with:
         name: nugetPackage
 
-    #- name: Push package to GitHub packages 
-      #run: dotnet nuget push **/*.nupkg --api-key ${{secrets.NUGET_PACKAGE_TOKEN}} --source https://api.nuget.org/v3/index.json
+    - name: Push package to GitHub packages 
+      run: dotnet nuget push **/*.nupkg --api-key ${{secrets.NUGET_PACKAGE_TOKEN}} --source https://api.nuget.org/v3/index.json
 
     #Create release
     - name: Create Release
