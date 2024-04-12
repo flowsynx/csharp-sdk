@@ -57,8 +57,7 @@ jobs:
     - name: Create Release
       uses: ncipollo/release-action@v1
       with:
-        tag: ${{ inputs.rel_version }}
-        name: v${{ inputs.rel_version }}
-        body: "This is the v${{ inputs.rel_version }} release of FlowSynx C# SDK"
-        artifacts: "**/*.nupkg"
+        tag: ${{inputs.rel_version}}
+        name: v${{inputs.rel_version}}
+        body: "This is the v${{inputs.rel_version}} release of FlowSynx C# SDK"
         token: ${{secrets.NUGET_PACKAGE_TOKEN}}
