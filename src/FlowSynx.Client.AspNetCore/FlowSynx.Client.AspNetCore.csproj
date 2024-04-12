@@ -11,6 +11,7 @@
 		<RepositoryUrl>https://github.com/flowsynx/csharp-sdk</RepositoryUrl>
 		<PackageProjectUrl>http://flowsynx.io</PackageProjectUrl>
 		<PackageTags>FlowSynx</PackageTags>
+		<PackageIcon>flowsynx.png</PackageIcon>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -24,6 +25,13 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\FlowSynx.Client\FlowSynx.Client.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="flowsynx.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 </Project>

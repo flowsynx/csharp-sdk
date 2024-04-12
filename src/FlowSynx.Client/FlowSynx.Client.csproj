@@ -11,6 +11,7 @@
 		<RepositoryUrl>https://github.com/flowsynx/csharp-sdk</RepositoryUrl>
 		<PackageProjectUrl>http://flowsynx.io</PackageProjectUrl>
 		<PackageTags>FlowSynx</PackageTags>
+		<PackageIcon>flowsynx.png</PackageIcon>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
@@ -35,6 +36,13 @@
 			<Generator>ResXFileCodeGenerator</Generator>
 			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="flowsynx.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
 	</ItemGroup>
 
 </Project>
