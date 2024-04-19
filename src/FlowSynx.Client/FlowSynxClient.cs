@@ -1,4 +1,5 @@
-﻿using FlowSynx.Client.Http;
+﻿using FlowSynx.Client.Exceptions;
+using FlowSynx.Client.Http;
 using FlowSynx.Client.Requests;
 using FlowSynx.Client.Requests.Config;
 using FlowSynx.Client.Requests.Plugins;
@@ -18,13 +19,18 @@ public class FlowSynxClient : IFlowSynxClient
     
     public FlowSynxClient(FlowSynxClientConnection clientConnection)
     {
-        if (string.IsNullOrEmpty(clientConnection.BaseAddress))
-        {
-            ArgumentNullException.ThrowIfNull(clientConnection.BaseAddress);
-        }
-        _httpRequestService = HttpRequestService.Create(clientConnection.BaseAddress);
+        var baseAddress = clientConnection.BaseAddress;
+        if (string.IsNullOrEmpty(baseAddress))
+            baseAddress = FlowSynxEnvironments.GetDefaultHttpEndpoint();
+        
+        if (IsUrlValid(baseAddress))
+            throw new FlowSynxClientException($"Entered address {baseAddress} is not valid. Please check it and try again!");
+        
+        _httpRequestService = HttpRequestService.Create(baseAddress);
     }
-    
+
+    private bool IsUrlValid(string url) => Uri.TryCreate(url, UriKind.Absolute, out var uriResult) && uriResult.Scheme == Uri.UriSchemeHttps;
+
     #region Configuration
     public async Task<Result<AddConfigResponse>> AddConfig(AddConfigRequest request, CancellationToken cancellationToken = default)
     {
