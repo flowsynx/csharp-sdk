@@ -17,11 +17,11 @@ internal class HttpRequestService : IHttpRequestService
         _httpClient.BaseAddress = new Uri(baseAddress);
     }
 
-    public static HttpRequestService Create()
+    public static HttpRequestService Create(string baseAddress)
     {
-        return new HttpRequestService(FlowSynxEnvironments.GetDefaultHttpEndpoint());
+        return new HttpRequestService(baseAddress);
     }
-
+    
     public async Task<HttpResult<TResult>> SendRequestAsync<TResult>(Request request, CancellationToken cancellationToken)
     {
         try

@@ -4,6 +4,14 @@ public class FlowSynxClientFactory
 {
     public IFlowSynxClient CreateClient()
     {
-        return new FlowSynxClient();
+        return CreateClient(FlowSynxEnvironments.GetDefaultHttpEndpoint());
+    }
+
+    public IFlowSynxClient CreateClient(string address)
+    {
+        return new FlowSynxClient(new FlowSynxClientConnection
+        {
+            BaseAddress = address
+        });
     }
 }

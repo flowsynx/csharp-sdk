@@ -15,12 +15,16 @@ namespace FlowSynx.Client;
 public class FlowSynxClient : IFlowSynxClient
 {
     private readonly IHttpRequestService _httpRequestService;
-
-    public FlowSynxClient()
+    
+    public FlowSynxClient(FlowSynxClientConnection clientConnection)
     {
-        _httpRequestService = HttpRequestService.Create();
+        if (string.IsNullOrEmpty(clientConnection.BaseAddress))
+        {
+            ArgumentNullException.ThrowIfNull(clientConnection.BaseAddress);
+        }
+        _httpRequestService = HttpRequestService.Create(clientConnection.BaseAddress);
     }
-
+    
     #region Configuration
     public async Task<Result<AddConfigResponse>> AddConfig(AddConfigRequest request, CancellationToken cancellationToken = default)
     {
