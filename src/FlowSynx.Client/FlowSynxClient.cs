@@ -15,21 +15,34 @@ namespace FlowSynx.Client;
 
 public class FlowSynxClient : IFlowSynxClient
 {
-    private readonly IHttpRequestService _httpRequestService;
-    
+    private IHttpRequestService _httpRequestService;
+
     public FlowSynxClient(FlowSynxClientConnection clientConnection)
     {
         var baseAddress = clientConnection.BaseAddress;
         if (string.IsNullOrEmpty(baseAddress))
             baseAddress = FlowSynxEnvironments.GetDefaultHttpEndpoint();
-        
-        if (IsUrlValid(baseAddress))
-            throw new FlowSynxClientException($"Entered address {baseAddress} is not valid. Please check it and try again!");
-        
+
+        CheckAddress(baseAddress);
         _httpRequestService = HttpRequestService.Create(baseAddress);
     }
 
-    private bool IsUrlValid(string url) => Uri.TryCreate(url, UriKind.Absolute, out var uriResult) && uriResult.Scheme == Uri.UriSchemeHttps;
+    public void ChangeConnection(string baseAddress)
+    {
+        CheckAddress(baseAddress);
+        _httpRequestService = HttpRequestService.Create(baseAddress);
+    }
+
+    #region private methods
+    private void CheckAddress(string baseAddress)
+    {
+        if (!IsUrlValid(baseAddress))
+            throw new FlowSynxClientException($"Entered address {baseAddress} is not valid. Please check it and try again!");
+    }
+
+    private bool IsUrlValid(string url) => Uri.TryCreate(url, UriKind.Absolute, out var uriResult)
+                                           && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
+    #endregion
 
     #region Configuration
     public async Task<Result<AddConfigResponse>> AddConfig(AddConfigRequest request, CancellationToken cancellationToken = default)
@@ -166,7 +179,7 @@ public class FlowSynxClient : IFlowSynxClient
         var result = await _httpRequestService.SendRequestAsync<CheckRequest, Result<CheckResponse>>(requestMessage, cancellationToken);
         return result.Payload;
     }
-    
+
     public async Task<Result<CompressResponse>> Compress(CompressRequest request, CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request<CompressRequest>

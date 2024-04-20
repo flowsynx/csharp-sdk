@@ -12,6 +12,8 @@ namespace FlowSynx.Client;
 
 public interface IFlowSynxClient : IDisposable
 {
+    void ChangeConnection(string baseAddress);
+
     #region Configuration
     Task<Result<AddConfigResponse>> AddConfig(AddConfigRequest request, CancellationToken cancellationToken = default);
     Task<Result<ConfigDetailsResponse>> ConfigDetails(ConfigDetailsRequest request, CancellationToken cancellationToken = default);
