@@ -9,7 +9,7 @@
 		<Authors>FlowSynx</Authors>
 		<Copyright>© FlowSynx. All rights reserved.</Copyright>
 		<RepositoryUrl>https://github.com/flowsynx/csharp-sdk</RepositoryUrl>
-		<PackageProjectUrl>http://flowsynx.io</PackageProjectUrl>
+		<PackageProjectUrl>https://flowsynx.io</PackageProjectUrl>
 		<PackageTags>FlowSynx</PackageTags>
 		<PackageIcon>flowsynx.png</PackageIcon>
 	</PropertyGroup>
