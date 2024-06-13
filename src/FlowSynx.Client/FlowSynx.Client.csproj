@@ -12,6 +12,8 @@
 		<PackageProjectUrl>https://flowsynx.io</PackageProjectUrl>
 		<PackageTags>FlowSynx</PackageTags>
 		<PackageIcon>flowsynx.png</PackageIcon>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
