@@ -7,6 +7,8 @@ using FlowSynx.Client.Responses.Config;
 using FlowSynx.Client.Responses.Health;
 using FlowSynx.Client.Responses.Plugins;
 using FlowSynx.Client.Responses.Version;
+using FlowSynx.Client.Requests.Logs;
+using FlowSynx.Client.Responses.Logs;
 
 namespace FlowSynx.Client;
 
@@ -23,6 +25,11 @@ public interface IFlowSynxClient : IDisposable
 
     #region Health
     Task<HealthCheckResponse> Health(CancellationToken cancellationToken = default);
+    #endregion
+
+    #region MyRegion
+
+    Task<Result<IEnumerable<LogsListResponse>>> LogsList(LogsListRequest request, CancellationToken cancellationToken = default);
     #endregion
 
     #region Plugins
