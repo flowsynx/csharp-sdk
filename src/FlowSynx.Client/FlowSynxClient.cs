@@ -2,11 +2,13 @@
 using FlowSynx.Client.Http;
 using FlowSynx.Client.Requests;
 using FlowSynx.Client.Requests.Config;
+using FlowSynx.Client.Requests.Logs;
 using FlowSynx.Client.Requests.Plugins;
 using FlowSynx.Client.Requests.Storage;
 using FlowSynx.Client.Responses;
 using FlowSynx.Client.Responses.Config;
 using FlowSynx.Client.Responses.Health;
+using FlowSynx.Client.Responses.Logs;
 using FlowSynx.Client.Responses.Plugins;
 using FlowSynx.Client.Responses.Storage;
 using FlowSynx.Client.Responses.Version;
@@ -107,6 +109,21 @@ public class FlowSynxClient : IFlowSynxClient
         };
 
         var result = await _httpRequestService.SendRequestAsync<HealthCheckResponse>(requestMessage, cancellationToken);
+        return result.Payload;
+    }
+    #endregion
+
+    #region Logs
+    public async Task<Result<IEnumerable<LogsListResponse>>> LogsList(LogsListRequest request, CancellationToken cancellationToken = default)
+    {
+        var requestMessage = new Request<LogsListRequest>
+        {
+            HttpMethod = HttpMethod.Post,
+            Uri = "logs",
+            Content = request
+        };
+
+        var result = await _httpRequestService.SendRequestAsync<LogsListRequest, Result<IEnumerable<LogsListResponse>>>(requestMessage, cancellationToken);
         return result.Payload;
     }
     #endregion
