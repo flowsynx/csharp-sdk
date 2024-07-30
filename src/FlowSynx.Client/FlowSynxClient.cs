@@ -132,10 +132,11 @@ public class FlowSynxClient : IFlowSynxClient
 
     public async Task<Result<PluginDetailsResponse>> PluginDetails(PluginDetailsRequest request, CancellationToken cancellationToken = default)
     {
-        var requestMessage = new Request
+        var requestMessage = new Request<PluginDetailsRequest>
         {
-            HttpMethod = HttpMethod.Get,
-            Uri = $"plugins/details/{request.Id}"
+            HttpMethod = HttpMethod.Post,
+            Uri = "plugins/details",
+            Content = request
         };
 
         var result = await _httpRequestService.SendRequestAsync<Result<PluginDetailsResponse>>(requestMessage, cancellationToken);
@@ -144,11 +145,10 @@ public class FlowSynxClient : IFlowSynxClient
 
     public async Task<Result<IEnumerable<PluginsListResponse>>> PluginsList(PluginsListRequest request, CancellationToken cancellationToken = default)
     {
-        var uri = string.IsNullOrEmpty(request.Namespace) ? "plugins" : $"plugins/{request.Namespace}";
         var requestMessage = new Request<PluginsListRequest>
         {
-            HttpMethod = HttpMethod.Get,
-            Uri = uri,
+            HttpMethod = HttpMethod.Post,
+            Uri = "plugins",
             Content = request
         };
 
