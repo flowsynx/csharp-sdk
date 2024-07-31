@@ -47,7 +47,7 @@ internal class PluginsExample
             using var client = new FlowSynxClientFactory().CreateClient();
             var request = new PluginDetailsRequest()
             {
-                Id = Guid.Parse("f6304870-0294-453e-9598-a82167ace653")
+                Type = "FlowSynx.Storage/LocalFileSystem"
             };
             var result = await client.PluginDetails(request, cancellationToken);
             if (!result.Succeeded)
