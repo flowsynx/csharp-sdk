@@ -62,10 +62,11 @@ public class FlowSynxClient : IFlowSynxClient
 
     public async Task<Result<ConfigDetailsResponse>> ConfigDetails(ConfigDetailsRequest request, CancellationToken cancellationToken = default)
     {
-        var requestMessage = new Request
+        var requestMessage = new Request<ConfigDetailsRequest>
         {
-            HttpMethod = HttpMethod.Get,
-            Uri = $"config/details/{request.Name}"
+            HttpMethod = HttpMethod.Post,
+            Uri = $"config/details",
+            Content = request
         };
 
         var result = await _httpRequestService.SendRequestAsync<Result<ConfigDetailsResponse>>(requestMessage, cancellationToken);
@@ -129,7 +130,6 @@ public class FlowSynxClient : IFlowSynxClient
     #endregion
 
     #region Plugins
-
     public async Task<Result<PluginDetailsResponse>> PluginDetails(PluginDetailsRequest request, CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request<PluginDetailsRequest>
