@@ -65,7 +65,7 @@ public class FlowSynxClient : IFlowSynxClient
         var requestMessage = new Request<ConfigDetailsRequest>
         {
             HttpMethod = HttpMethod.Post,
-            Uri = $"config/details",
+            Uri = "config/details",
             Content = request
         };
 
