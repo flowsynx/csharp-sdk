@@ -69,7 +69,7 @@ public class FlowSynxClient : IFlowSynxClient
             Content = request
         };
 
-        var result = await _httpRequestService.SendRequestAsync<Result<ConfigDetailsResponse>>(requestMessage, cancellationToken);
+        var result = await _httpRequestService.SendRequestAsync<ConfigDetailsRequest, Result<ConfigDetailsResponse>>(requestMessage, cancellationToken);
         return result.Payload;
     }
 
@@ -139,7 +139,7 @@ public class FlowSynxClient : IFlowSynxClient
             Content = request
         };
 
-        var result = await _httpRequestService.SendRequestAsync<Result<PluginDetailsResponse>>(requestMessage, cancellationToken);
+        var result = await _httpRequestService.SendRequestAsync<PluginDetailsRequest, Result<PluginDetailsResponse>>(requestMessage, cancellationToken);
         return result.Payload;
     }
 
