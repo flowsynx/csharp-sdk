@@ -20,7 +20,7 @@ public interface IFlowSynxClient : IDisposable
     Task<Result<AddConfigResponse>> AddConfig(AddConfigRequest request, CancellationToken cancellationToken = default);
     Task<Result<ConfigDetailsResponse>> ConfigDetails(ConfigDetailsRequest request, CancellationToken cancellationToken = default);
     Task<Result<IEnumerable<ConfigListResponse>>> ConfigList(ConfigListRequest request, CancellationToken cancellationToken = default);
-    Task<Result<DeleteConfigResponse>> DeleteConfig(DeleteConfigRequest request, CancellationToken cancellationToken = default);
+    Task<Result<IEnumerable<DeleteConfigResponse>>> DeleteConfig(DeleteConfigRequest request, CancellationToken cancellationToken = default);
     #endregion
 
     #region Health

@@ -86,7 +86,7 @@ public class FlowSynxClient : IFlowSynxClient
         return result.Payload;
     }
 
-    public async Task<Result<DeleteConfigResponse>> DeleteConfig(DeleteConfigRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<IEnumerable<DeleteConfigResponse>>> DeleteConfig(DeleteConfigRequest request, CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request<DeleteConfigRequest>
         {
@@ -95,7 +95,7 @@ public class FlowSynxClient : IFlowSynxClient
             Content = request
         };
 
-        var result = await _httpRequestService.SendRequestAsync<DeleteConfigRequest, Result<DeleteConfigResponse>>(requestMessage, cancellationToken);
+        var result = await _httpRequestService.SendRequestAsync<DeleteConfigRequest, Result<IEnumerable<DeleteConfigResponse>>>(requestMessage, cancellationToken);
         return result.Payload;
     }
     #endregion
