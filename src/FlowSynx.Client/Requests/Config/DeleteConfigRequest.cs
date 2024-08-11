@@ -4,7 +4,7 @@ public class DeleteConfigRequest
 {
     public string? Include { get; set; }
     public string? Exclude { get; set; }
-    public string? MinimumAge { get; set; }
-    public string? MaximumAge { get; set; }
-    public bool CaseSensitive { get; set; } = false;
+    public string? MinAge { get; set; }
+    public string? MaxAge { get; set; }
+    public bool? CaseSensitive { get; set; } = false;
 }
