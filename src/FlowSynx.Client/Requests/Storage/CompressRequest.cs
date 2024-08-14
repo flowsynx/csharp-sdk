@@ -12,7 +12,7 @@ public class CompressRequest
     public string? MaxSize { get; set; }
     public bool? CaseSensitive { get; set; } = false;
     public bool? Recurse { get; set; } = false;
-    public int? MaxResults { get; set; }
+    public string? MaxResults { get; set; }
     public bool? Hashing { get; set; } = false;
     public string? CompressType { get; set; } = "Zip";
 }
