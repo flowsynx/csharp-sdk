@@ -1,8 +1,8 @@
 ﻿using FlowSynx.Client;
 
-namespace Client;
+namespace Client.Examples;
 
-internal class HealthExample : Example
+internal class Health : Example
 {
     public override string DisplayName => "Checking FlowSynx Health";
 

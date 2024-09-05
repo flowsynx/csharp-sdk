@@ -1,7 +1,6 @@
 using FlowSynx.Client;
 using FlowSynx.Client.AspNetCore;
 using FlowSynx.Client.Requests.Plugins;
-using FlowSynx.Client.Requests.Storage;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCore
@@ -23,17 +22,31 @@ namespace AspNetCore
 
             app.UseAuthorization();
 
-            app.MapGet("/health", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) => 
+            app.MapGet("/health", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) =>
                 await client.Health(cancellationToken));
 
-            app.MapGet("/version", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) => 
+            app.MapGet("/version", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) =>
                 await client.Version(cancellationToken));
 
             app.MapGet("/about", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) =>
-                await client.About(new AboutRequest() { Path = @"C:\", Full = true }, cancellationToken));
+                await client.InvokeMethod<object, object>("about", new
+                {
+                    entity = @"C:\",
+                    filters = new
+                    {
+                        full = true
+                    }
+                }, cancellationToken));
 
-            app.MapGet("/list", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) => 
-                await client.List(new ListRequest { Path = @"C:\", Sorting = "kind asc" }, cancellationToken));
+            app.MapGet("/list", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) =>
+                await client.InvokeMethod<object, object>("list", new
+                {
+                    entity = @"C:\",
+                    filters = new
+                    {
+                        limit = "10"
+                    }
+                }, cancellationToken));
 
             app.MapGet("/plugins", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) =>
                 await client.PluginsList(new PluginsListRequest(), cancellationToken));

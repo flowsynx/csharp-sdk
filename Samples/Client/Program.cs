@@ -1,17 +1,19 @@
-﻿namespace Client
+﻿using Client.Examples;
+
+namespace Client
 {
     internal class Program
     {
         private static readonly Example[] Examples = new Example[]
         {
-            new ConfigExample.ConfigList(),
-            new ConfigExample.AddConfig(),
-            new HealthExample(),
-            new PluginsExample.PluginsList(),
-            new PluginsExample.PluginsDetails(),
-            new StorageExample.StorageList(),
-            new StorageExample.About(),
+            new ConfigList(),
+            new ConfigAdd(),
+            new PluginsList(),
+            new PluginsDetails(),
+            new Health(),
             new VersionExample(),
+            new About(),
+            new List(),
         };
 
         static async Task<int> Main(string[] args)

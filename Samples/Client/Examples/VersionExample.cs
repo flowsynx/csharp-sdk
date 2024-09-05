@@ -1,9 +1,9 @@
 ﻿using FlowSynx.Client;
 using FlowSynx.Client.Requests.Config;
 
-namespace Client;
+namespace Client.Examples;
 
-internal class VersionExample: Example
+internal class VersionExample : Example
 {
     public override string DisplayName => "Using FlowSynx Version";
 
