@@ -1,7 +1,5 @@
 ﻿using FlowSynx.Client.Requests.Config;
 using FlowSynx.Client.Requests.Plugins;
-using FlowSynx.Client.Requests.Storage;
-using FlowSynx.Client.Responses.Storage;
 using FlowSynx.Client.Responses;
 using FlowSynx.Client.Responses.Config;
 using FlowSynx.Client.Responses.Health;
@@ -9,6 +7,7 @@ using FlowSynx.Client.Responses.Plugins;
 using FlowSynx.Client.Responses.Version;
 using FlowSynx.Client.Requests.Logs;
 using FlowSynx.Client.Responses.Logs;
+using FlowSynx.Client.Requests;
 
 namespace FlowSynx.Client;
 
@@ -37,21 +36,25 @@ public interface IFlowSynxClient : IDisposable
     Task<Result<IEnumerable<PluginsListResponse>>> PluginsList(PluginsListRequest request, CancellationToken cancellationToken = default);
     #endregion
 
-    #region Storage
-    Task<Result<AboutResponse>> About(AboutRequest request, CancellationToken cancellationToken = default);
-    Task<Result<CopyResponse>> Copy(CopyRequest request, CancellationToken cancellationToken = default);
-    Task<Result<CheckResponse>> Check(CheckRequest request, CancellationToken cancellationToken = default);
-    Task<Result<CompressResponse>> Compress(CompressRequest request, CancellationToken cancellationToken = default);
-    Task<Result<DeleteFileResponse>> DeleteFile(DeleteFileRequest request, CancellationToken cancellationToken = default);
-    Task<Result<DeleteResponse>> Delete(DeleteRequest request, CancellationToken cancellationToken = default);
-    Task<Result<ExistResponse>> Exist(ExistRequest request, CancellationToken cancellationToken = default);
-    Task<Result<IEnumerable<ListResponse>>> List(ListRequest request, CancellationToken cancellationToken = default);
-    Task<Result<MakeDirectoryResponse>> MakeDirectory(MakeDirectoryRequest request, CancellationToken cancellationToken = default);
-    Task<Result<MoveResponse>> Move(MoveRequest request, CancellationToken cancellationToken = default);
-    Task<Result<PurgeDirectoryResponse>> PurgeDirectory(PurgeDirectoryRequest request, CancellationToken cancellationToken = default);
-    Task<Stream> Read(ReadRequest request, CancellationToken cancellationToken = default);
-    Task<Result<SizeResponse>> Size(SizeRequest request, CancellationToken cancellationToken = default);
-    Task<Result<WriteResponse>> Write(WriteRequest request, CancellationToken cancellationToken = default);
+    #region InvokeMethod
+
+    public Task<Result<TResponse>> InvokeMethod<TRequest, TResponse>(string methodName, TRequest data,
+        CancellationToken cancellationToken = default);
+
+    public Task<Result<TResponse>> InvokeMethod<TRequest, TResponse>(HttpMethod httpMethod, string methodName,
+        TRequest data, CancellationToken cancellationToken = default);
+
+    public Task<Result<TResponse>> InvokeMethod<TRequest, TResponse>(Request<TRequest> request,
+        CancellationToken cancellationToken = default);
+
+    public Task<Stream> InvokeMethod<TRequest>(string methodName, TRequest data,
+        CancellationToken cancellationToken = default);
+
+    public Task<Stream> InvokeMethod<TRequest>(HttpMethod httpMethod, string methodName, TRequest data,
+        CancellationToken cancellationToken = default);
+
+    public Task<Stream> InvokeMethod<TRequest>(Request<TRequest> request,
+        CancellationToken cancellationToken = default);
     #endregion
 
     #region Version

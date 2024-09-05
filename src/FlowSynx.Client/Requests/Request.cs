@@ -2,7 +2,7 @@
 
 namespace FlowSynx.Client.Requests;
 
-internal class Request
+public class Request
 {
     public required HttpMethod HttpMethod { get; set; } = HttpMethod.Get;
     public required string Uri { get; set; }
@@ -10,7 +10,7 @@ internal class Request
     public string MediaType { get; set; } = MediaTypeNames.Application.Json;
 }
 
-internal class Request<T> : Request
+public class Request<T> : Request
 {
     public T? Content { get; set; }
 }
