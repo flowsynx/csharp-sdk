@@ -6,14 +6,14 @@ namespace Client
     {
         private static readonly Example[] Examples = new Example[]
         {
-            new ConfigList(),
-            new ConfigAdd(),
-            new PluginsList(),
-            new PluginsDetails(),
-            new Health(),
-            new VersionExample(),
-            new About(),
-            new List(),
+            new ConfigList(),       // 0
+            new ConfigAdd(),        // 1
+            new PluginsList(),      // 2
+            new PluginsDetails(),   // 3
+            new Health(),           // 4
+            new VersionExample(),   // 5
+            new About(),            // 6
+            new List(),             // 7
         };
 
         static async Task<int> Main(string[] args)

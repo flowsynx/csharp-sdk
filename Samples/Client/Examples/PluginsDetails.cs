@@ -15,19 +15,26 @@ internal class PluginsDetails : Example
             Type = "FlowSynx.Storage/LocalFileSystem"
         };
         var result = await client.PluginDetails(request, cancellationToken);
-        if (!result.Succeeded)
+        if (result.StatusCode != 200)
+        {
+            Console.WriteLine(@"The status code is not 200, that means the operation was not successful.");
+            return;
+        }
+
+        var payload = result.Payload;
+        if (!payload.Succeeded)
         {
             Console.WriteLine(@"The operation is not successes");
-            foreach (var message in result.Messages)
+            foreach (var message in payload.Messages)
             {
                 Console.WriteLine(message);
             }
         }
         else
         {
-            Console.WriteLine($@"Id:          {result.Data.Id}");
-            Console.WriteLine($@"Type:        {result.Data.Type}");
-            Console.WriteLine($@"Description: {result.Data.Description}");
+            Console.WriteLine($@"Id:          {payload.Data.Id}");
+            Console.WriteLine($@"Type:        {payload.Data.Type}");
+            Console.WriteLine($@"Description: {payload.Data.Description}");
             Console.WriteLine();
             Console.WriteLine(@"------------");
             Console.WriteLine(@"Done!");
