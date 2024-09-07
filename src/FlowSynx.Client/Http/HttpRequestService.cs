@@ -1,4 +1,5 @@
-﻿using FlowSynx.Client.Exceptions;
+﻿using System.Net;
+using FlowSynx.Client.Exceptions;
 using FlowSynx.Client.Requests;
 using System.Net.Http.Headers;
 using System.Text;
@@ -36,11 +37,12 @@ internal class HttpRequestService : IHttpRequestService
 
             return new HttpResult<TResult>()
             {
+                StatusCode = (int)response.StatusCode,
                 Headers = headers,
                 Payload = deserialized
             };
         }
-        catch (HttpRequestException)
+        catch (HttpRequestException ex)
         {
             throw new FlowSynxClientException(Resources.RequestServiceHttpRequestExceptionMessage);
         }
@@ -76,6 +78,7 @@ internal class HttpRequestService : IHttpRequestService
 
             return new HttpResult<TResult>()
             {
+                StatusCode = (int)response.StatusCode,
                 Headers = headers,
                 Payload = deserialized
             };
@@ -112,6 +115,7 @@ internal class HttpRequestService : IHttpRequestService
 
             return new HttpResult<Stream>()
             {
+                StatusCode = (int)response.StatusCode,
                 Headers = headers,
                 Payload = responseStream
             };
@@ -148,6 +152,7 @@ internal class HttpRequestService : IHttpRequestService
 
             return new HttpResult<Stream>()
             {
+                StatusCode = (int)response.StatusCode,
                 Headers = headers,
                 Payload = responseStream
             };
