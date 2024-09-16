@@ -10,7 +10,9 @@ internal class ConfigList : Example
     public override async Task RunAsync(CancellationToken cancellationToken)
     {
         using var client = new FlowSynxClientFactory().CreateClient();
-        var request = new ConfigListRequest { };
+        var request = new ConfigListRequest { 
+            Fields = ["id"]
+        };
         var result = await client.ConfigList(request, cancellationToken);
         if (result.StatusCode != 200)
         {
@@ -31,10 +33,7 @@ internal class ConfigList : Example
         {
             foreach (var item in payload.Data)
             {
-                Console.WriteLine($@"Id:   {item.Id}");
-                Console.WriteLine($@"Name: {item.Name}");
-                Console.WriteLine($@"Type: {item.Type}");
-                Console.WriteLine($@"ModifiedTime: {item.ModifiedTime}");
+                Console.WriteLine(item);
                 Console.WriteLine();
             }
 

@@ -1,5 +1,6 @@
 ﻿using FlowSynx.Client;
 using FlowSynx.Client.Requests.Plugins;
+using System.Dynamic;
 
 namespace Client.Examples;
 
@@ -31,10 +32,7 @@ internal class PluginsList : Example
         {
             foreach (var item in payload.Data)
             {
-                Console.WriteLine($@"Id:          {item.Id}");
-                Console.WriteLine($@"Type:        {item.Type}");
-                Console.WriteLine($@"Description: {item.Description}");
-                Console.WriteLine();
+                Console.WriteLine(item);
             }
 
             Console.WriteLine(@"------------");
