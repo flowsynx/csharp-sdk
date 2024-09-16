@@ -2,11 +2,9 @@
 
 public class ConfigListRequest
 {
-    public string? Include { get; set; }
-    public string? Exclude { get; set; }
-    public string? MinAge { get; set; }
-    public string? MaxAge { get; set; }
+    public string[]? Fields { get; set; }
+    public string? Filter { get; set; }
     public bool? CaseSensitive { get; set; } = false;
-    public string? MaxResults { get; set; }
-    public string? Sorting { get; set; }
+    public string? Sort { get; set; }
+    public string? Limit { get; set; }
 }

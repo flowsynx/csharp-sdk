@@ -42,7 +42,7 @@ internal class HttpRequestService : IHttpRequestService
                 Payload = deserialized
             };
         }
-        catch (HttpRequestException ex)
+        catch (HttpRequestException)
         {
             throw new FlowSynxClientException(Resources.RequestServiceHttpRequestExceptionMessage);
         }

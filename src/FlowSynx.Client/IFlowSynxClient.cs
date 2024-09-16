@@ -6,7 +6,6 @@ using FlowSynx.Client.Responses.Health;
 using FlowSynx.Client.Responses.Plugins;
 using FlowSynx.Client.Responses.Version;
 using FlowSynx.Client.Requests.Logs;
-using FlowSynx.Client.Responses.Logs;
 using FlowSynx.Client.Requests;
 
 namespace FlowSynx.Client;
@@ -18,7 +17,7 @@ public interface IFlowSynxClient : IDisposable
     #region Configuration
     Task<HttpResult<Result<AddConfigResponse>>> AddConfig(AddConfigRequest request, CancellationToken cancellationToken = default);
     Task<HttpResult<Result<ConfigDetailsResponse>>> ConfigDetails(ConfigDetailsRequest request, CancellationToken cancellationToken = default);
-    Task<HttpResult<Result<IEnumerable<ConfigListResponse>>>> ConfigList(ConfigListRequest request, CancellationToken cancellationToken = default);
+    Task<HttpResult<Result<IEnumerable<object>>>> ConfigList(ConfigListRequest request, CancellationToken cancellationToken = default);
     Task<HttpResult<Result<IEnumerable<DeleteConfigResponse>>>> DeleteConfig(DeleteConfigRequest request, CancellationToken cancellationToken = default);
     #endregion
 
@@ -26,14 +25,14 @@ public interface IFlowSynxClient : IDisposable
     Task<HttpResult<HealthCheckResponse>> Health(CancellationToken cancellationToken = default);
     #endregion
 
-    #region MyRegion
+    #region Logs
 
-    Task<HttpResult<Result<IEnumerable<LogsListResponse>>>> LogsList(LogsListRequest request, CancellationToken cancellationToken = default);
+    Task<HttpResult<Result<IEnumerable<object>>>> LogsList(LogsListRequest request, CancellationToken cancellationToken = default);
     #endregion
 
     #region Plugins
     Task<HttpResult<Result<PluginDetailsResponse>>> PluginDetails(PluginDetailsRequest request, CancellationToken cancellationToken = default);
-    Task<HttpResult<Result<IEnumerable<PluginsListResponse>>>> PluginsList(PluginsListRequest request, CancellationToken cancellationToken = default);
+    Task<HttpResult<Result<IEnumerable<object>>>> PluginsList(PluginsListRequest request, CancellationToken cancellationToken = default);
     #endregion
 
     #region InvokeMethod
