@@ -41,7 +41,7 @@ jobs:
       run: dotnet pack --configuration Release /p:Version='${{ inputs.rel_version }}' --no-build
 
     - name: Upload NuGet package to nuget.org
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: nugetPackage
         path: src/ 
@@ -54,7 +54,7 @@ jobs:
     steps:  
     #Push NuGet package to GitHub packages
     - name: Download nuget package artifact
-      uses: actions/download-artifact@v1.0.0
+      uses: actions/download-artifact@v4
       with:
         name: nugetPackage
 
