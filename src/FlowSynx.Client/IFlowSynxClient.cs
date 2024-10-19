@@ -1,12 +1,12 @@
 ﻿using FlowSynx.Client.Requests.Config;
-using FlowSynx.Client.Requests.Plugins;
 using FlowSynx.Client.Responses;
 using FlowSynx.Client.Responses.Config;
 using FlowSynx.Client.Responses.Health;
-using FlowSynx.Client.Responses.Plugins;
 using FlowSynx.Client.Responses.Version;
 using FlowSynx.Client.Requests.Logs;
 using FlowSynx.Client.Requests;
+using FlowSynx.Client.Responses.Connectors;
+using FlowSynx.Client.Requests.Connectors;
 
 namespace FlowSynx.Client;
 
@@ -30,9 +30,9 @@ public interface IFlowSynxClient : IDisposable
     Task<HttpResult<Result<IEnumerable<object>>>> LogsList(LogsListRequest request, CancellationToken cancellationToken = default);
     #endregion
 
-    #region Plugins
-    Task<HttpResult<Result<PluginDetailsResponse>>> PluginDetails(PluginDetailsRequest request, CancellationToken cancellationToken = default);
-    Task<HttpResult<Result<IEnumerable<object>>>> PluginsList(PluginsListRequest request, CancellationToken cancellationToken = default);
+    #region Connectors
+    Task<HttpResult<Result<ConnectorDetailsResponse>>> ConnectorDetails(ConnectorDetailsRequest request, CancellationToken cancellationToken = default);
+    Task<HttpResult<Result<IEnumerable<object>>>> ConnectorsList(ConnectorsListRequest request, CancellationToken cancellationToken = default);
     #endregion
 
     #region InvokeMethod

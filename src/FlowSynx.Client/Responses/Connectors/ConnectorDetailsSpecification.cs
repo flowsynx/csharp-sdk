@@ -1,6 +1,6 @@
-﻿namespace FlowSynx.Client.Responses.Plugins;
+﻿namespace FlowSynx.Client.Responses.Connectors;
 
-public class PluginDetailsSpecification
+public class ConnectorDetailsSpecification
 {
     public required string Key { get; set; }
     public required string Type { get; set; }

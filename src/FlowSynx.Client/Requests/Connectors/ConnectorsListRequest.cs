@@ -1,6 +1,6 @@
-﻿namespace FlowSynx.Client.Requests.Plugins;
+﻿namespace FlowSynx.Client.Requests.Connectors;
 
-public class PluginsListRequest
+public class ConnectorsListRequest
 {
     public string[]? Fields { get; set; }
     public string? Filter { get; set; }

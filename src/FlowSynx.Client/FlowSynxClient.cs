@@ -3,12 +3,12 @@ using FlowSynx.Client.Http;
 using FlowSynx.Client.Requests;
 using FlowSynx.Client.Requests.Config;
 using FlowSynx.Client.Requests.Logs;
-using FlowSynx.Client.Requests.Plugins;
+using FlowSynx.Client.Requests.Connectors;
 using FlowSynx.Client.Responses;
 using FlowSynx.Client.Responses.Config;
 using FlowSynx.Client.Responses.Health;
-using FlowSynx.Client.Responses.Plugins;
 using FlowSynx.Client.Responses.Version;
+using FlowSynx.Client.Responses.Connectors;
 
 namespace FlowSynx.Client;
 
@@ -120,29 +120,29 @@ public class FlowSynxClient : IFlowSynxClient
     }
     #endregion
 
-    #region Plugins
-    public async Task<HttpResult<Result<PluginDetailsResponse>>> PluginDetails(PluginDetailsRequest request, CancellationToken cancellationToken = default)
+    #region Connectors
+    public async Task<HttpResult<Result<ConnectorDetailsResponse>>> ConnectorDetails(ConnectorDetailsRequest request, CancellationToken cancellationToken = default)
     {
-        var requestMessage = new Request<PluginDetailsRequest>
+        var requestMessage = new Request<ConnectorDetailsRequest>
         {
             HttpMethod = HttpMethod.Post,
-            Uri = "plugins/details",
+            Uri = "connectors/details",
             Content = request
         };
 
-        return await _httpRequestService.SendRequestAsync<PluginDetailsRequest, Result<PluginDetailsResponse>>(requestMessage, cancellationToken);
+        return await _httpRequestService.SendRequestAsync<ConnectorDetailsRequest, Result<ConnectorDetailsResponse>>(requestMessage, cancellationToken);
     }
 
-    public async Task<HttpResult<Result<IEnumerable<object>>>> PluginsList(PluginsListRequest request, CancellationToken cancellationToken = default)
+    public async Task<HttpResult<Result<IEnumerable<object>>>> ConnectorsList(ConnectorsListRequest request, CancellationToken cancellationToken = default)
     {
-        var requestMessage = new Request<PluginsListRequest>
+        var requestMessage = new Request<ConnectorsListRequest>
         {
             HttpMethod = HttpMethod.Post,
-            Uri = "plugins",
+            Uri = "connectors",
             Content = request
         };
 
-        return await _httpRequestService.SendRequestAsync<PluginsListRequest, Result<IEnumerable<object>>>(requestMessage, cancellationToken);
+        return await _httpRequestService.SendRequestAsync<ConnectorsListRequest, Result<IEnumerable<object>>>(requestMessage, cancellationToken);
     }
     #endregion
 

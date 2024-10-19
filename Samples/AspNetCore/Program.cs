@@ -1,6 +1,6 @@
 using FlowSynx.Client;
 using FlowSynx.Client.AspNetCore;
-using FlowSynx.Client.Requests.Plugins;
+using FlowSynx.Client.Requests.Connectors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCore
@@ -48,8 +48,8 @@ namespace AspNetCore
                     }
                 }, cancellationToken));
 
-            app.MapGet("/plugins", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) =>
-                await client.PluginsList(new PluginsListRequest(), cancellationToken));
+            app.MapGet("/connectors", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) =>
+                await client.ConnectorsList(new ConnectorsListRequest(), cancellationToken));
 
             app.Run();
         }

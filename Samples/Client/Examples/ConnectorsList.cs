@@ -1,20 +1,17 @@
 ﻿using FlowSynx.Client;
-using FlowSynx.Client.Requests.Plugins;
+using FlowSynx.Client.Requests.Connectors;
 
 namespace Client.Examples;
 
-internal class PluginsDetails : Example
+internal class ConnectorsList : Example
 {
-    public override string DisplayName => "Getting FlowSynx Plugin Detail";
+    public override string DisplayName => "Getting FlowSynx Connectors";
 
     public override async Task RunAsync(CancellationToken cancellationToken)
     {
         using var client = new FlowSynxClientFactory().CreateClient();
-        var request = new PluginDetailsRequest()
-        {
-            Type = "FlowSynx.Storage/LocalFileSystem"
-        };
-        var result = await client.PluginDetails(request, cancellationToken);
+        var request = new ConnectorsListRequest() { };
+        var result = await client.ConnectorsList(request, cancellationToken);
         if (result.StatusCode != 200)
         {
             Console.WriteLine(@"The status code is not 200, that means the operation was not successful.");
@@ -32,10 +29,11 @@ internal class PluginsDetails : Example
         }
         else
         {
-            Console.WriteLine($@"Id:          {payload.Data.Id}");
-            Console.WriteLine($@"Type:        {payload.Data.Type}");
-            Console.WriteLine($@"Description: {payload.Data.Description}");
-            Console.WriteLine();
+            foreach (var item in payload.Data)
+            {
+                Console.WriteLine(item);
+            }
+
             Console.WriteLine(@"------------");
             Console.WriteLine(@"Done!");
         }
