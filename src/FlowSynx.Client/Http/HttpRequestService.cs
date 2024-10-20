@@ -105,15 +105,15 @@ internal class HttpRequestService : IHttpRequestService
         }
     }
 
-    public async Task<HttpResult<Stream>> SendRequestAsync<TRequest>(Request<TRequest> request, CancellationToken cancellationToken)
+    public async Task<HttpResult<byte[]>> SendRequestAsync<TRequest>(Request<TRequest> request, CancellationToken cancellationToken)
     {
         try
         {
             var response = await CreateHttpRequestAsync(request, cancellationToken).ConfigureAwait(false);
             var headers = response.Headers.Concat(response.Content.Headers);
-            var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);
+            var responseStream = await response.Content.ReadAsByteArrayAsync(cancellationToken);
 
-            return new HttpResult<Stream>()
+            return new HttpResult<byte[]>()
             {
                 StatusCode = (int)response.StatusCode,
                 Headers = headers,
@@ -142,15 +142,15 @@ internal class HttpRequestService : IHttpRequestService
         }
     }
 
-    public async Task<HttpResult<Stream>> SendRequestAsync(Request request, CancellationToken cancellationToken)
+    public async Task<HttpResult<byte[]>> SendRequestAsync(Request request, CancellationToken cancellationToken)
     {
         try
         {
             var response = await CreateHttpRequestAsync(request, cancellationToken).ConfigureAwait(false);
             var headers = response.Headers.Concat(response.Content.Headers);
-            var responseStream = await response.Content.ReadAsStreamAsync(cancellationToken);
+            var responseStream = await response.Content.ReadAsByteArrayAsync(cancellationToken);
 
-            return new HttpResult<Stream>()
+            return new HttpResult<byte[]>()
             {
                 StatusCode = (int)response.StatusCode,
                 Headers = headers,

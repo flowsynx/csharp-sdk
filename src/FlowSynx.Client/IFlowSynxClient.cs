@@ -46,13 +46,13 @@ public interface IFlowSynxClient : IDisposable
     public Task<HttpResult<Result<TResponse>>> InvokeMethod<TRequest, TResponse>(Request<TRequest> request,
         CancellationToken cancellationToken = default);
 
-    public Task<HttpResult<Stream>> InvokeMethod<TRequest>(string methodName, TRequest data,
+    public Task<HttpResult<byte[]>> InvokeMethod<TRequest>(string methodName, TRequest data,
         CancellationToken cancellationToken = default);
 
-    public Task<HttpResult<Stream>> InvokeMethod<TRequest>(HttpMethod httpMethod, string methodName, TRequest data,
+    public Task<HttpResult<byte[]>> InvokeMethod<TRequest>(HttpMethod httpMethod, string methodName, TRequest data,
         CancellationToken cancellationToken = default);
 
-    public Task<HttpResult<Stream>> InvokeMethod<TRequest>(Request<TRequest> request,
+    public Task<HttpResult<byte[]>> InvokeMethod<TRequest>(Request<TRequest> request,
         CancellationToken cancellationToken = default);
     #endregion
 

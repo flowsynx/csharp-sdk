@@ -172,13 +172,13 @@ public class FlowSynxClient : IFlowSynxClient
         return await _httpRequestService.SendRequestAsync<TRequest, Result<TResponse>>(request, cancellationToken);
     }
 
-    public async Task<HttpResult<Stream>> InvokeMethod<TRequest>(string methodName, TRequest data,
+    public async Task<HttpResult<byte[]>> InvokeMethod<TRequest>(string methodName, TRequest data,
         CancellationToken cancellationToken = default)
     {
         return await InvokeMethod<TRequest>(HttpMethod.Post, methodName, data, cancellationToken);
     }
 
-    public async Task<HttpResult<Stream>> InvokeMethod<TRequest>(HttpMethod httpMethod, string methodName, TRequest data, 
+    public async Task<HttpResult<byte[]>> InvokeMethod<TRequest>(HttpMethod httpMethod, string methodName, TRequest data, 
         CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request<TRequest>
@@ -191,7 +191,7 @@ public class FlowSynxClient : IFlowSynxClient
         return await InvokeMethod<TRequest>(requestMessage, cancellationToken);
     }
 
-    public async Task<HttpResult<Stream>> InvokeMethod<TRequest>(Request<TRequest> request, CancellationToken cancellationToken = default)
+    public async Task<HttpResult<byte[]>> InvokeMethod<TRequest>(Request<TRequest> request, CancellationToken cancellationToken = default)
     {
         var result = await _httpRequestService.SendRequestAsync(request, cancellationToken);
         return result;
