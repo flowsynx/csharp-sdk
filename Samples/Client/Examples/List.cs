@@ -1,4 +1,5 @@
 ﻿using FlowSynx.Client;
+using FlowSynx.Client.Requests;
 
 namespace Client.Examples;
 
@@ -11,10 +12,20 @@ internal class List : Example
         using var client = new FlowSynxClientFactory().CreateClient();
         var request = new
         {
-            entity = @"C:\",
-            filters = new
+            connector = "",
+            options = new
             {
-                limit = "10"
+                path = "C:/",
+                filter = new FilterList {
+                    new Filter { Name = "size", Comparison = ComparisonOperator.IsNotNull }
+                },
+                sort = new SortList
+                {
+                    new Sort { Name = "size", Direction = "asc" }
+                },
+                paging = new Paging { Size = 5, OffSet = 0},
+                recurse = false,
+                includeMetadata = false
             }
         };
         var result = await client.InvokeMethod<object, object>(HttpMethod.Post, "list", request, cancellationToken);

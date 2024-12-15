@@ -11,7 +11,9 @@ internal class ConfigList : Example
     {
         using var client = new FlowSynxClientFactory().CreateClient();
         var request = new ConfigListRequest { 
-            Fields = ["id"]
+            Fields = new FlowSynx.Client.Requests.FieldsList { 
+                new FlowSynx.Client.Requests.Field { Name = "id" }
+            }
         };
         var result = await client.ConfigList(request, cancellationToken);
         if (result.StatusCode != 200)
