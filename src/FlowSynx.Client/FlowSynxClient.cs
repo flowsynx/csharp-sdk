@@ -18,6 +18,7 @@ namespace FlowSynx.Client;
 public class FlowSynxClient : IFlowSynxClient
 {
     private IHttpRequestService _httpRequestService;
+    public FlowSynxClientConnection Connection { get; }
 
     public FlowSynxClient(FlowSynxClientConnection clientConnection)
     {
@@ -27,6 +28,7 @@ public class FlowSynxClient : IFlowSynxClient
 
         CheckAddress(baseAddress);
         _httpRequestService = HttpRequestService.Create(baseAddress);
+        Connection = clientConnection;
     }
 
     public void ChangeConnection(string baseAddress)
