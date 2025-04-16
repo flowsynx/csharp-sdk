@@ -1,6 +1,6 @@
 ﻿namespace FlowSynx.Client;
 
-internal class FlowSynxEnvironments
+public class FlowSynxEnvironments
 {
     private static string _httpEndpoint = string.Empty;
     

@@ -3,7 +3,7 @@ using FlowSynx.Client.Responses;
 
 namespace FlowSynx.Client.Http;
 
-internal interface IHttpRequestService: IDisposable
+public interface IHttpRequestService: IDisposable
 {
     void UseBasicAuth(string username, string password);
     void UseBearerToken(string token);

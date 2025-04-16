@@ -7,20 +7,16 @@ using Newtonsoft.Json;
 
 namespace FlowSynx.Client.Http;
 
-internal class HttpRequestService : IHttpRequestService
+public class HttpRequestService : IHttpRequestService
 {
     private readonly HttpClient _httpClient;
 
-    internal HttpRequestService(string baseAddress)
+    protected HttpRequestService(string baseAddress)
     {
-        _httpClient = new HttpClient();
-        _httpClient.BaseAddress = new Uri(baseAddress);
+        _httpClient = new HttpClient { BaseAddress = new Uri(baseAddress) };
     }
 
-    public static HttpRequestService Create(string baseAddress)
-    {
-        return new HttpRequestService(baseAddress);
-    }
+    public static HttpRequestService Create(string baseAddress) => new(baseAddress);
 
     public void UseBasicAuth(string username, string password)
     {
@@ -29,170 +25,86 @@ internal class HttpRequestService : IHttpRequestService
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", base64);
     }
 
-    public void UseBearerToken(string token)
-    {
+    public void UseBearerToken(string token) =>
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-    }
 
-    public void ClearAuthentication()
-    {
+    public void ClearAuthentication() =>
         _httpClient.DefaultRequestHeaders.Authorization = null;
-    }
 
     public async Task<HttpResult<TResult>> SendRequestAsync<TResult>(Request request, CancellationToken cancellationToken)
     {
-        try
-        {
-            var response = await CreateHttpRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            if (!response.IsSuccessStatusCode)
-                throw new FlowSynxClientException(await GetStatusCodeMessageAsync(response));
-            
-            var headers = response.Headers.Concat(response.Content.Headers);
-            var responseContent = response.Content;
-            var responseString = await responseContent.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-            var deserializedPayload = JsonConvert.DeserializeObject<TResult>(responseString);
-            if (deserializedPayload == null)
-                throw new FlowSynxClientException(Resources.PayloadCouldNotBeDeserialized);
-
-            return new HttpResult<TResult>()
-            {
-                StatusCode = (int)response.StatusCode,
-                Headers = headers,
-                Payload = deserializedPayload
-            };
-        }
-        catch (HttpRequestException)
-        {
-            throw new FlowSynxClientException(Resources.RequestServiceHttpRequestExceptionMessage);
-        }
-        catch (TimeoutException)
-        {
-            throw new FlowSynxClientException(Resources.RequestServiceTimeoutException);
-        }
-        catch (OperationCanceledException)
-        {
-            throw new FlowSynxClientException(Resources.RequestServiceOperationCanceledException);
-        }
-        catch (JsonException ex)
-        {
-            throw new FlowSynxClientException(Resources.PayloadCouldNotBeDeserialized, ex);
-        }
+        var message = BuildHttpRequestMessage<object>(request.HttpMethod, request.Uri, request.MediaType, request.Headers, null);
+        return await SendInternalRequestAsync<TResult>(message, cancellationToken);
     }
-
-    public async Task<HttpResult<TResult>> SendRequestAsync<TRequest, TResult>(Request<TRequest> request, CancellationToken cancellationToken)
+    public async Task<HttpResult<TResult>> SendRequestAsync<TRequest, TResult>(Request<TRequest> request,
+        CancellationToken cancellationToken)
+    {
+        var message = BuildHttpRequestMessage(request.HttpMethod, request.Uri, request.MediaType, request.Headers, request.Content);
+        return await SendInternalRequestAsync<TResult>(message, cancellationToken);
+    }
+    
+    protected async Task<HttpResult<TResult>> SendInternalRequestAsync<TResult>(HttpRequestMessage message, CancellationToken cancellationToken)
     {
         try
         {
-            var response = await CreateHttpRequestAsync(request, cancellationToken).ConfigureAwait(false);
-            if (!response.IsSuccessStatusCode)
-                throw new FlowSynxClientException(await GetStatusCodeMessageAsync(response));
+            var response = await _httpClient.SendAsync(message, cancellationToken).ConfigureAwait(false);
+            var body = await response.Content.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
 
-            var headers = response.Headers.Concat(response.Content.Headers);
-            var responseContent = response.Content;
-            var responseString = await responseContent.ReadAsStringAsync(cancellationToken).ConfigureAwait(false);
-            var deserializedPayload = JsonConvert.DeserializeObject<TResult>(responseString);
-            if (deserializedPayload == null)
-                throw new FlowSynxClientException(Resources.PayloadCouldNotBeDeserialized);
+            if (!response.IsSuccessStatusCode)
+                throw new FlowSynxClientException(GetStatusCodeMessageAsync(body));
+
+            var deserializedPayload = JsonConvert.DeserializeObject<TResult>(body)
+                ?? throw new FlowSynxClientException(Resources.PayloadCouldNotBeDeserialized);
 
             return new HttpResult<TResult>()
             {
                 StatusCode = (int)response.StatusCode,
-                Headers = headers,
+                Headers = response.Headers.Concat(response.Content.Headers),
                 Payload = deserializedPayload
             };
         }
-        catch (HttpRequestException)
+        catch (Exception ex) when (ex is HttpRequestException or TimeoutException or OperationCanceledException or JsonException)
         {
-            throw new FlowSynxClientException(Resources.RequestServiceHttpRequestExceptionMessage);
-        }
-        catch (TimeoutException)
-        {
-            throw new FlowSynxClientException(Resources.RequestServiceTimeoutException);
-        }
-        catch (OperationCanceledException)
-        {
-            throw new FlowSynxClientException(Resources.RequestServiceOperationCanceledException);
-        }
-        catch (JsonException ex)
-        {
-            throw new FlowSynxClientException(Resources.PayloadCouldNotBeDeserialized, ex);
+            throw new FlowSynxClientException("HTTP request failed.", ex);
         }
     }
 
     #region private methods
-    private async Task<HttpResponseMessage> CreateHttpRequestAsync<TRequest>(Request<TRequest> request, CancellationToken cancellationToken)
+    protected HttpRequestMessage BuildHttpRequestMessage<TRequest>(HttpMethod method,
+        string uri, string? mediaType, IDictionary<string, string> headers, TRequest? content)
     {
-        var message = new HttpRequestMessage(request.HttpMethod, request.Uri);
+        var message = new HttpRequestMessage(method, uri);
 
-        if (!string.IsNullOrEmpty(request.MediaType))
-            AddMediaTypeHeader(message.Headers, request.MediaType);
+        if (!string.IsNullOrWhiteSpace(mediaType))
+            message.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType));
 
-        if (request.Headers.Count > 0)
-            AddHeaders(message.Headers, request.Headers);
-
-        if (request.Content != null)
-            message.Content = new StringContent(JsonConvert.SerializeObject(request.Content), Encoding.UTF8, request.MediaType);
-
-        return await _httpClient.SendAsync(message, cancellationToken);
-    }
-
-    private async Task<HttpResponseMessage> CreateHttpRequestAsync(Request request, CancellationToken cancellationToken)
-    {
-        var message = new HttpRequestMessage(request.HttpMethod, request.Uri);
-
-        if (!string.IsNullOrEmpty(request.MediaType))
-            AddMediaTypeHeader(message.Headers, request.MediaType);
-
-        if (request.Headers.Count > 0)
-            AddHeaders(message.Headers, request.Headers);
-
-        return await _httpClient.SendAsync(message, cancellationToken);
-    }
-
-    private void AddMediaTypeHeader(HttpRequestHeaders requestHeader, string mediaType)
-    {
-        requestHeader.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType));
-    }
-
-    private void AddHeaders(HttpRequestHeaders requestHeader, IDictionary<string, string> headers)
-    {
         foreach (var header in headers)
-            requestHeader.Add(header.Key, header.Value);
-    }
+            message.Headers.TryAddWithoutValidation(header.Key, header.Value);
 
-    private async Task<string> GetStatusCodeMessageAsync(HttpResponseMessage response)
-    {
-        if (response == null)
-            throw new ArgumentNullException(nameof(response));
-
-        string content = await response.Content.ReadAsStringAsync();
-        if (!response.IsSuccessStatusCode)
+        if (content is not null)
         {
-            var message = content;
-            if (!string.IsNullOrEmpty(content))
-            {
-                Result? deserializedContent;
-                try
-                {
-                    deserializedContent = JsonConvert.DeserializeObject<Result>(content);
-                }
-                catch {
-                    deserializedContent = null;
-                }
-
-                if (deserializedContent != null)
-                    message = string.Join(Environment.NewLine, deserializedContent.Messages);
-            }
-
-            return message;
+            var serialized = JsonConvert.SerializeObject(content);
+            message.Content = new StringContent(serialized, Encoding.UTF8, mediaType ?? "application/json");
         }
 
-        return $"Success: {response.ReasonPhrase}";
+        return message;
+    }
+
+    protected string GetStatusCodeMessageAsync(string content)
+    {
+        try
+        {
+            var deserialized = JsonConvert.DeserializeObject<Result>(content);
+            return deserialized?.Messages != null && deserialized.Messages.Count != 0
+                ? string.Join(Environment.NewLine, deserialized.Messages)
+                : content;
+        }
+        catch
+        {
+            return content;
+        }
     }
     #endregion
 
-    public void Dispose()
-    {
-        _httpClient.Dispose();
-    }
+    public void Dispose() => _httpClient.Dispose();
 }
