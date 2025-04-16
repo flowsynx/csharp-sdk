@@ -1,14 +1,17 @@
 ﻿using FlowSynx.Client.Exceptions;
 using FlowSynx.Client.Http;
 using FlowSynx.Client.Requests;
-using FlowSynx.Client.Requests.Config;
 using FlowSynx.Client.Requests.Logs;
-using FlowSynx.Client.Requests.Connectors;
 using FlowSynx.Client.Responses;
-using FlowSynx.Client.Responses.Config;
 using FlowSynx.Client.Responses.Health;
 using FlowSynx.Client.Responses.Version;
-using FlowSynx.Client.Responses.Connectors;
+using FlowSynx.Client.Requests.PluginConfig;
+using FlowSynx.Client.Responses.PluginConfig;
+using FlowSynx.Client.Requests.Plugins;
+using FlowSynx.Client.Responses.Plugins;
+using FlowSynx.Client.Responses.Logs;
+using FlowSynx.Client.Requests.Workflows;
+using FlowSynx.Client.Responses.Workflows;
 
 namespace FlowSynx.Client;
 
@@ -32,6 +35,24 @@ public class FlowSynxClient : IFlowSynxClient
         _httpRequestService = HttpRequestService.Create(baseAddress);
     }
 
+    #region Authentication
+    public void UseBasicAuth(string username, string password)
+    {
+        _httpRequestService.UseBasicAuth(username, password);
+    }
+
+    public void UseBearerToken(string token)
+    {
+        _httpRequestService.UseBearerToken(token);
+    }
+
+    public void ClearAuthentication()
+    {
+        _httpRequestService.ClearAuthentication();
+    }
+
+    #endregion
+
     #region private methods
     private void CheckAddress(string baseAddress)
     {
@@ -43,58 +64,81 @@ public class FlowSynxClient : IFlowSynxClient
                                            && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
     #endregion
 
-    #region Configuration
-    public async Task<HttpResult<Result<AddConfigResponse>>> AddConfig(AddConfigRequest request, CancellationToken cancellationToken = default)
+    #region Plugin Configuration
+    public async Task<HttpResult<Result<AddPluginConfigResponse>>> AddPluginConfig(
+        AddPluginConfigRequest request,
+        CancellationToken cancellationToken = default)
     {
-        var requestMessage = new Request<AddConfigRequest>
+        var requestMessage = new Request<AddPluginConfigRequest>
         {
             HttpMethod = HttpMethod.Post,
             Uri = "config/add",
             Content = request
         };
 
-        return await _httpRequestService.SendRequestAsync<AddConfigRequest, Result<AddConfigResponse>>(requestMessage, cancellationToken);
+        return await _httpRequestService
+            .SendRequestAsync<AddPluginConfigRequest, Result<AddPluginConfigResponse>>(requestMessage, cancellationToken);
     }
 
-    public async Task<HttpResult<Result<ConfigDetailsResponse>>> ConfigDetails(ConfigDetailsRequest request, CancellationToken cancellationToken = default)
+    public async Task<HttpResult<Result<Unit>>> DeletePluginConfig(
+        DeletePluginConfigRequest request, 
+        CancellationToken cancellationToken = default)
     {
-        var requestMessage = new Request<ConfigDetailsRequest>
-        {
-            HttpMethod = HttpMethod.Post,
-            Uri = "config/details",
-            Content = request
-        };
-
-        return await _httpRequestService.SendRequestAsync<ConfigDetailsRequest, Result<ConfigDetailsResponse>>(requestMessage, cancellationToken);
-    }
-
-    public async Task<HttpResult<Result<IEnumerable<object>>>> ConfigList(ConfigListRequest request, CancellationToken cancellationToken = default)
-    {
-        var requestMessage = new Request<ConfigListRequest>
-        {
-            HttpMethod = HttpMethod.Post,
-            Uri = "config",
-            Content = request
-        };
-
-        return await _httpRequestService.SendRequestAsync<ConfigListRequest, Result<IEnumerable<object>>>(requestMessage, cancellationToken);
-    }
-
-    public async Task<HttpResult<Result<IEnumerable<DeleteConfigResponse>>>> DeleteConfig(DeleteConfigRequest request, CancellationToken cancellationToken = default)
-    {
-        var requestMessage = new Request<DeleteConfigRequest>
+        var requestMessage = new Request
         {
             HttpMethod = HttpMethod.Delete,
-            Uri = "config/delete",
+            Uri = $"config/delete/{request.Id.ToString()}"
+        };
+
+        return await _httpRequestService
+            .SendRequestAsync<Result<Unit>>(requestMessage, cancellationToken);
+    }
+
+    public async Task<HttpResult<Result<Unit>>> UpdatePluginConfig(
+        UpdatePluginConfigRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        var requestMessage = new Request<UpdatePluginConfigRequest>
+        {
+            HttpMethod = HttpMethod.Post,
+            Uri = $"config/update/{request.Id.ToString()}",
             Content = request
         };
 
-        return await _httpRequestService.SendRequestAsync<DeleteConfigRequest, Result<IEnumerable<DeleteConfigResponse>>>(requestMessage, cancellationToken);
+        return await _httpRequestService
+            .SendRequestAsync<UpdatePluginConfigRequest, Result<Unit>>(requestMessage, cancellationToken);
+    }
+
+    public async Task<HttpResult<Result<PluginConfigDetailsResponse>>> PluginConfigDetails(
+        PluginConfigDetailsRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        var requestMessage = new Request
+        {
+            HttpMethod = HttpMethod.Get,
+            Uri = $"config/details/{request.Id.ToString()}"
+        };
+
+        return await _httpRequestService
+            .SendRequestAsync<Result<PluginConfigDetailsResponse>>(requestMessage, cancellationToken);
+    }
+
+    public async Task<HttpResult<Result<IEnumerable<PluginConfigListResponse>>>> PluginConfigList(
+        CancellationToken cancellationToken = default)
+    {
+        var requestMessage = new Request
+        {
+            HttpMethod = HttpMethod.Get,
+            Uri = "config"
+        };
+
+        return await _httpRequestService.SendRequestAsync<Result<IEnumerable<PluginConfigListResponse>>>(requestMessage, cancellationToken);
     }
     #endregion
 
     #region Health
-    public async Task<HttpResult<HealthCheckResponse>> Health(CancellationToken cancellationToken = default)
+    public async Task<HttpResult<HealthCheckResponse>> Health(
+        CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request
         {
@@ -102,12 +146,15 @@ public class FlowSynxClient : IFlowSynxClient
             Uri = "health",
         };
 
-        return await _httpRequestService.SendRequestAsync<HealthCheckResponse>(requestMessage, cancellationToken);
+        return await _httpRequestService
+            .SendRequestAsync<HealthCheckResponse>(requestMessage, cancellationToken);
     }
     #endregion
 
     #region Logs
-    public async Task<HttpResult<Result<IEnumerable<object>>>> LogsList(LogsListRequest request, CancellationToken cancellationToken = default)
+    public async Task<HttpResult<Result<IEnumerable<LogsListResponse>>>> LogsList(
+        LogsListRequest request, 
+        CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request<LogsListRequest>
         {
@@ -116,90 +163,88 @@ public class FlowSynxClient : IFlowSynxClient
             Content = request
         };
 
-        return await _httpRequestService.SendRequestAsync<LogsListRequest, Result<IEnumerable<object>>>(requestMessage, cancellationToken);
+        return await _httpRequestService
+            .SendRequestAsync<LogsListRequest, Result<IEnumerable<LogsListResponse>>>(requestMessage, cancellationToken);
     }
     #endregion
 
-    #region Connectors
-    public async Task<HttpResult<Result<ConnectorDetailsResponse>>> ConnectorDetails(ConnectorDetailsRequest request, CancellationToken cancellationToken = default)
+    #region Plugins
+    public async Task<HttpResult<Result<Unit>>> AddPlugin(
+        AddPluginRequest request, 
+        CancellationToken cancellationToken = default)
     {
-        var requestMessage = new Request<ConnectorDetailsRequest>
+        var requestMessage = new Request<AddPluginRequest>
         {
             HttpMethod = HttpMethod.Post,
-            Uri = "connectors/details",
+            Uri = $"plugins/add",
             Content = request
         };
 
-        return await _httpRequestService.SendRequestAsync<ConnectorDetailsRequest, Result<ConnectorDetailsResponse>>(requestMessage, cancellationToken);
+        return await _httpRequestService
+            .SendRequestAsync<AddPluginRequest, Result<Unit>>(requestMessage, cancellationToken);
     }
 
-    public async Task<HttpResult<Result<IEnumerable<object>>>> ConnectorsList(ConnectorsListRequest request, CancellationToken cancellationToken = default)
+    public async Task<HttpResult<Result<Unit>>> DeletePlugin(
+        DeletePluginRequest request,
+        CancellationToken cancellationToken = default)
     {
-        var requestMessage = new Request<ConnectorsListRequest>
+        var requestMessage = new Request<DeletePluginRequest>
         {
-            HttpMethod = HttpMethod.Post,
-            Uri = "connectors",
+            HttpMethod = HttpMethod.Delete,
+            Uri = $"plugins/delete",
             Content = request
         };
 
-        return await _httpRequestService.SendRequestAsync<ConnectorsListRequest, Result<IEnumerable<object>>>(requestMessage, cancellationToken);
+        return await _httpRequestService
+            .SendRequestAsync<DeletePluginRequest, Result<Unit>>(requestMessage, cancellationToken);
     }
-    #endregion
 
-    #region InvokeMethod
-    public async Task<HttpResult<Result<TResponse>>> InvokeMethod<TRequest, TResponse>(string methodName, TRequest data, 
+    public async Task<HttpResult<Result<Unit>>> UpdatePlugin(
+        UpdatePluginRequest request,
         CancellationToken cancellationToken = default)
     {
-        return await InvokeMethod<TRequest, TResponse>(HttpMethod.Post, methodName, data, cancellationToken);
-    }
-
-    public async Task<HttpResult<Result<TResponse>>> InvokeMethod<TRequest, TResponse>(HttpMethod httpMethod, string methodName, 
-        TRequest data, CancellationToken cancellationToken = default)
-    {
-        var requestMessage = new Request<TRequest>
+        var requestMessage = new Request<UpdatePluginRequest>
         {
-            HttpMethod = httpMethod,
-            Uri = methodName,
-            Content = data
-        };
-        
-        return await InvokeMethod<TRequest, TResponse>(requestMessage, cancellationToken);
-    }
-
-    public async Task<HttpResult<Result<TResponse>>> InvokeMethod<TRequest, TResponse>(Request<TRequest> request, 
-        CancellationToken cancellationToken = default)
-    {
-        return await _httpRequestService.SendRequestAsync<TRequest, Result<TResponse>>(request, cancellationToken);
-    }
-
-    public async Task<HttpResult<byte[]>> InvokeMethod<TRequest>(string methodName, TRequest data,
-        CancellationToken cancellationToken = default)
-    {
-        return await InvokeMethod<TRequest>(HttpMethod.Post, methodName, data, cancellationToken);
-    }
-
-    public async Task<HttpResult<byte[]>> InvokeMethod<TRequest>(HttpMethod httpMethod, string methodName, TRequest data, 
-        CancellationToken cancellationToken = default)
-    {
-        var requestMessage = new Request<TRequest>
-        {
-            HttpMethod = httpMethod,
-            Uri = methodName,
-            Content = data
+            HttpMethod = HttpMethod.Post,
+            Uri = $"plugins/update",
+            Content = request
         };
 
-        return await InvokeMethod<TRequest>(requestMessage, cancellationToken);
+        return await _httpRequestService
+            .SendRequestAsync<UpdatePluginRequest, Result<Unit>>(requestMessage, cancellationToken);
     }
 
-    public async Task<HttpResult<byte[]>> InvokeMethod<TRequest>(Request<TRequest> request, CancellationToken cancellationToken = default)
+    public async Task<HttpResult<Result<PluginDetailsResponse>>> PluginDetails(
+        PluginDetailsRequest request,
+        CancellationToken cancellationToken = default)
     {
-        var result = await _httpRequestService.SendRequestAsync(request, cancellationToken);
-        return result;
+        var requestMessage = new Request
+        {
+            HttpMethod = HttpMethod.Get,
+            Uri = $"plugins/details/{request.Id.ToString()}"
+        };
+
+        return await _httpRequestService
+            .SendRequestAsync<Result<PluginDetailsResponse>>(requestMessage, cancellationToken);
+    }
+
+    public async Task<HttpResult<Result<IEnumerable<PluginsListResponse>>>> PluginsList(
+        CancellationToken cancellationToken = default)
+    {
+        var requestMessage = new Request
+        {
+            HttpMethod = HttpMethod.Get,
+            Uri = "plugins"
+        };
+
+        return await _httpRequestService
+            .SendRequestAsync<Result<IEnumerable<PluginsListResponse>>>(requestMessage, cancellationToken);
     }
     #endregion
 
     #region Version
-    public async Task<HttpResult<Result<VersionResponse>>> Version(CancellationToken cancellationToken = default)
+    public async Task<HttpResult<Result<VersionResponse>>> Version(
+        CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request
         {
@@ -207,7 +252,95 @@ public class FlowSynxClient : IFlowSynxClient
             Uri = "version"
         };
 
-        return await _httpRequestService.SendRequestAsync<Result<VersionResponse>>(requestMessage, cancellationToken);
+        return await _httpRequestService
+            .SendRequestAsync<Result<VersionResponse>>(requestMessage, cancellationToken);
+    }
+    #endregion
+
+    #region Workflows
+    public async Task<HttpResult<Result<AddWorkflowResponse>>> AddWorkflow(
+        AddWorkflowRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        var requestMessage = new Request<AddWorkflowRequest>
+        {
+            HttpMethod = HttpMethod.Post,
+            Uri = $"workflows/add",
+            Content = request
+        };
+
+        return await _httpRequestService
+            .SendRequestAsync<AddWorkflowRequest, Result<AddWorkflowResponse>>(requestMessage, cancellationToken);
+    }
+
+    public async Task<HttpResult<Result<Unit>>> DeleteWorkflow(
+        DeleteWorkflowRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        var requestMessage = new Request
+        {
+            HttpMethod = HttpMethod.Delete,
+            Uri = $"workflows/delete/{request.Id.ToString()}"
+        };
+
+        return await _httpRequestService
+            .SendRequestAsync<Result<Unit>>(requestMessage, cancellationToken);
+    }
+
+    public async Task<HttpResult<Result<Unit>>> UpdateWorkflow(
+        UpdateWorkflowRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        var requestMessage = new Request<string>
+        {
+            HttpMethod = HttpMethod.Post,
+            Uri = $"workflows/update/{request.Id.ToString()}",
+            Content = request.Definition
+        };
+
+        return await _httpRequestService
+            .SendRequestAsync<string, Result<Unit>>(requestMessage, cancellationToken);
+    }
+
+    public async Task<HttpResult<Result<WorkflowDetailsResponse>>> WorkflowDetails(
+        WorkflowDetailsRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        var requestMessage = new Request
+        {
+            HttpMethod = HttpMethod.Get,
+            Uri = $"workflows/details/{request.Id.ToString()}"
+        };
+
+        return await _httpRequestService
+            .SendRequestAsync<Result<WorkflowDetailsResponse>>(requestMessage, cancellationToken);
+    }
+
+    public async Task<HttpResult<Result<IEnumerable<WorkflowListResponse>>>> WorkflowsList(
+        CancellationToken cancellationToken = default)
+    {
+        var requestMessage = new Request
+        {
+            HttpMethod = HttpMethod.Get,
+            Uri = "workflows"
+        };
+
+        return await _httpRequestService
+            .SendRequestAsync<Result<IEnumerable<WorkflowListResponse>>>(requestMessage, cancellationToken);
+    }
+
+    public async Task<HttpResult<Result<Unit>>> ExecuteWorkflow(
+        ExecuteWorkflowRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        var requestMessage = new Request
+        {
+            HttpMethod = HttpMethod.Get,
+            Uri = $"workflows/execute/{request.Id}"
+        };
+
+        return await _httpRequestService
+            .SendRequestAsync<Result<Unit>>(requestMessage, cancellationToken);
     }
     #endregion
 

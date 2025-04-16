@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace FlowSynx.Client.Responses;
+﻿namespace FlowSynx.Client.Responses;
 
 public class HttpResult<TResult>
 {

@@ -8,7 +8,7 @@ internal class FlowSynxEnvironments
     {
         if (string.IsNullOrEmpty(_httpEndpoint))
         {
-            _httpEndpoint = $"http://localhost:{5860}";
+            _httpEndpoint = $"http://localhost:{6262}";
         }
 
         return _httpEndpoint;

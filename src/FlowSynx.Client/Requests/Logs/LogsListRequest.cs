@@ -2,9 +2,8 @@
 
 public class LogsListRequest
 {
-    public FieldsList? Fields { get; set; }
-    public FilterList? Filter { get; set; }
-    public SortList? Sort { get; set; }
-    public Paging? Paging { get; set; }
-    public bool? CaseSensitive { get; set; } = false;
+    public string? Level { get; set; }
+    public DateTime? FromDate { get; set; }
+    public DateTime? ToDate { get; set; }
+    public string? Message { get; set; }
 }

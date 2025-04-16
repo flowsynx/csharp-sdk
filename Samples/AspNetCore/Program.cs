@@ -1,6 +1,5 @@
 using FlowSynx.Client;
 using FlowSynx.Client.AspNetCore;
-using FlowSynx.Client.Requests.Connectors;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCore
@@ -28,28 +27,8 @@ namespace AspNetCore
             app.MapGet("/version", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) =>
                 await client.Version(cancellationToken));
 
-            app.MapGet("/about", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) =>
-                await client.InvokeMethod<object, object>("about", new
-                {
-                    entity = @"C:\",
-                    filters = new
-                    {
-                        full = true
-                    }
-                }, cancellationToken));
-
-            app.MapGet("/list", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) =>
-                await client.InvokeMethod<object, object>("list", new
-                {
-                    entity = @"C:\",
-                    filters = new
-                    {
-                        limit = "10"
-                    }
-                }, cancellationToken));
-
             app.MapGet("/connectors", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) =>
-                await client.ConnectorsList(new ConnectorsListRequest(), cancellationToken));
+                await client.PluginsList(cancellationToken));
 
             app.Run();
         }
