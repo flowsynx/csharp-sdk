@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{EDD45B98
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowSynx.Client.UnitTests", "tests\FlowSynx.Client.UnitTests\FlowSynx.Client.UnitTests.csproj", "{C2A213EE-D7DE-41E5-ADF9-8BF0BCB15286}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowSynx.Client.AspNetCore.UnitTests", "tests\FlowSynx.Client.AspNetCore.UnitTests\FlowSynx.Client.AspNetCore.UnitTests.csproj", "{A87F97E1-DE81-4065-84E5-1A3B415A0ADC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{C2A213EE-D7DE-41E5-ADF9-8BF0BCB15286}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2A213EE-D7DE-41E5-ADF9-8BF0BCB15286}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2A213EE-D7DE-41E5-ADF9-8BF0BCB15286}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A87F97E1-DE81-4065-84E5-1A3B415A0ADC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A87F97E1-DE81-4065-84E5-1A3B415A0ADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A87F97E1-DE81-4065-84E5-1A3B415A0ADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A87F97E1-DE81-4065-84E5-1A3B415A0ADC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{A340DBC0-91AE-45EF-90B5-D2789470411F} = {E4F8499E-799C-44F7-B469-2044F9D63693}
 		{8FE9D9EE-C3C5-4FFA-863F-431DEE685FFD} = {E4F8499E-799C-44F7-B469-2044F9D63693}
 		{C2A213EE-D7DE-41E5-ADF9-8BF0BCB15286} = {EDD45B98-D543-4854-82BB-F8A2D62FFCDB}
+		{A87F97E1-DE81-4065-84E5-1A3B415A0ADC} = {EDD45B98-D543-4854-82BB-F8A2D62FFCDB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {70C3FDD5-8CD8-474A-AAAA-28703DF7A733}
