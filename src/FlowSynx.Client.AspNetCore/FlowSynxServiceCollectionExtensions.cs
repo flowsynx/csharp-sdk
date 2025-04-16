@@ -14,7 +14,7 @@ public static class FlowSynxServiceCollectionExtensions
 
         // This pattern prevents registering services multiple times in the case AddFlowSynxClient is called
         // by non-user-code.
-        if (services.Any(s => s.ImplementationType == typeof(IFlowSynxClient)))
+        if (services.Any(s => s.ServiceType == typeof(IFlowSynxClient)))
             return;
 
         services.TryAddSingleton<IFlowSynxClient>(_ =>
