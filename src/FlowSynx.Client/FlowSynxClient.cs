@@ -59,7 +59,7 @@ public class FlowSynxClient : IFlowSynxClient
     private void CheckAddress(string baseAddress)
     {
         if (!IsUrlValid(baseAddress))
-            throw new FlowSynxClientException($"Entered address {baseAddress} is not valid. Please check it and try again!");
+            throw new FlowSynxClientException(string.Format(Resources.HttpClient_EnteredAddressIsInvalid, baseAddress));
     }
 
     private bool IsUrlValid(string url) => Uri.TryCreate(url, UriKind.Absolute, out var uriResult)

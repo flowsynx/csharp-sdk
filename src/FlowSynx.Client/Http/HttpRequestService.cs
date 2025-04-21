@@ -11,10 +11,8 @@ public class HttpRequestService : IHttpRequestService
 {
     private readonly HttpClient _httpClient;
 
-    protected HttpRequestService(string baseAddress)
-    {
+    protected HttpRequestService(string baseAddress) =>
         _httpClient = new HttpClient { BaseAddress = new Uri(baseAddress) };
-    }
 
     public static HttpRequestService Create(string baseAddress) => new(baseAddress);
 
@@ -54,7 +52,8 @@ public class HttpRequestService : IHttpRequestService
                 throw new FlowSynxClientException(GetStatusCodeMessageAsync(body));
 
             var deserializedPayload = JsonConvert.DeserializeObject<TResult>(body)
-                ?? throw new FlowSynxClientException(Resources.PayloadCouldNotBeDeserialized);
+                ?? throw new FlowSynxClientException(
+                    Resources.HttpRequest_OperationFailed_PayloadCouldNotDeserialized);
 
             return new HttpResult<TResult>()
             {
@@ -65,7 +64,7 @@ public class HttpRequestService : IHttpRequestService
         }
         catch (Exception ex) when (ex is HttpRequestException or TimeoutException or OperationCanceledException or JsonException)
         {
-            throw new FlowSynxClientException("HTTP request failed.", ex);
+            throw new FlowSynxClientException(Resources.HttpRequest_RequestFailed, ex);
         }
     }
 

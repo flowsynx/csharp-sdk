@@ -61,56 +61,29 @@ namespace FlowSynx.Client {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Requested mime type is not valid: {0}.
+        ///   Looks up a localized string similar to Entered address &apos;{0}&apos; is not valid. Please check it and try again!.
         /// </summary>
-        internal static string MimeTypeMapMimeTypeNotValid {
+        internal static string HttpClient_EnteredAddressIsInvalid {
             get {
-                return ResourceManager.GetString("MimeTypeMapMimeTypeNotValid", resourceCulture);
+                return ResourceManager.GetString("HttpClient_EnteredAddressIsInvalid", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Operation failed: the payload could not be deserialized. See InnerException for details..
         /// </summary>
-        internal static string PayloadCouldNotBeDeserialized {
+        internal static string HttpRequest_OperationFailed_PayloadCouldNotDeserialized {
             get {
-                return ResourceManager.GetString("PayloadCouldNotBeDeserialized", resourceCulture);
+                return ResourceManager.GetString("HttpRequest_OperationFailed_PayloadCouldNotDeserialized", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unhandled error when calling the Uri. Message: {0}..
+        ///   Looks up a localized string similar to HTTP request failed..
         /// </summary>
-        internal static string RequestServiceException {
+        internal static string HttpRequest_RequestFailed {
             get {
-                return ResourceManager.GetString("RequestServiceException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Error in http request when calling and reaching the Uri..
-        /// </summary>
-        internal static string RequestServiceHttpRequestExceptionMessage {
-            get {
-                return ResourceManager.GetString("RequestServiceHttpRequestExceptionMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The http request was canceled during call the Uri..
-        /// </summary>
-        internal static string RequestServiceOperationCanceledException {
-            get {
-                return ResourceManager.GetString("RequestServiceOperationCanceledException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Http request timeout during call the Uri..
-        /// </summary>
-        internal static string RequestServiceTimeoutException {
-            get {
-                return ResourceManager.GetString("RequestServiceTimeoutException", resourceCulture);
+                return ResourceManager.GetString("HttpRequest_RequestFailed", resourceCulture);
             }
         }
     }

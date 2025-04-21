@@ -117,22 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MimeTypeMapMimeTypeNotValid" xml:space="preserve">
-    <value>Requested mime type is not valid: {0}</value>
+  <data name="HttpClient_EnteredAddressIsInvalid" xml:space="preserve">
+    <value>Entered address '{0}' is not valid. Please check it and try again!</value>
   </data>
-  <data name="PayloadCouldNotBeDeserialized" xml:space="preserve">
+  <data name="HttpRequest_OperationFailed_PayloadCouldNotDeserialized" xml:space="preserve">
     <value>Operation failed: the payload could not be deserialized. See InnerException for details.</value>
   </data>
-  <data name="RequestServiceException" xml:space="preserve">
-    <value>Unhandled error when calling the Uri. Message: {0}.</value>
-  </data>
-  <data name="RequestServiceHttpRequestExceptionMessage" xml:space="preserve">
-    <value>Error in http request when calling and reaching the Uri.</value>
-  </data>
-  <data name="RequestServiceOperationCanceledException" xml:space="preserve">
-    <value>The http request was canceled during call the Uri.</value>
-  </data>
-  <data name="RequestServiceTimeoutException" xml:space="preserve">
-    <value>Http request timeout during call the Uri.</value>
+  <data name="HttpRequest_RequestFailed" xml:space="preserve">
+    <value>HTTP request failed.</value>
   </data>
 </root>
