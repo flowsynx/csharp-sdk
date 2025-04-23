@@ -50,10 +50,10 @@ public interface IFlowSynxClient : IDisposable
     #endregion
 
     #region Plugins
-    Task<HttpResult<Result<Unit>>> AddPlugin(AddPluginRequest request, 
+    Task<HttpResult<Result<Unit>>> InstallPlugin(InstallPluginRequest request, 
         CancellationToken cancellationToken = default);
 
-    Task<HttpResult<Result<Unit>>> DeletePlugin(DeletePluginRequest request,
+    Task<HttpResult<Result<Unit>>> UninstallPlugin(UninstallPluginRequest request,
         CancellationToken cancellationToken = default);
 
     Task<HttpResult<Result<Unit>>> UpdatePlugin(UpdatePluginRequest request,

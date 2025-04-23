@@ -171,34 +171,34 @@ public class FlowSynxClient : IFlowSynxClient
     #endregion
 
     #region Plugins
-    public async Task<HttpResult<Result<Unit>>> AddPlugin(
-        AddPluginRequest request, 
+    public async Task<HttpResult<Result<Unit>>> InstallPlugin(
+        InstallPluginRequest request, 
         CancellationToken cancellationToken = default)
     {
-        var requestMessage = new Request<AddPluginRequest>
+        var requestMessage = new Request<InstallPluginRequest>
         {
             HttpMethod = HttpMethod.Post,
-            Uri = $"plugins/add",
+            Uri = $"plugins/install",
             Content = request
         };
 
         return await _httpRequestService
-            .SendRequestAsync<AddPluginRequest, Result<Unit>>(requestMessage, cancellationToken);
+            .SendRequestAsync<InstallPluginRequest, Result<Unit>>(requestMessage, cancellationToken);
     }
 
-    public async Task<HttpResult<Result<Unit>>> DeletePlugin(
-        DeletePluginRequest request,
+    public async Task<HttpResult<Result<Unit>>> UninstallPlugin(
+        UninstallPluginRequest request,
         CancellationToken cancellationToken = default)
     {
-        var requestMessage = new Request<DeletePluginRequest>
+        var requestMessage = new Request<UninstallPluginRequest>
         {
             HttpMethod = HttpMethod.Delete,
-            Uri = $"plugins/delete",
+            Uri = $"plugins/uninstall",
             Content = request
         };
 
         return await _httpRequestService
-            .SendRequestAsync<DeletePluginRequest, Result<Unit>>(requestMessage, cancellationToken);
+            .SendRequestAsync<UninstallPluginRequest, Result<Unit>>(requestMessage, cancellationToken);
     }
 
     public async Task<HttpResult<Result<Unit>>> UpdatePlugin(
