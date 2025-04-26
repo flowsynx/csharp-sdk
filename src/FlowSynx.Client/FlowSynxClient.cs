@@ -178,7 +178,7 @@ public class FlowSynxClient : IFlowSynxClient
         var requestMessage = new Request<InstallPluginRequest>
         {
             HttpMethod = HttpMethod.Post,
-            Uri = $"plugins/install",
+            Uri = "plugins/install",
             Content = request
         };
 
@@ -193,7 +193,7 @@ public class FlowSynxClient : IFlowSynxClient
         var requestMessage = new Request<UninstallPluginRequest>
         {
             HttpMethod = HttpMethod.Delete,
-            Uri = $"plugins/uninstall",
+            Uri = "plugins/uninstall",
             Content = request
         };
 
@@ -208,7 +208,7 @@ public class FlowSynxClient : IFlowSynxClient
         var requestMessage = new Request<UpdatePluginRequest>
         {
             HttpMethod = HttpMethod.Post,
-            Uri = $"plugins/update",
+            Uri = "plugins/update",
             Content = request
         };
 
@@ -267,7 +267,7 @@ public class FlowSynxClient : IFlowSynxClient
         var requestMessage = new Request<AddWorkflowRequest>
         {
             HttpMethod = HttpMethod.Post,
-            Uri = $"workflows/add",
+            Uri = "workflows/add",
             Content = request
         };
 
