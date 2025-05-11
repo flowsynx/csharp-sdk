@@ -4,8 +4,28 @@ using Microsoft.Extensions.Options;
 
 namespace FlowSynx.Client.AspNetCore;
 
+/// <summary>
+/// Provides extension methods for configuring and adding FlowSynx-related services to the <see cref="IServiceCollection"/>.
+/// </summary>
 public static class FlowSynxServiceCollectionExtensions
 {
+    /// <summary>
+    /// Adds the FlowSynx client and its dependencies to the <see cref="IServiceCollection"/>.
+    /// Configures authentication strategy, client connection, and services needed for the FlowSynx client.
+    /// </summary>
+    /// <param name="services">The <see cref="IServiceCollection"/> to add the services to.</param>
+    /// <param name="configure">The action to configure the <see cref="FlowSynxClientOptions"/> for FlowSynx client.</param>
+    /// <returns>The updated <see cref="IServiceCollection"/>.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when the <paramref name="services"/> or <paramref name="configure"/> is null.</exception>
+    /// <remarks>
+    /// This method registers the <see cref="IFlowSynxClient"/> and its related dependencies, including:
+    /// <list type="bullet">
+    ///     <item><description>Authentication strategy</description></item>
+    ///     <item><description>FlowSynx service factory</description></item>
+    ///     <item><description>Client connection</description></item>
+    ///     <item><description>HttpClient</description></item>
+    /// </list>
+    /// </remarks>
     public static IServiceCollection AddFlowSynxClient(this IServiceCollection services, Action<FlowSynxClientOptions> configure)
     {
         if (services is null)

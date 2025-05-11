@@ -4,10 +4,24 @@ using FlowSynx.Client.Authentication;
 
 namespace FlowSynx.Client;
 
+/// <summary>
+/// Represents a client for interacting with the FlowSynx API.
+/// </summary>
 public class FlowSynxClient : IFlowSynxClient
 {
     private readonly IHttpRequestHandler _httpRequestHandler;
 
+    /// <summary>
+    /// Initializes a new instance of the <see cref="FlowSynxClient"/> class.
+    /// </summary>
+    /// <param name="connection">The connection settings used to configure the client's base address.</param>
+    /// <param name="authenticationStrategy">The authentication strategy to be used for making API requests.</param>
+    /// <param name="serviceFactory">A factory used to create the various services required for interacting with the FlowSynx API.</param>
+    /// <remarks>
+    /// The constructor initializes the client by setting up various services such as auditing, plugin configuration,
+    /// logging, plugins management, workflows, health checks, and version management, each based on the provided
+    /// <paramref name="httpRequestHandler"/>.
+    /// </remarks>
     public FlowSynxClient(
         IFlowSynxClientConnection connection,
         IAuthenticationStrategy authenticationStrategy,
