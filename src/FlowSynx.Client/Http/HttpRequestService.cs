@@ -11,6 +11,7 @@ namespace FlowSynx.Client.Http;
 public class HttpRequestHandler : IHttpRequestHandler
 {
     private readonly HttpClient _httpClient;
+    private readonly object _connLock = new();
     private readonly object _authLock = new();
     private IAuthenticationStrategy _authenticationStrategy;
 
@@ -18,6 +19,15 @@ public class HttpRequestHandler : IHttpRequestHandler
     {
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         _authenticationStrategy = authenticationStrategy ?? throw new ArgumentNullException(nameof(authenticationStrategy));
+    }
+
+    public void SetHttpConnection(IFlowSynxClientConnection connection)
+    {
+        if (connection == null) throw new ArgumentNullException(nameof(connection));
+        lock (_connLock)
+        {
+            _httpClient.BaseAddress = new Uri(connection.BaseAddress);
+        }
     }
 
     public void SetAuthenticationStrategy(IAuthenticationStrategy strategy)

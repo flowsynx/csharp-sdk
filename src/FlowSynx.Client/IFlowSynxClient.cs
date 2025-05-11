@@ -10,6 +10,12 @@ namespace FlowSynx.Client;
 public interface IFlowSynxClient
 {
     /// <summary>
+    /// Sets the connection details for communicating with the FlowSynx client.
+    /// </summary>
+    /// <param name="connection">The flowsynx connection to set.</param>
+    void SetConnection(IFlowSynxClientConnection connection);
+
+    /// <summary>
     /// Sets the authentication strategy to be used by the client.
     /// </summary>
     /// <param name="strategy">The authentication strategy to set.</param>

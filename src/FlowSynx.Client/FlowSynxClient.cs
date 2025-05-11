@@ -38,6 +38,9 @@ public class FlowSynxClient : IFlowSynxClient
         Version = serviceFactory.CreateVersionService(_httpRequestHandler);
     }
 
+    public void SetConnection(IFlowSynxClientConnection connection) =>
+        _httpRequestHandler.SetHttpConnection(connection);
+
     public void SetAuthenticationStrategy(IAuthenticationStrategy strategy) =>
         _httpRequestHandler.SetAuthenticationStrategy(strategy);
 

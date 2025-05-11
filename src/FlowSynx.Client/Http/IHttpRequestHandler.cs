@@ -10,6 +10,12 @@ namespace FlowSynx.Client.Http;
 public interface IHttpRequestHandler
 {
     /// <summary>
+    /// Sets the HTTP connection configuration for the FlowSynx client.
+    /// </summary>
+    /// <param name="connection">The connection to be used for requests.</param>
+    void SetHttpConnection(IFlowSynxClientConnection connection);
+
+    /// <summary>
     /// Sets the authentication strategy for the HTTP request handler.
     /// </summary>
     /// <param name="strategy">The authentication strategy to be used for requests.</param>
