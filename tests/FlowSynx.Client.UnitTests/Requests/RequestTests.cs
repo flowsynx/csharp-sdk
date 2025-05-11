@@ -1,4 +1,4 @@
-﻿using FlowSynx.Client.Requests;
+﻿using FlowSynx.Client.Messages.Requests;
 using System.Net.Mime;
 
 namespace FlowSynx.Client.UnitTests.Requests;

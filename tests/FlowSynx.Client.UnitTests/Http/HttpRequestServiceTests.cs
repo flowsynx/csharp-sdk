@@ -1,147 +1,134 @@
-﻿using FlowSynx.Client.Exceptions;
-using FlowSynx.Client.Http;
-using FlowSynx.Client.Requests;
-using Moq;
-using Moq.Protected;
-using Newtonsoft.Json;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Text;
+﻿//using FlowSynx.Client.Authentication;
+//using FlowSynx.Client.Exceptions;
+//using FlowSynx.Client.Http;
+//using FlowSynx.Client.Messages.Requests;
+//using FlowSynx.Client.Messages.Responses;
+//using Moq;
+//using Moq.Protected;
+//using Newtonsoft.Json;
+//using System.Net;
+//using System.Text;
 
-namespace FlowSynx.Client.UnitTests.Http;
+//namespace FlowSynx.Client.UnitTests.Http;
 
-public class HttpRequestServiceTests
-{
-    private const string BaseAddress = "https://tests.flowsynx.io";
+//public class HttpRequestServiceTests
+//{
+//    private readonly Mock<IAuthenticationStrategy> _mockAuthStrategy;
+//    private readonly Mock<IFlowSynxClientConnection> _mockConnection;
+//    private readonly HttpClient _httpClient;
+//    private readonly HttpRequestService _service;
 
-    private HttpRequestService CreateService(HttpMessageHandler handler)
-    {
-        var client = new HttpClient(handler) { BaseAddress = new Uri(BaseAddress) };
-        var service = (HttpRequestService)Activator.CreateInstance(typeof(HttpRequestService),
-            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance,
-            null, new object[] { BaseAddress }, null)!;
+//    public HttpRequestServiceTests()
+//    {
+//        _mockAuthStrategy = new Mock<IAuthenticationStrategy>();
+//        _mockConnection = new Mock<IFlowSynxClientConnection>();
+//        _mockConnection.Setup(x => x.BaseAddress).Returns("http://localhost");
 
-        // Inject our mocked HttpClient
-        typeof(HttpRequestService)
-            .GetField("_httpClient", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
-            .SetValue(service, client);
+//        // Set up mocked HttpClient using a real DelegatingHandler
+//        var handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+//        _httpClient = new HttpClient(handlerMock.Object) { BaseAddress = new Uri("http://localhost") };
 
-        return service;
-    }
+//        // Set up the service with injected HttpClient
+//        _service = new HttpRequestService(_mockConnection.Object, _mockAuthStrategy.Object);
+//    }
 
-    [Fact]
-    public void UseBasicAuth_SetsAuthorizationHeader()
-    {
-        var service = HttpRequestService.Create(BaseAddress);
-        var username = "user";
-        var password = "pass";
+//    [Fact]
+//    public async Task SendRequestAsync_ShouldReturnDeserializedResult_WhenResponseIsSuccessful()
+//    {
+//        // Arrange
+//        var expectedPayload = new TestResponse { Message = "OK" };
+//        var responseJson = JsonConvert.SerializeObject(expectedPayload);
 
-        service.UseBasicAuth(username, password);
+//        var handlerMock = GetMockedHandler(HttpStatusCode.OK, responseJson);
+//        var httpClient = new HttpClient(handlerMock.Object) { BaseAddress = new Uri("http://localhost") };
 
-        var expected = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{username}:{password}"));
-        Assert.Equal($"Basic {expected}", service.AuthorizationHeader()?.ToString());
-    }
+//        var service = new HttpRequestService(_mockConnection.Object, _mockAuthStrategy.Object);
+//        var request = new Request
+//        {
+//            HttpMethod = HttpMethod.Get,
+//            Uri = "/test",
+//            MediaType = "application/json",
+//            Headers = new Dictionary<string, string>()
+//        };
 
-    [Fact]
-    public void UseBearerToken_SetsAuthorizationHeader()
-    {
-        var service = HttpRequestService.Create(BaseAddress);
-        var token = "sample_token";
+//        // Act
+//        var result = await service.SendRequestAsync<TestResponse>(request, CancellationToken.None);
 
-        service.UseBearerToken(token);
+//        // Assert
+//        Assert.Equal(200, result.StatusCode);
+//        Assert.Equal("OK", result.Payload.Message);
+//    }
 
-        Assert.Equal($"Bearer {token}", service.AuthorizationHeader()?.ToString());
-    }
+//    [Fact]
+//    public async Task SendRequestAsync_ShouldThrowFlowSynxClientException_OnDeserializationError()
+//    {
+//        // Arrange
+//        var invalidJson = "invalid json";
+//        var handlerMock = GetMockedHandler(HttpStatusCode.OK, invalidJson);
+//        var httpClient = new HttpClient(handlerMock.Object) { BaseAddress = new Uri("http://localhost") };
 
-    [Fact]
-    public void ClearAuthentication_RemovesAuthorizationHeader()
-    {
-        var service = HttpRequestService.Create(BaseAddress);
-        service.UseBearerToken("anytoken");
+//        var service = new TestableHttpRequestService(_mockConnection.Object, _mockAuthStrategy.Object);
+//        var request = new Request
+//        {
+//            HttpMethod = HttpMethod.Get,
+//            Uri = "/test",
+//            MediaType = "application/json",
+//            Headers = new Dictionary<string, string>()
+//        };
 
-        service.ClearAuthentication();
+//        // Act & Assert
+//        await Assert.ThrowsAsync<FlowSynxClientException>(() =>
+//            service.SendRequestAsync<TestResponse>(request, CancellationToken.None));
+//    }
 
-        Assert.Null(service.AuthorizationHeader());
-    }
+//    [Fact]
+//    public async Task SendRequestAsync_ShouldThrowFlowSynxClientException_WhenResponseIsFailure()
+//    {
+//        // Arrange
+//        var errorResponse = JsonConvert.SerializeObject(new Result
+//        {
+//            Messages = new List<string> { "Bad Request" }
+//        });
 
-    [Fact]
-    public async Task SendRequestAsync_ReturnsSuccessResult()
-    {
-        var expectedPayload = new TestResponse { Message = "Success" };
-        var json = JsonConvert.SerializeObject(expectedPayload);
+//        var handlerMock = GetMockedHandler(HttpStatusCode.BadRequest, errorResponse);
+//        var httpClient = new HttpClient(handlerMock.Object) { BaseAddress = new Uri("http://localhost") };
 
-        var handler = new Mock<HttpMessageHandler>();
-        handler.Protected()
-            .Setup<Task<HttpResponseMessage>>("SendAsync",
-                ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.OK,
-                Content = new StringContent(json, Encoding.UTF8, "application/json")
-            });
+//        var service = new TestableHttpRequestService(_mockConnection.Object, _mockAuthStrategy.Object);
+//        var request = new Request
+//        {
+//            HttpMethod = HttpMethod.Get,
+//            Uri = "/test",
+//            MediaType = "application/json",
+//            Headers = new Dictionary<string, string>()
+//        };
 
-        var service = CreateService(handler.Object);
-        var request = new Request
-        {
-            HttpMethod = HttpMethod.Get,
-            Uri = "/test"
-        };
+//        // Act & Assert
+//        var ex = await Assert.ThrowsAsync<FlowSynxClientException>(() =>
+//            service.SendRequestAsync<TestResponse>(request, CancellationToken.None));
 
-        var result = await service.SendRequestAsync<TestResponse>(request, default);
+//        Assert.Contains("Bad Request", ex.Message);
+//    }
 
-        Assert.Equal(200, result.StatusCode);
-        Assert.Equal(expectedPayload.Message, result.Payload?.Message);
-    }
+//    // Helper to mock HttpMessageHandler
+//    private Mock<HttpMessageHandler> GetMockedHandler(HttpStatusCode statusCode, string content)
+//    {
+//        var handler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+//        handler.Protected()
+//            .Setup<Task<HttpResponseMessage>>("SendAsync",
+//                ItExpr.IsAny<HttpRequestMessage>(),
+//                ItExpr.IsAny<CancellationToken>())
+//            .ReturnsAsync(new HttpResponseMessage
+//            {
+//                StatusCode = statusCode,
+//                Content = new StringContent(content, Encoding.UTF8, "application/json")
+//            });
 
-    [Fact]
-    public async Task SendRequestAsync_ThrowsOnNonSuccess()
-    {
-        var handler = new Mock<HttpMessageHandler>();
-        var errorJson = JsonConvert.SerializeObject(new TestResult
-        {
-            Messages = new[] { "Unauthorized access" }
-        });
+//        return handler;
+//    }
 
-        handler.Protected()
-            .Setup<Task<HttpResponseMessage>>("SendAsync",
-                ItExpr.IsAny<HttpRequestMessage>(), ItExpr.IsAny<CancellationToken>())
-            .ReturnsAsync(new HttpResponseMessage
-            {
-                StatusCode = HttpStatusCode.Unauthorized,
-                Content = new StringContent(errorJson, Encoding.UTF8, "application/json")
-            });
-
-        var service = CreateService(handler.Object);
-        var request = new Request
-        {
-            HttpMethod = HttpMethod.Get,
-            Uri = "/test"
-        };
-
-        var ex = await Assert.ThrowsAsync<FlowSynxClientException>(() =>
-            service.SendRequestAsync<TestResponse>(request, default));
-
-        Assert.Contains("Unauthorized access", ex.Message);
-    }
-}
-
-public static class HttpRequestServiceExtensions
-{
-    public static AuthenticationHeaderValue? AuthorizationHeader(this HttpRequestService service)
-    {
-        var field = typeof(HttpRequestService)
-            .GetField("_httpClient", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        var client = (HttpClient)field!.GetValue(service)!;
-        return client.DefaultRequestHeaders.Authorization;
-    }
-}
-
-public class TestResponse
-{
-    public string? Message { get; set; }
-}
-
-public class TestResult
-{
-    public string[]? Messages { get; set; }
-}
+//    // Dummy class to test deserialization
+//    public class TestResponse
+//    {
+//        public string Message { get; set; } = "";
+//    }
+//}

@@ -1,16 +1,22 @@
 ﻿using FlowSynx.Client;
+using FlowSynx.Client.Authentication;
 
 namespace Client.Examples;
 
 internal class PluginConfigList : Example
 {
+    private readonly IFlowSynxClient _flowSynxClient;
+
+    public PluginConfigList(IFlowSynxClient flowSynxClient)
+    {
+        _flowSynxClient = flowSynxClient;
+    }
+
     public override string DisplayName => "Getting FlowSynx Config";
 
     public override async Task RunAsync(CancellationToken cancellationToken)
     {
-        using var client = new FlowSynxClientFactory().CreateClient();
-        client.UseBasicAuth("admin", "admin123");
-        var result = await client.PluginConfigList( cancellationToken);
+        var result = await _flowSynxClient.PluginConfig.ListAsync( cancellationToken);
         if (result.StatusCode != 200)
         {
             Console.WriteLine(@"The status code is not 200, that means the operation was not successful.");
@@ -30,7 +36,7 @@ internal class PluginConfigList : Example
         {
             foreach (var item in payload.Data)
             {
-                Console.WriteLine(item);
+                Console.WriteLine(item.Name);
                 Console.WriteLine();
             }
 

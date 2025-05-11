@@ -1,20 +1,26 @@
 ﻿using FlowSynx.Client;
-using FlowSynx.Client.Requests.Plugins;
+using FlowSynx.Client.Messages.Requests.Plugins;
 
 namespace Client.Examples;
 
 internal class PluginDetails : Example
 {
+    private readonly IFlowSynxClient _flowSynxClient;
+
+    public PluginDetails(IFlowSynxClient flowSynxClient)
+    {
+        _flowSynxClient = flowSynxClient;
+    }
+
     public override string DisplayName => "Getting FlowSynx Connector Detail";
 
     public override async Task RunAsync(CancellationToken cancellationToken)
     {
-        using var client = new FlowSynxClientFactory().CreateClient();
         var request = new PluginDetailsRequest()
         {
-            Id = Guid.Parse("5daa731d-efc6-416e-aef3-be3f20c75a23")
+            Id = Guid.Parse("62cf2f3b-4e98-48e4-acf9-5bc6ee9da2c9")
         };
-        var result = await client.PluginDetails(request, cancellationToken);
+        var result = await _flowSynxClient.Plugins.DetailsAsync(request, cancellationToken);
         if (result.StatusCode != 200)
         {
             Console.WriteLine(@"The status code is not 200, that means the operation was not successful.");

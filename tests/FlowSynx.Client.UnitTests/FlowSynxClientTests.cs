@@ -1,58 +1,61 @@
 ﻿using FlowSynx.Client.Http;
-using FlowSynx.Client.Requests.PluginConfig;
-using FlowSynx.Client.Responses.PluginConfig;
-using FlowSynx.Client.Responses;
 using Moq;
-using FlowSynx.Client.Requests;
+using FlowSynx.Client.Authentication;
+using FlowSynx.Client.Services;
 
 namespace FlowSynx.Client.UnitTests;
 
 public class FlowSynxClientTests
 {
-    private readonly Mock<IHttpRequestService> _httpRequestServiceMock;
-    private readonly FlowSynxClient _client;
-
-    public FlowSynxClientTests()
-    {
-        _httpRequestServiceMock = new Mock<IHttpRequestService>();
-        var connection = new FlowSynxClientConnection { BaseAddress = "https://tests.flowsynx.io" };
-        _client = new FlowSynxClientTestable(connection, _httpRequestServiceMock.Object);
-    }
-
     [Fact]
-    public async Task AddPluginConfig_ShouldSendCorrectRequest()
+    public void Constructor_InitializesAllServicesCorrectly()
     {
         // Arrange
-        var request = new AddPluginConfigRequest 
-        { 
-            Name = "test",
-            Type = "flowsynx.connectors.test",
-            Version = "1.0.0",
-        };
-        var expectedResponse = new HttpResult<Result<AddPluginConfigResponse>> { Payload = new Result<AddPluginConfigResponse>() };
+        var baseAddress = "https://test.flowsynx.io";
+        var mockConnection = new Mock<IFlowSynxClientConnection>();
+        mockConnection.Setup(c => c.BaseAddress).Returns(baseAddress);
 
-        _httpRequestServiceMock
-            .Setup(x => x.SendRequestAsync<AddPluginConfigRequest, Result<AddPluginConfigResponse>>(
-                It.IsAny<Request<AddPluginConfigRequest>>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(expectedResponse);
+        var mockAuthStrategy = new Mock<IAuthenticationStrategy>();
+
+        var mockHttpRequestService = new Mock<IHttpRequestService>();
+
+        var mockAuditService = new Mock<IAuditService>();
+        var mockPluginConfigService = new Mock<IPluginConfigService>();
+        var mockLogsService = new Mock<ILogsService>();
+        var mockPluginsService = new Mock<IPluginsService>();
+        var mockWorkflowsService = new Mock<IWorkflowsService>();
+        var mockHealthCheckService = new Mock<IHealthCheckService>();
+        var mockVersionService = new Mock<IVersionService>();
+
+        var mockFactory = new Mock<IFlowSynxServiceFactory>();
+        mockFactory.Setup(f => f.CreateHttpRequestService(baseAddress, mockAuthStrategy.Object)).Returns(mockHttpRequestService.Object);
+        mockFactory.Setup(f => f.CreateAuditService(mockHttpRequestService.Object)).Returns(mockAuditService.Object);
+        mockFactory.Setup(f => f.CreatePluginConfigService(mockHttpRequestService.Object)).Returns(mockPluginConfigService.Object);
+        mockFactory.Setup(f => f.CreateLogsService(mockHttpRequestService.Object)).Returns(mockLogsService.Object);
+        mockFactory.Setup(f => f.CreatePluginsService(mockHttpRequestService.Object)).Returns(mockPluginsService.Object);
+        mockFactory.Setup(f => f.CreateWorkflowsService(mockHttpRequestService.Object)).Returns(mockWorkflowsService.Object);
+        mockFactory.Setup(f => f.CreateHealthCheckService(mockHttpRequestService.Object)).Returns(mockHealthCheckService.Object);
+        mockFactory.Setup(f => f.CreateVersionService(mockHttpRequestService.Object)).Returns(mockVersionService.Object);
 
         // Act
-        var result = await _client.AddPluginConfig(request);
+        var client = new FlowSynxClient(mockConnection.Object, mockAuthStrategy.Object, mockFactory.Object);
 
         // Assert
-        Assert.Equal(expectedResponse, result);
-        _httpRequestServiceMock.Verify(x => x.SendRequestAsync<AddPluginConfigRequest, Result<AddPluginConfigResponse>>(
-            It.Is<Request<AddPluginConfigRequest>>(r => r.Uri == "config/add" && r.Content == request),
-            It.IsAny<CancellationToken>()), Times.Once);
-    }
-}
+        Assert.Equal(mockAuditService.Object, client.Audits);
+        Assert.Equal(mockPluginConfigService.Object, client.PluginConfig);
+        Assert.Equal(mockLogsService.Object, client.Logs);
+        Assert.Equal(mockPluginsService.Object, client.Plugins);
+        Assert.Equal(mockWorkflowsService.Object, client.Workflows);
+        Assert.Equal(mockHealthCheckService.Object, client.HealthCheck);
+        Assert.Equal(mockVersionService.Object, client.Version);
 
-public class FlowSynxClientTestable : FlowSynxClient
-{
-    public FlowSynxClientTestable(FlowSynxClientConnection conn, IHttpRequestService httpRequestService)
-        : base(conn)
-    {
-        var field = typeof(FlowSynxClient).GetField("_httpRequestService", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        field?.SetValue(this, httpRequestService);
+        mockFactory.Verify(f => f.CreateHttpRequestService(baseAddress, mockAuthStrategy.Object), Times.Once);
+        mockFactory.Verify(f => f.CreateAuditService(mockHttpRequestService.Object), Times.Once);
+        mockFactory.Verify(f => f.CreatePluginConfigService(mockHttpRequestService.Object), Times.Once);
+        mockFactory.Verify(f => f.CreateLogsService(mockHttpRequestService.Object), Times.Once);
+        mockFactory.Verify(f => f.CreatePluginsService(mockHttpRequestService.Object), Times.Once);
+        mockFactory.Verify(f => f.CreateWorkflowsService(mockHttpRequestService.Object), Times.Once);
+        mockFactory.Verify(f => f.CreateHealthCheckService(mockHttpRequestService.Object), Times.Once);
+        mockFactory.Verify(f => f.CreateVersionService(mockHttpRequestService.Object), Times.Once);
     }
 }

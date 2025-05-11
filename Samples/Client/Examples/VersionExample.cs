@@ -1,15 +1,22 @@
 ﻿using FlowSynx.Client;
+using FlowSynx.Client.Authentication;
 
 namespace Client.Examples;
 
 internal class VersionExample : Example
 {
+    private readonly IFlowSynxClient _flowSynxClient;
+
+    public VersionExample(IFlowSynxClient flowSynxClient)
+    {
+        _flowSynxClient = flowSynxClient;
+    }
+
     public override string DisplayName => "Using FlowSynx Version";
 
     public override async Task RunAsync(CancellationToken cancellationToken)
     {
-        using var client = new FlowSynxClientFactory().CreateClient();
-        var result = await client.Version(cancellationToken);
+        var result = await _flowSynxClient.Version.GetVersion(cancellationToken);
         if (result.StatusCode != 200)
         {
             Console.WriteLine(@"The status code is not 200, that means the operation was not successful.");

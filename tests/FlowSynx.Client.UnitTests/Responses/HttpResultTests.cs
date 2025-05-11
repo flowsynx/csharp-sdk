@@ -1,4 +1,4 @@
-﻿using FlowSynx.Client.Responses;
+﻿using FlowSynx.Client.Messages.Responses;
 
 namespace FlowSynx.Client.UnitTests.Responses;
 

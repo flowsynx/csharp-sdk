@@ -12,7 +12,12 @@ namespace AspNetCore
 
             // Add services to the container.
             builder.Services.AddAuthorization();
-            builder.Services.AddFlowSynxClient();
+            builder.Services.AddFlowSynxClient(opt =>
+            {
+                opt.AuthenticationType = AuthenticationType.Basic;
+                opt.Username = "admin";
+                opt.Password = "admin";
+            });
 
             var app = builder.Build();
 
@@ -22,13 +27,13 @@ namespace AspNetCore
             app.UseAuthorization();
 
             app.MapGet("/health", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) =>
-                await client.Health(cancellationToken));
+                await client.HealthCheck.Check(cancellationToken));
 
             app.MapGet("/version", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) =>
-                await client.Version(cancellationToken));
+                await client.Version.GetVersion(cancellationToken));
 
-            app.MapGet("/connectors", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) =>
-                await client.PluginsList(cancellationToken));
+            app.MapGet("/plugins", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) =>
+                await client.Plugins.ListAsync(cancellationToken));
 
             app.Run();
         }

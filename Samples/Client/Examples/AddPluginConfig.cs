@@ -1,16 +1,21 @@
 ﻿using FlowSynx.Client;
-using FlowSynx.Client.Requests.PluginConfig;
+using FlowSynx.Client.Messages.Requests.PluginConfig;
 
 namespace Client.Examples;
 
 internal class AddPluginConfig : Example
 {
+    private readonly IFlowSynxClient _flowSynxClient;
+
+    public AddPluginConfig(IFlowSynxClient flowSynxClient)
+    {
+        _flowSynxClient = flowSynxClient;
+    }
+
     public override string DisplayName => "Add FlowSynx Config";
 
     public override async Task RunAsync(CancellationToken cancellationToken)
     {
-        using var client = new FlowSynxClientFactory().CreateClient();
-
         var request = new AddPluginConfigRequest()
         {
             Name = "test",
@@ -23,7 +28,7 @@ internal class AddPluginConfig : Example
             }
         };
 
-        var result = await client.AddPluginConfig(request, cancellationToken);
+        var result = await _flowSynxClient.PluginConfig.AddAsync(request, cancellationToken);
         if (result.StatusCode != 200)
         {
             Console.WriteLine(@"The status code is not 200, that means the operation was not successful.");

@@ -1,13 +1,10 @@
-﻿using FlowSynx.Client.Requests;
-using FlowSynx.Client.Responses;
+﻿using FlowSynx.Client.Messages.Requests;
+using FlowSynx.Client.Messages.Responses;
 
 namespace FlowSynx.Client.Http;
 
-public interface IHttpRequestService: IDisposable
+public interface IHttpRequestService
 {
-    void UseBasicAuth(string username, string password);
-    void UseBearerToken(string token);
-    void ClearAuthentication();
     Task<HttpResult<TResult>> SendRequestAsync<TResult>(Request request, CancellationToken cancellationToken);
     Task<HttpResult<TResult>> SendRequestAsync<TRequest, TResult>(Request<TRequest> request, CancellationToken cancellationToken);
 }
