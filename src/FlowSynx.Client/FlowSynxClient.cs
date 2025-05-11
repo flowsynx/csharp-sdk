@@ -24,6 +24,9 @@ public class FlowSynxClient : IFlowSynxClient
         Version = serviceFactory.CreateVersionService(_httpRequestService);
     }
 
+    public void SetAuthenticationStrategy(IAuthenticationStrategy strategy) => 
+        _httpRequestService.SetAuthenticationStrategy(strategy);
+
     public IAuditService Audits { get; }
     public IPluginConfigService PluginConfig { get; }
     public ILogsService Logs { get; }

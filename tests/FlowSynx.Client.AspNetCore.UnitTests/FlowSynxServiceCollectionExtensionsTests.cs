@@ -105,6 +105,11 @@ public class FlowSynxServiceCollectionExtensionsTests
     // Dummy implementation just for testing registration short-circuit
     private class DummyFlowSynxClient : IFlowSynxClient
     {
+        public void SetAuthenticationStrategy(IAuthenticationStrategy strategy)
+        {
+            throw new NotImplementedException();
+        }
+
         public IAuditService Audits => throw new NotImplementedException();
 
         public IPluginConfigService PluginConfig => throw new NotImplementedException();
