@@ -8,13 +8,13 @@ using FlowSynx.Client.Messages.Requests;
 
 namespace FlowSynx.Client.Http;
 
-public class HttpRequestService : IHttpRequestService
+public class HttpRequestHandler : IHttpRequestHandler
 {
     private readonly HttpClient _httpClient;
     private readonly object _authLock = new();
     private IAuthenticationStrategy _authenticationStrategy;
 
-    public HttpRequestService(HttpClient httpClient, IAuthenticationStrategy authenticationStrategy)
+    public HttpRequestHandler(HttpClient httpClient, IAuthenticationStrategy authenticationStrategy)
     {
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         _authenticationStrategy = authenticationStrategy ?? throw new ArgumentNullException(nameof(authenticationStrategy));

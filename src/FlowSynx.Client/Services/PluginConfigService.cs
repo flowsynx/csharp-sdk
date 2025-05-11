@@ -8,10 +8,10 @@ namespace FlowSynx.Client.Services;
 
 public class PluginConfigService: IPluginConfigService
 {
-    private readonly IHttpRequestService _httpRequestService;
+    private readonly IHttpRequestHandler _httpRequestHandler;
 
-    public PluginConfigService(IHttpRequestService httpRequestService) => 
-        _httpRequestService = httpRequestService;
+    public PluginConfigService(IHttpRequestHandler httpRequestHandler) => 
+        _httpRequestHandler = httpRequestHandler;
 
     public async Task<HttpResult<Result<IEnumerable<PluginConfigListResponse>>>> ListAsync(
         CancellationToken cancellationToken = default)
@@ -22,7 +22,7 @@ public class PluginConfigService: IPluginConfigService
             Uri = "config"
         };
 
-        return await _httpRequestService.SendRequestAsync<Result<IEnumerable<PluginConfigListResponse>>>(requestMessage, cancellationToken);
+        return await _httpRequestHandler.SendRequestAsync<Result<IEnumerable<PluginConfigListResponse>>>(requestMessage, cancellationToken);
     }
 
     public async Task<HttpResult<Result<AddPluginConfigResponse>>> AddAsync(
@@ -36,7 +36,7 @@ public class PluginConfigService: IPluginConfigService
             Content = request
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<AddPluginConfigRequest, Result<AddPluginConfigResponse>>(requestMessage, cancellationToken);
     }
 
@@ -50,7 +50,7 @@ public class PluginConfigService: IPluginConfigService
             Uri = $"config/{request.Id.ToString()}"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<PluginConfigDetailsResponse>>(requestMessage, cancellationToken);
     }
 
@@ -65,7 +65,7 @@ public class PluginConfigService: IPluginConfigService
             Content = request
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<UpdatePluginConfigRequest, Result<Unit>>(requestMessage, cancellationToken);
     }
 
@@ -79,7 +79,7 @@ public class PluginConfigService: IPluginConfigService
             Uri = $"config/{request.Id.ToString()}"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<Unit>>(requestMessage, cancellationToken);
     }
 }

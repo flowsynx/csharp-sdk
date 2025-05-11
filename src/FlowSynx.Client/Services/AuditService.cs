@@ -7,9 +7,9 @@ namespace FlowSynx.Client.Services;
 
 public class AuditService: IAuditService
 {
-    private readonly IHttpRequestService _httpRequestService;
+    private readonly IHttpRequestHandler _httpRequestHandler;
 
-    public AuditService(IHttpRequestService httpRequestService) => _httpRequestService = httpRequestService;
+    public AuditService(IHttpRequestHandler httpRequestHandler) => _httpRequestHandler = httpRequestHandler;
 
     public async Task<HttpResult<Result<IEnumerable<AuditsListResponse>>>> ListAsync(
         CancellationToken cancellationToken = default)
@@ -20,7 +20,7 @@ public class AuditService: IAuditService
             Uri = "audits"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<IEnumerable<AuditsListResponse>>>(requestMessage, cancellationToken);
     }
 }

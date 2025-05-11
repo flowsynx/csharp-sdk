@@ -17,7 +17,7 @@ public class FlowSynxClientTests
 
         var mockAuthStrategy = new Mock<IAuthenticationStrategy>();
 
-        var mockHttpRequestService = new Mock<IHttpRequestService>();
+        var mockHttpRequestService = new Mock<IHttpRequestHandler>();
 
         var mockAuditService = new Mock<IAuditService>();
         var mockPluginConfigService = new Mock<IPluginConfigService>();
@@ -28,7 +28,7 @@ public class FlowSynxClientTests
         var mockVersionService = new Mock<IVersionService>();
 
         var mockFactory = new Mock<IFlowSynxServiceFactory>();
-        mockFactory.Setup(f => f.CreateHttpRequestService(baseAddress, mockAuthStrategy.Object)).Returns(mockHttpRequestService.Object);
+        mockFactory.Setup(f => f.CreateHttpRequestHandler(baseAddress, mockAuthStrategy.Object)).Returns(mockHttpRequestService.Object);
         mockFactory.Setup(f => f.CreateAuditService(mockHttpRequestService.Object)).Returns(mockAuditService.Object);
         mockFactory.Setup(f => f.CreatePluginConfigService(mockHttpRequestService.Object)).Returns(mockPluginConfigService.Object);
         mockFactory.Setup(f => f.CreateLogsService(mockHttpRequestService.Object)).Returns(mockLogsService.Object);
@@ -49,7 +49,7 @@ public class FlowSynxClientTests
         Assert.Equal(mockHealthCheckService.Object, client.HealthCheck);
         Assert.Equal(mockVersionService.Object, client.Version);
 
-        mockFactory.Verify(f => f.CreateHttpRequestService(baseAddress, mockAuthStrategy.Object), Times.Once);
+        mockFactory.Verify(f => f.CreateHttpRequestHandler(baseAddress, mockAuthStrategy.Object), Times.Once);
         mockFactory.Verify(f => f.CreateAuditService(mockHttpRequestService.Object), Times.Once);
         mockFactory.Verify(f => f.CreatePluginConfigService(mockHttpRequestService.Object), Times.Once);
         mockFactory.Verify(f => f.CreateLogsService(mockHttpRequestService.Object), Times.Once);

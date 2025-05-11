@@ -7,9 +7,9 @@ namespace FlowSynx.Client.Services;
 
 public class VersionService: IVersionService
 {
-    private readonly IHttpRequestService _httpRequestService;
+    private readonly IHttpRequestHandler _httpRequestHandler;
 
-    public VersionService(IHttpRequestService httpRequestService) => _httpRequestService = httpRequestService;
+    public VersionService(IHttpRequestHandler httpRequestHandler) => _httpRequestHandler = httpRequestHandler;
 
     public async Task<HttpResult<Result<VersionResponse>>> GetVersion(
         CancellationToken cancellationToken = default)
@@ -20,7 +20,7 @@ public class VersionService: IVersionService
             Uri = "version"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<VersionResponse>>(requestMessage, cancellationToken);
     }
 }

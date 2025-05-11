@@ -6,26 +6,26 @@ namespace FlowSynx.Client;
 
 public class FlowSynxClient : IFlowSynxClient
 {
-    private readonly IHttpRequestService _httpRequestService;
+    private readonly IHttpRequestHandler _httpRequestHandler;
 
     public FlowSynxClient(
         IFlowSynxClientConnection connection,
         IAuthenticationStrategy authenticationStrategy,
         IFlowSynxServiceFactory serviceFactory)
     {
-        _httpRequestService = serviceFactory.CreateHttpRequestService(connection.BaseAddress, authenticationStrategy);
+        _httpRequestHandler = serviceFactory.CreateHttpRequestHandler(connection.BaseAddress, authenticationStrategy);
 
-        Audits = serviceFactory.CreateAuditService(_httpRequestService);
-        PluginConfig = serviceFactory.CreatePluginConfigService(_httpRequestService);
-        Logs = serviceFactory.CreateLogsService(_httpRequestService);
-        Plugins = serviceFactory.CreatePluginsService(_httpRequestService);
-        Workflows = serviceFactory.CreateWorkflowsService(_httpRequestService);
-        HealthCheck = serviceFactory.CreateHealthCheckService(_httpRequestService);
-        Version = serviceFactory.CreateVersionService(_httpRequestService);
+        Audits = serviceFactory.CreateAuditService(_httpRequestHandler);
+        PluginConfig = serviceFactory.CreatePluginConfigService(_httpRequestHandler);
+        Logs = serviceFactory.CreateLogsService(_httpRequestHandler);
+        Plugins = serviceFactory.CreatePluginsService(_httpRequestHandler);
+        Workflows = serviceFactory.CreateWorkflowsService(_httpRequestHandler);
+        HealthCheck = serviceFactory.CreateHealthCheckService(_httpRequestHandler);
+        Version = serviceFactory.CreateVersionService(_httpRequestHandler);
     }
 
-    public void SetAuthenticationStrategy(IAuthenticationStrategy strategy) => 
-        _httpRequestService.SetAuthenticationStrategy(strategy);
+    public void SetAuthenticationStrategy(IAuthenticationStrategy strategy) =>
+        _httpRequestHandler.SetAuthenticationStrategy(strategy);
 
     public IAuditService Audits { get; }
     public IPluginConfigService PluginConfig { get; }

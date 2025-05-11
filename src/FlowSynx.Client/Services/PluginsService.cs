@@ -8,10 +8,10 @@ namespace FlowSynx.Client.Services;
 
 public class PluginsService: IPluginsService
 {
-    private readonly IHttpRequestService _httpRequestService;
+    private readonly IHttpRequestHandler _httpRequestHandler;
 
-    public PluginsService(IHttpRequestService httpRequestService) => 
-        _httpRequestService = httpRequestService;
+    public PluginsService(IHttpRequestHandler httpRequestHandler) => 
+        _httpRequestHandler = httpRequestHandler;
 
     public async Task<HttpResult<Result<IEnumerable<PluginsListResponse>>>> ListAsync(
         CancellationToken cancellationToken = default)
@@ -22,7 +22,7 @@ public class PluginsService: IPluginsService
             Uri = "plugins"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<IEnumerable<PluginsListResponse>>>(requestMessage, cancellationToken);
     }
 
@@ -37,7 +37,7 @@ public class PluginsService: IPluginsService
             Content = request
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<InstallPluginRequest, Result<Unit>>(requestMessage, cancellationToken);
     }
 
@@ -51,7 +51,7 @@ public class PluginsService: IPluginsService
             Uri = $"plugins/{request.Id.ToString()}"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<PluginDetailsResponse>>(requestMessage, cancellationToken);
     }
 
@@ -66,7 +66,7 @@ public class PluginsService: IPluginsService
             Content = request
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<UpdatePluginRequest, Result<Unit>>(requestMessage, cancellationToken);
     }
 
@@ -81,7 +81,7 @@ public class PluginsService: IPluginsService
             Content = request
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<UninstallPluginRequest, Result<Unit>>(requestMessage, cancellationToken);
     }
 }

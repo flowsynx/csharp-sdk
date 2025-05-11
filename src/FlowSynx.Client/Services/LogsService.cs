@@ -8,9 +8,9 @@ namespace FlowSynx.Client.Services;
 
 public class LogsService: ILogsService
 {
-    private readonly IHttpRequestService _httpRequestService;
+    private readonly IHttpRequestHandler _httpRequestHandler;
 
-    public LogsService(IHttpRequestService httpRequestService) => _httpRequestService = httpRequestService;
+    public LogsService(IHttpRequestHandler httpRequestHandler) => _httpRequestHandler = httpRequestHandler;
 
     public async Task<HttpResult<Result<IEnumerable<LogsListResponse>>>> ListAsync(
         LogsListRequest request,
@@ -23,7 +23,7 @@ public class LogsService: ILogsService
             Content = request
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<LogsListRequest, Result<IEnumerable<LogsListResponse>>>(requestMessage, cancellationToken);
     }
 }

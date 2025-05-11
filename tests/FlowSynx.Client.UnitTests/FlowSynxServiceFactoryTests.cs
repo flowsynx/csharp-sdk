@@ -34,17 +34,17 @@ public class FlowSynxServiceFactoryTests
         var authStrategyMock = new Mock<IAuthenticationStrategy>();
 
         // Act
-        var service = _factory.CreateHttpRequestService(baseAddress, authStrategyMock.Object);
+        var service = _factory.CreateHttpRequestHandler(baseAddress, authStrategyMock.Object);
 
         // Assert
         Assert.NotNull(service);
-        Assert.IsType<HttpRequestService>(service);
+        Assert.IsType<HttpRequestHandler>(service);
     }
 
     [Fact]
     public void CreateAuditService_ReturnsAuditService()
     {
-        var mockHttpRequestService = new Mock<IHttpRequestService>();
+        var mockHttpRequestService = new Mock<IHttpRequestHandler>();
         var service = _factory.CreateAuditService(mockHttpRequestService.Object);
 
         Assert.NotNull(service);
@@ -54,7 +54,7 @@ public class FlowSynxServiceFactoryTests
     [Fact]
     public void CreatePluginConfigService_ReturnsPluginConfigService()
     {
-        var mockHttpRequestService = new Mock<IHttpRequestService>();
+        var mockHttpRequestService = new Mock<IHttpRequestHandler>();
         var service = _factory.CreatePluginConfigService(mockHttpRequestService.Object);
 
         Assert.NotNull(service);
@@ -64,7 +64,7 @@ public class FlowSynxServiceFactoryTests
     [Fact]
     public void CreateLogsService_ReturnsLogsService()
     {
-        var mockHttpRequestService = new Mock<IHttpRequestService>();
+        var mockHttpRequestService = new Mock<IHttpRequestHandler>();
         var service = _factory.CreateLogsService(mockHttpRequestService.Object);
 
         Assert.NotNull(service);
@@ -74,7 +74,7 @@ public class FlowSynxServiceFactoryTests
     [Fact]
     public void CreatePluginsService_ReturnsPluginsService()
     {
-        var mockHttpRequestService = new Mock<IHttpRequestService>();
+        var mockHttpRequestService = new Mock<IHttpRequestHandler>();
         var service = _factory.CreatePluginsService(mockHttpRequestService.Object);
 
         Assert.NotNull(service);
@@ -84,7 +84,7 @@ public class FlowSynxServiceFactoryTests
     [Fact]
     public void CreateWorkflowsService_ReturnsWorkflowsService()
     {
-        var mockHttpRequestService = new Mock<IHttpRequestService>();
+        var mockHttpRequestService = new Mock<IHttpRequestHandler>();
         var service = _factory.CreateWorkflowsService(mockHttpRequestService.Object);
 
         Assert.NotNull(service);
@@ -94,7 +94,7 @@ public class FlowSynxServiceFactoryTests
     [Fact]
     public void CreateHealthCheckService_ReturnsHealthCheckService()
     {
-        var mockHttpRequestService = new Mock<IHttpRequestService>();
+        var mockHttpRequestService = new Mock<IHttpRequestHandler>();
         var service = _factory.CreateHealthCheckService(mockHttpRequestService.Object);
 
         Assert.NotNull(service);
@@ -104,7 +104,7 @@ public class FlowSynxServiceFactoryTests
     [Fact]
     public void CreateVersionService_ReturnsVersionService()
     {
-        var mockHttpRequestService = new Mock<IHttpRequestService>();
+        var mockHttpRequestService = new Mock<IHttpRequestHandler>();
         var service = _factory.CreateVersionService(mockHttpRequestService.Object);
 
         Assert.NotNull(service);

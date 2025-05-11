@@ -8,10 +8,10 @@ namespace FlowSynx.Client.Services;
 
 public class WorkflowsService: IWorkflowsService
 {
-    private readonly IHttpRequestService _httpRequestService;
+    private readonly IHttpRequestHandler _httpRequestHandler;
 
-    public WorkflowsService(IHttpRequestService httpRequestService) =>
-        _httpRequestService = httpRequestService;
+    public WorkflowsService(IHttpRequestHandler httpRequestHandler) =>
+        _httpRequestHandler = httpRequestHandler;
 
     public async Task<HttpResult<Result<IEnumerable<WorkflowListResponse>>>> ListAsync(
         CancellationToken cancellationToken = default)
@@ -22,7 +22,7 @@ public class WorkflowsService: IWorkflowsService
             Uri = "workflows"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<IEnumerable<WorkflowListResponse>>>(requestMessage, cancellationToken);
     }
 
@@ -37,7 +37,7 @@ public class WorkflowsService: IWorkflowsService
             Content = request
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<AddWorkflowRequest, Result<AddWorkflowResponse>>(requestMessage, cancellationToken);
     }
 
@@ -51,7 +51,7 @@ public class WorkflowsService: IWorkflowsService
             Uri = $"workflows/{request.Id.ToString()}"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<WorkflowDetailsResponse>>(requestMessage, cancellationToken);
     }
 
@@ -66,7 +66,7 @@ public class WorkflowsService: IWorkflowsService
             Content = request.Definition
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<string, Result<Unit>>(requestMessage, cancellationToken);
     }
 
@@ -80,7 +80,7 @@ public class WorkflowsService: IWorkflowsService
             Uri = $"workflows/{request.Id.ToString()}"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<Unit>>(requestMessage, cancellationToken);
     }
 
@@ -94,7 +94,7 @@ public class WorkflowsService: IWorkflowsService
             Uri = $"workflows/{request.WorkflowId.ToString()}/executions"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<IEnumerable<WorkflowExecutionListResponse>>>(requestMessage, cancellationToken);
     }
 
@@ -108,7 +108,7 @@ public class WorkflowsService: IWorkflowsService
             Uri = $"workflows/{request.WorkflowId.ToString()}/executions"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<Unit>>(requestMessage, cancellationToken);
     }
 
@@ -123,7 +123,7 @@ public class WorkflowsService: IWorkflowsService
             $"executions/{request.WorkflowExecutionId}"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<WorkflowExecutionDetailsResponse>>(requestMessage, cancellationToken);
     }
 
@@ -138,7 +138,7 @@ public class WorkflowsService: IWorkflowsService
             $"executions/{request.WorkflowExecutionId}/cancel"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<Unit>>(requestMessage, cancellationToken);
     }
 
@@ -153,7 +153,7 @@ public class WorkflowsService: IWorkflowsService
             $"executions/{request.WorkflowExecutionId}/logs"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<WorkflowExecutionLogsResponse>>(requestMessage, cancellationToken);
     }
 
@@ -169,7 +169,7 @@ public class WorkflowsService: IWorkflowsService
             $"task/{request.WorkflowTaskExecutionId.ToString()}"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<WorkflowTaskExecutionDetailsResponse>>(requestMessage, cancellationToken);
     }
 
@@ -186,7 +186,7 @@ public class WorkflowsService: IWorkflowsService
             $"logs"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<IEnumerable<WorkflowTaskExecutionLogsResponse>>>(requestMessage, cancellationToken);
     }
 
@@ -200,7 +200,7 @@ public class WorkflowsService: IWorkflowsService
             Uri = $"workflows/{request.WorkflowId.ToString()}/triggers"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<IEnumerable<WorkflowTriggersListResponse>>>(requestMessage, cancellationToken);
     }
 
@@ -214,7 +214,7 @@ public class WorkflowsService: IWorkflowsService
             Uri = $"workflows/{request.WorkflowId.ToString()}/triggers"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<AddWorkflowTriggerResponse>>(requestMessage, cancellationToken);
     }
 
@@ -229,7 +229,7 @@ public class WorkflowsService: IWorkflowsService
             $"triggers/{request.TriggerId}"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<WorkflowTriggerDetailsResponse>>(requestMessage, cancellationToken);
     }
 
@@ -244,7 +244,7 @@ public class WorkflowsService: IWorkflowsService
             $"triggers/{request.TriggerId}"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<Unit>>(requestMessage, cancellationToken);
     }
 
@@ -259,7 +259,7 @@ public class WorkflowsService: IWorkflowsService
             $"triggers/{request.TriggerId}"
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<Result<Unit>>(requestMessage, cancellationToken);
     }
 }

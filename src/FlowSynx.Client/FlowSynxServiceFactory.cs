@@ -13,45 +13,45 @@ public class FlowSynxServiceFactory : IFlowSynxServiceFactory
         _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
     }
 
-    public IHttpRequestService CreateHttpRequestService(string baseAddress, IAuthenticationStrategy authenticationStrategy)
+    public IHttpRequestHandler CreateHttpRequestHandler(string baseAddress, IAuthenticationStrategy authenticationStrategy)
     {
         var httpClient = _httpClientFactory.CreateClient();
         httpClient.BaseAddress = new Uri(baseAddress);
-        return new HttpRequestService(httpClient, authenticationStrategy);
+        return new HttpRequestHandler(httpClient, authenticationStrategy);
     }
 
-    public IAuditService CreateAuditService(IHttpRequestService httpRequestService)
+    public IAuditService CreateAuditService(IHttpRequestHandler httpRequestHandler)
     {
-        return new AuditService(httpRequestService);
+        return new AuditService(httpRequestHandler);
     }
 
-    public IPluginConfigService CreatePluginConfigService(IHttpRequestService httpRequestService)
+    public IPluginConfigService CreatePluginConfigService(IHttpRequestHandler httpRequestHandler)
     {
-        return new PluginConfigService(httpRequestService);
+        return new PluginConfigService(httpRequestHandler);
     }
 
-    public ILogsService CreateLogsService(IHttpRequestService httpRequestService)
+    public ILogsService CreateLogsService(IHttpRequestHandler httpRequestHandler)
     {
-        return new LogsService(httpRequestService);
+        return new LogsService(httpRequestHandler);
     }
 
-    public IPluginsService CreatePluginsService(IHttpRequestService httpRequestService)
+    public IPluginsService CreatePluginsService(IHttpRequestHandler httpRequestHandler)
     {
-        return new PluginsService(httpRequestService);
+        return new PluginsService(httpRequestHandler);
     }
 
-    public IWorkflowsService CreateWorkflowsService(IHttpRequestService httpRequestService)
+    public IWorkflowsService CreateWorkflowsService(IHttpRequestHandler httpRequestHandler)
     {
-        return new WorkflowsService(httpRequestService);
+        return new WorkflowsService(httpRequestHandler);
     }
 
-    public IHealthCheckService CreateHealthCheckService(IHttpRequestService httpRequestService)
+    public IHealthCheckService CreateHealthCheckService(IHttpRequestHandler httpRequestHandler)
     {
-        return new HealthCheckService(httpRequestService);
+        return new HealthCheckService(httpRequestHandler);
     }
 
-    public IVersionService CreateVersionService(IHttpRequestService httpRequestService)
+    public IVersionService CreateVersionService(IHttpRequestHandler httpRequestHandler)
     {
-        return new VersionService(httpRequestService);
+        return new VersionService(httpRequestHandler);
     }
 }

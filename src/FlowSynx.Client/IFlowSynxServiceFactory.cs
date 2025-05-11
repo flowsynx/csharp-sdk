@@ -6,12 +6,12 @@ namespace FlowSynx.Client;
 
 public interface IFlowSynxServiceFactory
 {
-    IHttpRequestService CreateHttpRequestService(string baseAddress, IAuthenticationStrategy authenticationStrategy);
-    IAuditService CreateAuditService(IHttpRequestService httpRequestService);
-    IPluginConfigService CreatePluginConfigService(IHttpRequestService httpRequestService);
-    ILogsService CreateLogsService(IHttpRequestService httpRequestService);
-    IPluginsService CreatePluginsService(IHttpRequestService httpRequestService);
-    IWorkflowsService CreateWorkflowsService(IHttpRequestService httpRequestService);
-    IHealthCheckService CreateHealthCheckService(IHttpRequestService httpRequestService);
-    IVersionService CreateVersionService(IHttpRequestService httpRequestService);
+    IHttpRequestHandler CreateHttpRequestHandler(string baseAddress, IAuthenticationStrategy authenticationStrategy);
+    IAuditService CreateAuditService(IHttpRequestHandler httpRequestHandler);
+    IPluginConfigService CreatePluginConfigService(IHttpRequestHandler httpRequestHandler);
+    ILogsService CreateLogsService(IHttpRequestHandler httpRequestHandler);
+    IPluginsService CreatePluginsService(IHttpRequestHandler httpRequestHandler);
+    IWorkflowsService CreateWorkflowsService(IHttpRequestHandler httpRequestHandler);
+    IHealthCheckService CreateHealthCheckService(IHttpRequestHandler httpRequestHandler);
+    IVersionService CreateVersionService(IHttpRequestHandler httpRequestHandler);
 }

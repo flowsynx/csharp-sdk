@@ -7,9 +7,9 @@ namespace FlowSynx.Client.Services;
 
 public class HealthCheckService: IHealthCheckService
 {
-    private readonly IHttpRequestService _httpRequestService;
+    private readonly IHttpRequestHandler _httpRequestHandler;
 
-    public HealthCheckService(IHttpRequestService httpRequestService) => _httpRequestService = httpRequestService;
+    public HealthCheckService(IHttpRequestHandler httpRequestHandler) => _httpRequestHandler = httpRequestHandler;
 
     public async Task<HttpResult<HealthCheckResponse>> Check(
         CancellationToken cancellationToken = default)
@@ -20,7 +20,7 @@ public class HealthCheckService: IHealthCheckService
             Uri = "health",
         };
 
-        return await _httpRequestService
+        return await _httpRequestHandler
             .SendRequestAsync<HealthCheckResponse>(requestMessage, cancellationToken);
     }
 }
