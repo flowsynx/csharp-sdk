@@ -22,7 +22,7 @@ This SDK enables developers to manage workflows, plugins, executions, configurat
 - Upload and retrieve logs and metadata
 - Authentication support (Basic, Bearer, and custom token handlers)
 - Lightweight, dependency-free architecture
-- Built for .NET 6.0+ with extensibility and clean architecture in mind
+- Built for .NET 9.0 with extensibility and clean architecture in mind
 
 ## 📦 Installation
 You can install the SDK via [NuGet](https://www.nuget.org/packages/FlowSynx.Client):
