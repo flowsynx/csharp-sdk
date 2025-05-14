@@ -6,8 +6,8 @@
 [mit-url]: https://github.com/flowsynx/csharp-sdk/blob/master/LICENSE
 [actions-badge]: https://github.com/flowsynx/csharp-sdk/actions/workflows/sdk_build.yml/badge.svg?branch=master
 [actions-url]: https://github.com/flowsynx/csharp-sdk/actions?workflow=build-nuget
-[fossa-badge]: https://app.fossa.com/api/projects/git%2Bgithub.com%2Fcsharp-sdk%2Fcli.svg?type=shield&issueType=license
-[fossa-url]: https://app.fossa.com/projects/git%2Bgithub.com%2Fcsharp-sdk%2Fcli?ref=badge_shield&issueType=license
+[fossa-badge]: https://app.fossa.com/api/projects/git%2Bgithub.com%2Fflowsynx%2Fcsharp-sdk.svg?type=shield&issueType=license
+[fossa-url]: https://app.fossa.com/projects/git%2Bgithub.com%2Fflowsynx%2Fcsharp-sdk?ref=badge_shield&issueType=license
 [dotnet-budge]: https://img.shields.io/badge/.NET-9.0-blue
 [dotnet-url]: https://dotnet.microsoft.com/en-us/download/dotnet/9.0
 
