@@ -2,5 +2,5 @@
 
 public class WorkflowTriggersListRequest
 {
-    public required string WorkflowId { get; set; }
+    public required Guid WorkflowId { get; set; }
 }

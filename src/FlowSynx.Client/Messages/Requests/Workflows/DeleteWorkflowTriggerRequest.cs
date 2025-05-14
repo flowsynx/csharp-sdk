@@ -2,6 +2,6 @@
 
 public class DeleteWorkflowTriggerRequest
 {
-    public required string WorkflowId { get; set; }
-    public required string TriggerId { get; set; }
+    public required Guid WorkflowId { get; set; }
+    public required Guid TriggerId { get; set; }
 }

@@ -2,7 +2,7 @@
 
 public class WorkflowTaskExecutionLogsRequest
 {
-    public required string WorkflowId { get; set; }
-    public required string WorkflowExecutionId { get; set; }
-    public required string WorkflowTaskExecutionId { get; set; }
+    public required Guid WorkflowId { get; set; }
+    public required Guid WorkflowExecutionId { get; set; }
+    public required Guid WorkflowTaskExecutionId { get; set; }
 }
