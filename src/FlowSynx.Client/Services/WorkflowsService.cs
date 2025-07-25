@@ -120,7 +120,7 @@ public class WorkflowsService: IWorkflowsService
         {
             HttpMethod = HttpMethod.Get,
             Uri = $"workflows/{request.WorkflowId.ToString()}/" +
-            $"executions/{request.WorkflowExecutionId}"
+            $"executions/{request.WorkflowExecutionId.ToString()}"
         };
 
         return await _httpRequestHandler
@@ -135,13 +135,59 @@ public class WorkflowsService: IWorkflowsService
         {
             HttpMethod = HttpMethod.Post,
             Uri = $"workflows/{request.WorkflowId.ToString()}/" +
-            $"executions/{request.WorkflowExecutionId}/cancel"
+            $"executions/{request.WorkflowExecutionId.ToString()}/cancel"
         };
 
         return await _httpRequestHandler
             .SendRequestAsync<Result<Unit>>(requestMessage, cancellationToken);
     }
 
+    public async Task<HttpResult<Result<IEnumerable<WorkflowExecutionPendingApprovalsResponse>>>> ExecutionPendingApprovalsAsync(
+        WorkflowExecutionPendingApprovalsRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        var requestMessage = new Request
+        {
+            HttpMethod = HttpMethod.Get,
+            Uri = $"workflows/{request.WorkflowId.ToString()}/" +
+            $"executions/{request.WorkflowExecutionId.ToString()}/approvals"
+        };
+
+        return await _httpRequestHandler
+            .SendRequestAsync<Result<IEnumerable<WorkflowExecutionPendingApprovalsResponse>>>(requestMessage, cancellationToken);
+    }
+
+    public async Task<HttpResult<Result<Unit>>> ApproveExecutionsAsync(
+        ApproveWorkflowRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        var requestMessage = new Request
+        {
+            HttpMethod = HttpMethod.Post,
+            Uri = $"workflows/{request.WorkflowId.ToString()}/" +
+            $"executions/{request.WorkflowExecutionId.ToString()}/" +
+            $"approvals/{request.WorkflowExecutionApprovalId.ToString()}/approve"
+        };
+
+        return await _httpRequestHandler
+            .SendRequestAsync<Result<Unit>>(requestMessage, cancellationToken);
+    }
+
+    public async Task<HttpResult<Result<Unit>>> RejectExecutionsAsync(
+        RejectWorkflowRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        var requestMessage = new Request
+        {
+            HttpMethod = HttpMethod.Post,
+            Uri = $"workflows/{request.WorkflowId.ToString()}/" +
+            $"executions/{request.WorkflowExecutionId.ToString()}/" +
+            $"approvals/{request.WorkflowExecutionApprovalId.ToString()}/reject"
+        };
+
+        return await _httpRequestHandler
+            .SendRequestAsync<Result<Unit>>(requestMessage, cancellationToken);
+    }
     public async Task<HttpResult<Result<WorkflowExecutionLogsResponse>>> ExecutionsLogsAsync(
         WorkflowExecutionLogsRequest request,
         CancellationToken cancellationToken = default)
@@ -150,7 +196,7 @@ public class WorkflowsService: IWorkflowsService
         {
             HttpMethod = HttpMethod.Get,
             Uri = $"workflows/{request.WorkflowId.ToString()}/" +
-            $"executions/{request.WorkflowExecutionId}/logs"
+            $"executions/{request.WorkflowExecutionId.ToString()}/logs"
         };
 
         return await _httpRequestHandler

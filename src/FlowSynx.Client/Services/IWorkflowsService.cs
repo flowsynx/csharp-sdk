@@ -98,6 +98,36 @@ public interface IWorkflowsService
         CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Retrieves a list of workflow execution approvals.
+    /// </summary>
+    /// <param name="request">The request for the approvals list.</param>
+    /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
+    /// <returns>A result containing a collection of workflow execution approval responses.</returns>
+    Task<HttpResult<Result<IEnumerable<WorkflowExecutionPendingApprovalsResponse>>>> ExecutionPendingApprovalsAsync(
+       WorkflowExecutionPendingApprovalsRequest request,
+       CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Approves a pending workflow execution.
+    /// </summary>
+    /// <param name="request">The request identifying which execution to approve.</param>
+    /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
+    /// <returns>A result indicating success or failure of the approval.</returns>
+    Task<HttpResult<Result<Unit>>> ApproveExecutionsAsync(
+        ApproveWorkflowRequest request,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Rejects a pending workflow execution.
+    /// </summary>
+    /// <param name="request">The request identifying which execution to reject.</param>
+    /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
+    /// <returns>A result indicating success or failure of the rejection.</returns>
+    Task<HttpResult<Result<Unit>>> RejectExecutionsAsync(
+        RejectWorkflowRequest request,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Retrieves logs for a specific workflow execution.
     /// </summary>
     /// <param name="request">The request specifying which execution's logs to retrieve.</param>
