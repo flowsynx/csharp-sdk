@@ -30,15 +30,15 @@ public class WorkflowsService: IWorkflowsService
         AddWorkflowRequest request,
         CancellationToken cancellationToken = default)
     {
-        var requestMessage = new Request<AddWorkflowRequest>
+        var requestMessage = new Request<string>
         {
             HttpMethod = HttpMethod.Post,
             Uri = "workflows",
-            Content = request
+            Content = request.Definition
         };
 
         return await _httpRequestHandler
-            .SendRequestAsync<AddWorkflowRequest, Result<AddWorkflowResponse>>(requestMessage, cancellationToken);
+            .SendRequestAsync<string, Result<AddWorkflowResponse>>(requestMessage, cancellationToken);
     }
 
     public async Task<HttpResult<Result<WorkflowDetailsResponse>>> DetailsAsync(
