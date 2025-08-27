@@ -100,7 +100,13 @@ public class HttpRequestHandler : IHttpRequestHandler
 
         if (content != null)
         {
-            var serialized = JsonConvert.SerializeObject(content);
+            string serialized;
+
+            if (content is string s && (s.TrimStart().StartsWith("{") || s.TrimStart().StartsWith("[")))
+                serialized = s;
+            else
+                serialized = JsonConvert.SerializeObject(content);
+
             message.Content = new StringContent(serialized, Encoding.UTF8, mediaType ?? "application/json");
         }
 
