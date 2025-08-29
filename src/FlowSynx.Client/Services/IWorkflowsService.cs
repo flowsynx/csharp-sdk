@@ -73,7 +73,7 @@ public interface IWorkflowsService
     /// <param name="request">The request specifying which workflow to execute and with what parameters.</param>
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
     /// <returns>A result indicating the execution status.</returns>
-    Task<HttpResult<Result<Unit>>> ExecuteAsync(
+    Task<HttpResult<Result<Guid>>> ExecuteAsync(
         ExecuteWorkflowRequest request,
         CancellationToken cancellationToken = default);
 
@@ -135,6 +135,16 @@ public interface IWorkflowsService
     /// <returns>A result containing the execution logs.</returns>
     Task<HttpResult<Result<WorkflowExecutionLogsResponse>>> ExecutionsLogsAsync(
         WorkflowExecutionLogsRequest request,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Retrieves the list of execution tasks for a given workflow execution.
+    /// </summary>
+    /// <param name="request">The request object containing workflow execution identifiers associated tasks.</param>
+    /// <param name="cancellationToken">A token that can be used to cancel the asynchronous operation.</param>
+    /// <returns>A result containing list of execution tasks.</returns>
+    Task<HttpResult<Result<IEnumerable<WorkflowExecutionTasksResponse>>>> ExecutionTasksAsync(
+        WorkflowExecutionTasksRequest request,
         CancellationToken cancellationToken = default);
 
     /// <summary>
