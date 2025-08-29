@@ -1,4 +1,4 @@
-﻿namespace FlowSynx.Client.Messages.Responses.Workflows;
+﻿namespace FlowSynx.Client.Messages.Requests.Workflows;
 
 public class ExecuteWorkflowRequest
 {
