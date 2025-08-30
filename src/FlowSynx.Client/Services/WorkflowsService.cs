@@ -98,7 +98,7 @@ public class WorkflowsService: IWorkflowsService
             .SendRequestAsync<Result<IEnumerable<WorkflowExecutionListResponse>>>(requestMessage, cancellationToken);
     }
 
-    public async Task<HttpResult<Result<Guid>>> ExecuteAsync(
+    public async Task<HttpResult<Result<ExecuteWorkflowResponse>>> ExecuteAsync(
         ExecuteWorkflowRequest request,
         CancellationToken cancellationToken = default)
     {
@@ -109,7 +109,7 @@ public class WorkflowsService: IWorkflowsService
         };
 
         return await _httpRequestHandler
-            .SendRequestAsync<Result<Guid>>(requestMessage, cancellationToken);
+            .SendRequestAsync<Result<ExecuteWorkflowResponse>>(requestMessage, cancellationToken);
     }
 
     public async Task<HttpResult<Result<WorkflowExecutionDetailsResponse>>> ExecutionsDetailsAsync(

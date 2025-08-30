@@ -73,7 +73,7 @@ public interface IWorkflowsService
     /// <param name="request">The request specifying which workflow to execute and with what parameters.</param>
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
     /// <returns>A result indicating the execution status.</returns>
-    Task<HttpResult<Result<Guid>>> ExecuteAsync(
+    Task<HttpResult<Result<ExecuteWorkflowResponse>>> ExecuteAsync(
         ExecuteWorkflowRequest request,
         CancellationToken cancellationToken = default);
 
