@@ -2,7 +2,9 @@
 
 public class WorkflowExecutionDetailsResponse
 {
-    public Guid Id { get; set; }
+    public Guid WorkflowId { get; set; }
+    public Guid ExecutionId { get; set; }
+    public string? Workflow { get; set; }
     public string? Status { get; set; }
     public DateTime ExecutionStart { get; set; }
     public DateTime? ExecutionEnd { get; set; }
