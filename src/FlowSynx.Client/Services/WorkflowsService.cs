@@ -269,14 +269,15 @@ public class WorkflowsService: IWorkflowsService
         AddWorkflowTriggerRequest request,
         CancellationToken cancellationToken = default)
     {
-        var requestMessage = new Request
+        var requestMessage = new Request<AddWorkflowTriggerRequest>
         {
             HttpMethod = HttpMethod.Post,
-            Uri = $"workflows/{request.WorkflowId.ToString()}/triggers"
+            Uri = $"workflows/{request.WorkflowId.ToString()}/triggers",
+            Content = request
         };
 
         return await _httpRequestHandler
-            .SendRequestAsync<Result<AddWorkflowTriggerResponse>>(requestMessage, cancellationToken);
+            .SendRequestAsync<AddWorkflowTriggerRequest, Result<AddWorkflowTriggerResponse>>(requestMessage, cancellationToken);
     }
 
     public async Task<HttpResult<Result<WorkflowTriggerDetailsResponse>>> TriggerDetailsAsync(
