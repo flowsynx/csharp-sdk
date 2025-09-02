@@ -6,4 +6,5 @@ public class WorkflowTriggersListResponse
     public string? Type { get; set; }
     public string? Status { get; set; }
     public Dictionary<string, object> Properties { get; set; } = new Dictionary<string, object>();
+    public DateTime? LastModified { get; set; }
 }
