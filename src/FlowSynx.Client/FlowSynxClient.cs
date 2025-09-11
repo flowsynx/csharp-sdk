@@ -32,6 +32,7 @@ public class FlowSynxClient : IFlowSynxClient
         Audits = serviceFactory.CreateAuditService(_httpRequestHandler);
         PluginConfig = serviceFactory.CreatePluginConfigService(_httpRequestHandler);
         Logs = serviceFactory.CreateLogsService(_httpRequestHandler);
+        Metrics = serviceFactory.CreateMetricsService(_httpRequestHandler);
         Plugins = serviceFactory.CreatePluginsService(_httpRequestHandler);
         Workflows = serviceFactory.CreateWorkflowsService(_httpRequestHandler);
         HealthCheck = serviceFactory.CreateHealthCheckService(_httpRequestHandler);
@@ -47,6 +48,7 @@ public class FlowSynxClient : IFlowSynxClient
     public IAuditService Audits { get; }
     public IPluginConfigService PluginConfig { get; }
     public ILogsService Logs { get; }
+    public IMetricsService Metrics { get; }
     public IPluginsService Plugins { get; }
     public IWorkflowsService Workflows { get; }
     public IHealthCheckService HealthCheck { get; }

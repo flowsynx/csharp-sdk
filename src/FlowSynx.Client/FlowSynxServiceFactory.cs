@@ -65,6 +65,16 @@ public class FlowSynxServiceFactory : IFlowSynxServiceFactory
     }
 
     /// <summary>
+    /// Creates an instance of <see cref="IMetricsService"/> using the provided HTTP request handler.
+    /// </summary>
+    /// <param name="httpRequestHandler">The HTTP request handler used for making requests related to metrics.</param>
+    /// <returns>An instance of <see cref="ILogsService"/>.</returns>
+    public IMetricsService CreateMetricsService(IHttpRequestHandler httpRequestHandler)
+    {
+        return new MetricsService(httpRequestHandler);
+    }
+
+    /// <summary>
     /// Creates an instance of <see cref="IPluginsService"/> using the provided HTTP request handler.
     /// </summary>
     /// <param name="httpRequestHandler">The HTTP request handler used for making requests related to plugins.</param>

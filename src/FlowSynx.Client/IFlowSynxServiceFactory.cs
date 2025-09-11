@@ -39,6 +39,13 @@ public interface IFlowSynxServiceFactory
     ILogsService CreateLogsService(IHttpRequestHandler httpRequestHandler);
 
     /// <summary>
+    /// Creates an instance of the metrics service to collect and report application metrics.
+    /// </summary>
+    /// <param name="httpRequestHandler">The HTTP request handler used to make API calls.</param>
+    /// <returns>An instance of <see cref="IMetricsService"/>.</returns>
+    IMetricsService CreateMetricsService(IHttpRequestHandler httpRequestHandler);
+
+    /// <summary>
     /// Creates an instance of the plugins service to manage and interact with plugins.
     /// </summary>
     /// <param name="httpRequestHandler">The HTTP request handler used to make API calls.</param>

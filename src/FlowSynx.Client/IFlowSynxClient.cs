@@ -40,6 +40,11 @@ public interface IFlowSynxClient
     ILogsService Logs { get; }
 
     /// <summary>
+    /// Gets the service responsible for collecting and reporting application metrics.
+    /// </summary>
+    IMetricsService Metrics { get; }
+
+    /// <summary>
     /// Gets the plugins service for managing and interacting with plugins.
     /// </summary>
     /// <value>The plugins service.</value>
