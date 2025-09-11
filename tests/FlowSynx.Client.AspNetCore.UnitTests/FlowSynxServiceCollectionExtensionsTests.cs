@@ -121,6 +121,8 @@ public class FlowSynxServiceCollectionExtensionsTests
 
         public ILogsService Logs => throw new NotImplementedException();
 
+        public IMetricsService Metrics => throw new NotImplementedException();
+
         public IPluginsService Plugins => throw new NotImplementedException();
 
         public IWorkflowsService Workflows => throw new NotImplementedException();
