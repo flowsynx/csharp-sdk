@@ -17,7 +17,7 @@ public interface IPluginConfigService
     /// A task that represents the asynchronous operation. The task result contains an
     /// <see cref="HttpResult{T}"/> with a <see cref="Result{T}"/> holding a collection of <see cref="PluginConfigListResponse"/>.
     /// </returns>
-    Task<HttpResult<Result<IEnumerable<PluginConfigListResponse>>>> ListAsync(
+    Task<HttpResult<PaginatedResult<PluginConfigListResponse>>> ListAsync(
         CancellationToken cancellationToken = default);
 
     /// <summary>

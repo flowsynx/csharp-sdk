@@ -18,7 +18,7 @@ public interface ILogsService
     /// A task that represents the asynchronous operation. The task result contains an
     /// <see cref="HttpResult{T}"/> with a <see cref="Result{T}"/> holding a collection of <see cref="LogsListResponse"/>.
     /// </returns>
-    Task<HttpResult<Result<IEnumerable<LogsListResponse>>>> ListAsync(
+    Task<HttpResult<PaginatedResult<LogsListResponse>>> ListAsync(
         LogsListRequest request,
         CancellationToken cancellationToken = default);
 }

@@ -12,7 +12,7 @@ public class LogsService: ILogsService
 
     public LogsService(IHttpRequestHandler httpRequestHandler) => _httpRequestHandler = httpRequestHandler;
 
-    public async Task<HttpResult<Result<IEnumerable<LogsListResponse>>>> ListAsync(
+    public async Task<HttpResult<PaginatedResult<LogsListResponse>>> ListAsync(
         LogsListRequest request,
         CancellationToken cancellationToken = default)
     {
@@ -24,6 +24,6 @@ public class LogsService: ILogsService
         };
 
         return await _httpRequestHandler
-            .SendRequestAsync<LogsListRequest, Result<IEnumerable<LogsListResponse>>>(requestMessage, cancellationToken);
+            .SendRequestAsync<LogsListRequest, PaginatedResult < LogsListResponse>>(requestMessage, cancellationToken);
     }
 }

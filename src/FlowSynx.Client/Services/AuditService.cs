@@ -17,7 +17,7 @@ public class AuditService : IAuditService
     public AuditService(IHttpRequestHandler httpRequestHandler) =>
         _httpRequestHandler = httpRequestHandler;
 
-    public async Task<HttpResult<Result<IEnumerable<AuditsListResponse>>>> ListAsync(
+    public async Task<HttpResult<PaginatedResult<AuditsListResponse>>> ListAsync(
         CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request
@@ -27,7 +27,7 @@ public class AuditService : IAuditService
         };
 
         return await _httpRequestHandler
-            .SendRequestAsync<Result<IEnumerable<AuditsListResponse>>>(requestMessage, cancellationToken);
+            .SendRequestAsync< PaginatedResult < AuditsListResponse>>(requestMessage, cancellationToken);
     }
 
     public async Task<HttpResult<Result<AuditDetailsResponse>>> DetailsAsync(

@@ -13,7 +13,7 @@ public class PluginsService: IPluginsService
     public PluginsService(IHttpRequestHandler httpRequestHandler) => 
         _httpRequestHandler = httpRequestHandler;
 
-    public async Task<HttpResult<Result<IEnumerable<PluginsListResponse>>>> ListAsync(
+    public async Task<HttpResult<PaginatedResult<PluginsListResponse>>> ListAsync(
         CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request
@@ -23,7 +23,7 @@ public class PluginsService: IPluginsService
         };
 
         return await _httpRequestHandler
-            .SendRequestAsync<Result<IEnumerable<PluginsListResponse>>>(requestMessage, cancellationToken);
+            .SendRequestAsync<PaginatedResult<PluginsListResponse>>(requestMessage, cancellationToken);
     }
 
     public async Task<HttpResult<Result<Unit>>> InstallAsync(

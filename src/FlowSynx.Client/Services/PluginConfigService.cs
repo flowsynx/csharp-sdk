@@ -13,7 +13,7 @@ public class PluginConfigService: IPluginConfigService
     public PluginConfigService(IHttpRequestHandler httpRequestHandler) => 
         _httpRequestHandler = httpRequestHandler;
 
-    public async Task<HttpResult<Result<IEnumerable<PluginConfigListResponse>>>> ListAsync(
+    public async Task<HttpResult<PaginatedResult<PluginConfigListResponse>>> ListAsync(
         CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request
@@ -22,7 +22,7 @@ public class PluginConfigService: IPluginConfigService
             Uri = "config"
         };
 
-        return await _httpRequestHandler.SendRequestAsync<Result<IEnumerable<PluginConfigListResponse>>>(requestMessage, cancellationToken);
+        return await _httpRequestHandler.SendRequestAsync<PaginatedResult<PluginConfigListResponse>>(requestMessage, cancellationToken);
     }
 
     public async Task<HttpResult<Result<AddPluginConfigResponse>>> AddAsync(

@@ -13,7 +13,7 @@ public class WorkflowsService: IWorkflowsService
     public WorkflowsService(IHttpRequestHandler httpRequestHandler) =>
         _httpRequestHandler = httpRequestHandler;
 
-    public async Task<HttpResult<Result<IEnumerable<WorkflowListResponse>>>> ListAsync(
+    public async Task<HttpResult<PaginatedResult<WorkflowListResponse>>> ListAsync(
         CancellationToken cancellationToken = default)
     {
         var requestMessage = new Request
@@ -23,7 +23,7 @@ public class WorkflowsService: IWorkflowsService
         };
 
         return await _httpRequestHandler
-            .SendRequestAsync<Result<IEnumerable<WorkflowListResponse>>>(requestMessage, cancellationToken);
+            .SendRequestAsync<PaginatedResult<WorkflowListResponse>>(requestMessage, cancellationToken);
     }
 
     public async Task<HttpResult<Result<AddWorkflowResponse>>> AddAsync(
@@ -84,7 +84,7 @@ public class WorkflowsService: IWorkflowsService
             .SendRequestAsync<Result<Unit>>(requestMessage, cancellationToken);
     }
 
-    public async Task<HttpResult<Result<IEnumerable<WorkflowExecutionListResponse>>>> ExecutionsAsync(
+    public async Task<HttpResult<PaginatedResult<WorkflowExecutionListResponse>>> ExecutionsAsync(
         WorkflowExecutionListRequest request,
         CancellationToken cancellationToken = default)
     {
@@ -95,7 +95,7 @@ public class WorkflowsService: IWorkflowsService
         };
 
         return await _httpRequestHandler
-            .SendRequestAsync<Result<IEnumerable<WorkflowExecutionListResponse>>>(requestMessage, cancellationToken);
+            .SendRequestAsync<PaginatedResult<WorkflowExecutionListResponse>>(requestMessage, cancellationToken);
     }
 
     public async Task<HttpResult<Result<ExecuteWorkflowResponse>>> ExecuteAsync(
@@ -142,7 +142,7 @@ public class WorkflowsService: IWorkflowsService
             .SendRequestAsync<Result<Unit>>(requestMessage, cancellationToken);
     }
 
-    public async Task<HttpResult<Result<IEnumerable<WorkflowExecutionPendingApprovalsResponse>>>> ExecutionPendingApprovalsAsync(
+    public async Task<HttpResult<PaginatedResult<WorkflowExecutionPendingApprovalsResponse>>> ExecutionPendingApprovalsAsync(
         WorkflowExecutionPendingApprovalsRequest request,
         CancellationToken cancellationToken = default)
     {
@@ -154,7 +154,7 @@ public class WorkflowsService: IWorkflowsService
         };
 
         return await _httpRequestHandler
-            .SendRequestAsync<Result<IEnumerable<WorkflowExecutionPendingApprovalsResponse>>>(requestMessage, cancellationToken);
+            .SendRequestAsync<PaginatedResult<WorkflowExecutionPendingApprovalsResponse>>(requestMessage, cancellationToken);
     }
 
     public async Task<HttpResult<Result<Unit>>> ApproveExecutionsAsync(
@@ -203,7 +203,7 @@ public class WorkflowsService: IWorkflowsService
             .SendRequestAsync<Result<WorkflowExecutionLogsResponse>>(requestMessage, cancellationToken);
     }
 
-    public async Task<HttpResult<Result<IEnumerable<WorkflowExecutionTasksResponse>>>> ExecutionTasksAsync(
+    public async Task<HttpResult<PaginatedResult<WorkflowExecutionTasksResponse>>> ExecutionTasksAsync(
         WorkflowExecutionTasksRequest request,
         CancellationToken cancellationToken = default)
     {
@@ -215,7 +215,7 @@ public class WorkflowsService: IWorkflowsService
         };
 
         return await _httpRequestHandler
-            .SendRequestAsync<Result<IEnumerable<WorkflowExecutionTasksResponse>>>(requestMessage, cancellationToken);
+            .SendRequestAsync<PaginatedResult<WorkflowExecutionTasksResponse>>(requestMessage, cancellationToken);
     }
 
     public async Task<HttpResult<Result<WorkflowTaskExecutionDetailsResponse>>> TaskExecutionDetailsAsync(
@@ -234,7 +234,7 @@ public class WorkflowsService: IWorkflowsService
             .SendRequestAsync<Result<WorkflowTaskExecutionDetailsResponse>>(requestMessage, cancellationToken);
     }
 
-    public async Task<HttpResult<Result<IEnumerable<WorkflowTaskExecutionLogsResponse>>>> TaskExecutionLogsAsync(
+    public async Task<HttpResult<PaginatedResult<WorkflowTaskExecutionLogsResponse>>> TaskExecutionLogsAsync(
         WorkflowTaskExecutionLogsRequest request,
         CancellationToken cancellationToken = default)
     {
@@ -248,10 +248,10 @@ public class WorkflowsService: IWorkflowsService
         };
 
         return await _httpRequestHandler
-            .SendRequestAsync<Result<IEnumerable<WorkflowTaskExecutionLogsResponse>>>(requestMessage, cancellationToken);
+            .SendRequestAsync<PaginatedResult<WorkflowTaskExecutionLogsResponse>>(requestMessage, cancellationToken);
     }
 
-    public async Task<HttpResult<Result<IEnumerable<WorkflowTriggersListResponse>>>> TriggersAsync(
+    public async Task<HttpResult<PaginatedResult<WorkflowTriggersListResponse>>> TriggersAsync(
         WorkflowTriggersListRequest request,
         CancellationToken cancellationToken = default)
     {
@@ -262,7 +262,7 @@ public class WorkflowsService: IWorkflowsService
         };
 
         return await _httpRequestHandler
-            .SendRequestAsync<Result<IEnumerable<WorkflowTriggersListResponse>>>(requestMessage, cancellationToken);
+            .SendRequestAsync<PaginatedResult<WorkflowTriggersListResponse>>(requestMessage, cancellationToken);
     }
 
     public async Task<HttpResult<Result<AddWorkflowTriggerResponse>>> AddTriggerAsync(

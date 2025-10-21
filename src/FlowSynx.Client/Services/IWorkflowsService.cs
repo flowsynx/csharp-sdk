@@ -14,7 +14,7 @@ public interface IWorkflowsService
     /// </summary>
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
     /// <returns>A result containing a list of workflow summaries.</returns>
-    Task<HttpResult<Result<IEnumerable<WorkflowListResponse>>>> ListAsync(
+    Task<HttpResult<PaginatedResult<WorkflowListResponse>>> ListAsync(
         CancellationToken cancellationToken = default);
 
     /// <summary>
@@ -63,7 +63,7 @@ public interface IWorkflowsService
     /// <param name="request">The request specifying filters for executions.</param>
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
     /// <returns>A result containing a list of workflow executions.</returns>
-    Task<HttpResult<Result<IEnumerable<WorkflowExecutionListResponse>>>> ExecutionsAsync(
+    Task<HttpResult<PaginatedResult<WorkflowExecutionListResponse>>> ExecutionsAsync(
        WorkflowExecutionListRequest request,
        CancellationToken cancellationToken = default);
 
@@ -103,7 +103,7 @@ public interface IWorkflowsService
     /// <param name="request">The request for the approvals list.</param>
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
     /// <returns>A result containing a collection of workflow execution approval responses.</returns>
-    Task<HttpResult<Result<IEnumerable<WorkflowExecutionPendingApprovalsResponse>>>> ExecutionPendingApprovalsAsync(
+    Task<HttpResult<PaginatedResult<WorkflowExecutionPendingApprovalsResponse>>> ExecutionPendingApprovalsAsync(
        WorkflowExecutionPendingApprovalsRequest request,
        CancellationToken cancellationToken = default);
 
@@ -143,7 +143,7 @@ public interface IWorkflowsService
     /// <param name="request">The request object containing workflow execution identifiers associated tasks.</param>
     /// <param name="cancellationToken">A token that can be used to cancel the asynchronous operation.</param>
     /// <returns>A result containing list of execution tasks.</returns>
-    Task<HttpResult<Result<IEnumerable<WorkflowExecutionTasksResponse>>>> ExecutionTasksAsync(
+    Task<HttpResult<PaginatedResult<WorkflowExecutionTasksResponse>>> ExecutionTasksAsync(
         WorkflowExecutionTasksRequest request,
         CancellationToken cancellationToken = default);
 
@@ -163,7 +163,7 @@ public interface IWorkflowsService
     /// <param name="request">The request specifying which task execution logs to retrieve.</param>
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
     /// <returns>A result containing the task execution logs.</returns>
-    Task<HttpResult<Result<IEnumerable<WorkflowTaskExecutionLogsResponse>>>> TaskExecutionLogsAsync(
+    Task<HttpResult<PaginatedResult<WorkflowTaskExecutionLogsResponse>>> TaskExecutionLogsAsync(
        WorkflowTaskExecutionLogsRequest request,
        CancellationToken cancellationToken = default);
 
@@ -173,7 +173,7 @@ public interface IWorkflowsService
     /// <param name="request">The request specifying filter criteria for triggers.</param>
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
     /// <returns>A result containing a list of workflow triggers.</returns>
-    Task<HttpResult<Result<IEnumerable<WorkflowTriggersListResponse>>>> TriggersAsync(
+    Task<HttpResult<PaginatedResult<WorkflowTriggersListResponse>>> TriggersAsync(
         WorkflowTriggersListRequest request,
         CancellationToken cancellationToken = default);
 

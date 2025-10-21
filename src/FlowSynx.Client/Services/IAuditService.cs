@@ -17,7 +17,7 @@ public interface IAuditService
     /// A task that represents the asynchronous operation. The task result contains an
     /// <see cref="HttpResult{T}"/> with a <see cref="Result{T}"/> holding a collection of <see cref="AuditsListResponse"/>.
     /// </returns>
-    Task<HttpResult<Result<IEnumerable<AuditsListResponse>>>> ListAsync(
+    Task<HttpResult<PaginatedResult<AuditsListResponse>>> ListAsync(
         CancellationToken cancellationToken = default);
 
     /// <summary>
