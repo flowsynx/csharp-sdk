@@ -1,5 +1,6 @@
 using FlowSynx.Client;
 using FlowSynx.Client.AspNetCore;
+using FlowSynx.Client.Messages.Requests.Workflows;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCore
@@ -32,8 +33,11 @@ namespace AspNetCore
             app.MapGet("/version", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) =>
                 await client.Version.GetVersion(cancellationToken));
 
-            app.MapGet("/plugins", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) =>
-                await client.Plugins.ListAsync(cancellationToken));
+            app.MapGet("/plugins", async ([FromServices] IFlowSynxClient client, CancellationToken cancellationToken) => 
+            {
+                var request = new PluginsListRequest { };
+                return await client.Plugins.ListAsync(request, cancellationToken);
+            });
 
             app.Run();
         }

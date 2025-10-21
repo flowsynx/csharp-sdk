@@ -1,9 +1,9 @@
-﻿using Client.Examples;
-using FlowSynx.Client.Authentication;
+﻿using Client;
+using Client.Examples;
 using FlowSynx.Client;
+using FlowSynx.Client.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Client;
 
 IAuthenticationStrategy authStrategy = new BasicAuthenticationStrategy("admin", "admin");
 
@@ -14,6 +14,11 @@ using IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IFlowSynxServiceFactory, FlowSynxServiceFactory>();
         services.AddSingleton(authStrategy);
         services.AddSingleton<IFlowSynxClient, FlowSynxClient>();
+        services.AddScoped<IFlowSynxClientConnection>(sp =>
+        {
+            var baseUrl = FlowSynxEnvironments.GetDefaultHttpEndpoint();
+            return new FlowSynxClientConnection(baseUrl);
+        });
     })
     .Build();
 

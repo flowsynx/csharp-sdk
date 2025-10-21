@@ -1,5 +1,5 @@
 ﻿using FlowSynx.Client;
-using FlowSynx.Client.Authentication;
+using FlowSynx.Client.Messages.Requests.Workflows;
 
 namespace Client.Examples;
 
@@ -16,7 +16,8 @@ internal class PluginsList : Example
 
     public override async Task RunAsync(CancellationToken cancellationToken)
     {
-        var result = await _flowSynxClient.Plugins.ListAsync(cancellationToken);
+        var request = new PluginsListRequest {};
+        var result = await _flowSynxClient.Plugins.ListAsync(request, cancellationToken);
         if (result.StatusCode != 200)
         {
             Console.WriteLine(@"The status code is not 200, that means the operation was not successful.");
