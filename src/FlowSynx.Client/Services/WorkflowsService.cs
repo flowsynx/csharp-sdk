@@ -3,6 +3,7 @@ using FlowSynx.Client.Messages.Responses;
 using FlowSynx.Client.Messages.Requests;
 using FlowSynx.Client.Messages.Requests.Workflows;
 using FlowSynx.Client.Messages.Responses.Workflows;
+using FlowSynx.Client.Helpers;
 
 namespace FlowSynx.Client.Services;
 
@@ -14,12 +15,15 @@ public class WorkflowsService: IWorkflowsService
         _httpRequestHandler = httpRequestHandler;
 
     public async Task<HttpResult<PaginatedResult<WorkflowListResponse>>> ListAsync(
+        WorkflowListRequest request,
         CancellationToken cancellationToken = default)
     {
+        var queryString = QueryHelper.BuildPaginationQuery(request);
+
         var requestMessage = new Request
         {
             HttpMethod = HttpMethod.Get,
-            Uri = "workflows"
+            Uri = $"workflows{queryString}"
         };
 
         return await _httpRequestHandler
@@ -88,10 +92,12 @@ public class WorkflowsService: IWorkflowsService
         WorkflowExecutionListRequest request,
         CancellationToken cancellationToken = default)
     {
+        var queryString = QueryHelper.BuildPaginationQuery(request);
+
         var requestMessage = new Request
         {
             HttpMethod = HttpMethod.Get,
-            Uri = $"workflows/{request.WorkflowId.ToString()}/executions"
+            Uri = $"workflows/{request.WorkflowId.ToString()}/executions{queryString}"
         };
 
         return await _httpRequestHandler
@@ -146,11 +152,13 @@ public class WorkflowsService: IWorkflowsService
         WorkflowExecutionPendingApprovalsRequest request,
         CancellationToken cancellationToken = default)
     {
+        var queryString = QueryHelper.BuildPaginationQuery(request);
+
         var requestMessage = new Request
         {
             HttpMethod = HttpMethod.Get,
             Uri = $"workflows/{request.WorkflowId.ToString()}/" +
-            $"executions/{request.WorkflowExecutionId.ToString()}/approvals"
+            $"executions/{request.WorkflowExecutionId.ToString()}/approvals{queryString}"
         };
 
         return await _httpRequestHandler
@@ -207,11 +215,13 @@ public class WorkflowsService: IWorkflowsService
         WorkflowExecutionTasksRequest request,
         CancellationToken cancellationToken = default)
     {
+        var queryString = QueryHelper.BuildPaginationQuery(request);
+
         var requestMessage = new Request
         {
             HttpMethod = HttpMethod.Get,
             Uri = $"workflows/{request.WorkflowId.ToString()}/" +
-                  $"executions/{request.WorkflowExecutionId.ToString()}/tasks"
+                  $"executions/{request.WorkflowExecutionId.ToString()}/tasks{queryString}"
         };
 
         return await _httpRequestHandler
@@ -238,13 +248,15 @@ public class WorkflowsService: IWorkflowsService
         WorkflowTaskExecutionLogsRequest request,
         CancellationToken cancellationToken = default)
     {
+        var queryString = QueryHelper.BuildPaginationQuery(request);
+
         var requestMessage = new Request
         {
             HttpMethod = HttpMethod.Get,
             Uri = $"workflows/{request.WorkflowId.ToString()}/" +
             $"executions/{request.WorkflowExecutionId.ToString()}/" +
             $"tasks/{request.WorkflowTaskExecutionId.ToString()}/" +
-            $"logs"
+            $"logs{queryString}"
         };
 
         return await _httpRequestHandler
@@ -255,10 +267,12 @@ public class WorkflowsService: IWorkflowsService
         WorkflowTriggersListRequest request,
         CancellationToken cancellationToken = default)
     {
+        var queryString = QueryHelper.BuildPaginationQuery(request);
+
         var requestMessage = new Request
         {
             HttpMethod = HttpMethod.Get,
-            Uri = $"workflows/{request.WorkflowId.ToString()}/triggers"
+            Uri = $"workflows/{request.WorkflowId.ToString()}/triggers{queryString}"
         };
 
         return await _httpRequestHandler

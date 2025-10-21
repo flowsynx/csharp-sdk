@@ -1,6 +1,7 @@
-﻿using FlowSynx.Client.Messages.Responses.PluginConfig;
+﻿using FlowSynx.Client.Messages.Requests.PluginConfig;
+using FlowSynx.Client.Messages.Requests.Workflows;
 using FlowSynx.Client.Messages.Responses;
-using FlowSynx.Client.Messages.Requests.PluginConfig;
+using FlowSynx.Client.Messages.Responses.PluginConfig;
 
 namespace FlowSynx.Client.Services;
 
@@ -18,6 +19,7 @@ public interface IPluginConfigService
     /// <see cref="HttpResult{T}"/> with a <see cref="Result{T}"/> holding a collection of <see cref="PluginConfigListResponse"/>.
     /// </returns>
     Task<HttpResult<PaginatedResult<PluginConfigListResponse>>> ListAsync(
+        PluginConfigListRequest request,
         CancellationToken cancellationToken = default);
 
     /// <summary>

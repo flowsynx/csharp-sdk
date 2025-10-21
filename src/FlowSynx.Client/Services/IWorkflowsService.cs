@@ -15,6 +15,7 @@ public interface IWorkflowsService
     /// <param name="cancellationToken">Token to cancel the asynchronous operation.</param>
     /// <returns>A result containing a list of workflow summaries.</returns>
     Task<HttpResult<PaginatedResult<WorkflowListResponse>>> ListAsync(
+        WorkflowListRequest request,
         CancellationToken cancellationToken = default);
 
     /// <summary>

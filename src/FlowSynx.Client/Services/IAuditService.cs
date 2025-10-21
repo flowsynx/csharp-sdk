@@ -1,6 +1,7 @@
-﻿using FlowSynx.Client.Messages.Responses.Audits;
+﻿using FlowSynx.Client.Messages.Requests.Audits;
+using FlowSynx.Client.Messages.Requests.Workflows;
 using FlowSynx.Client.Messages.Responses;
-using FlowSynx.Client.Messages.Requests.Audits;
+using FlowSynx.Client.Messages.Responses.Audits;
 
 namespace FlowSynx.Client.Services;
 
@@ -18,6 +19,7 @@ public interface IAuditService
     /// <see cref="HttpResult{T}"/> with a <see cref="Result{T}"/> holding a collection of <see cref="AuditsListResponse"/>.
     /// </returns>
     Task<HttpResult<PaginatedResult<AuditsListResponse>>> ListAsync(
+        AuditsListRequest request,
         CancellationToken cancellationToken = default);
 
     /// <summary>

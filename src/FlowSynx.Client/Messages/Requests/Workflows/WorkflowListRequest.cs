@@ -1,8 +1,7 @@
 ﻿namespace FlowSynx.Client.Messages.Requests.Workflows;
 
-public class WorkflowExecutionListRequest
+public class WorkflowListRequest
 {
-    public required Guid WorkflowId { get; set; }
     public int? Page { get; set; }
     public int? PageSize { get; set; }
 }

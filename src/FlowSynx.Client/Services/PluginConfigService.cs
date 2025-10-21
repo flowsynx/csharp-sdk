@@ -1,7 +1,9 @@
-﻿using FlowSynx.Client.Http;
-using FlowSynx.Client.Messages.Responses;
+﻿using FlowSynx.Client.Helpers;
+using FlowSynx.Client.Http;
 using FlowSynx.Client.Messages.Requests;
 using FlowSynx.Client.Messages.Requests.PluginConfig;
+using FlowSynx.Client.Messages.Requests.Workflows;
+using FlowSynx.Client.Messages.Responses;
 using FlowSynx.Client.Messages.Responses.PluginConfig;
 
 namespace FlowSynx.Client.Services;
@@ -14,12 +16,15 @@ public class PluginConfigService: IPluginConfigService
         _httpRequestHandler = httpRequestHandler;
 
     public async Task<HttpResult<PaginatedResult<PluginConfigListResponse>>> ListAsync(
+        PluginConfigListRequest request,
         CancellationToken cancellationToken = default)
     {
+        var queryString = QueryHelper.BuildPaginationQuery(request);
+
         var requestMessage = new Request
         {
             HttpMethod = HttpMethod.Get,
-            Uri = "config"
+            Uri = $"config{queryString}"
         };
 
         return await _httpRequestHandler.SendRequestAsync<PaginatedResult<PluginConfigListResponse>>(requestMessage, cancellationToken);
