@@ -1,4 +1,4 @@
-﻿namespace FlowSynx.Client.Messages.Requests.Workflows;
+﻿namespace FlowSynx.Client.Messages.Requests.Plugins;
 
 public class PluginsListRequest
 {

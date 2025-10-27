@@ -1,6 +1,6 @@
 using FlowSynx.Client;
 using FlowSynx.Client.AspNetCore;
-using FlowSynx.Client.Messages.Requests.Workflows;
+using FlowSynx.Client.Messages.Requests.Plugins;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCore

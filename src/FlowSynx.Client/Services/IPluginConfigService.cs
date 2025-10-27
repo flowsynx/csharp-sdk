@@ -1,5 +1,4 @@
 ﻿using FlowSynx.Client.Messages.Requests.PluginConfig;
-using FlowSynx.Client.Messages.Requests.Workflows;
 using FlowSynx.Client.Messages.Responses;
 using FlowSynx.Client.Messages.Responses.PluginConfig;
 
