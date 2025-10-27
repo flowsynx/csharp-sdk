@@ -1,21 +1,24 @@
-﻿# FlowSynx.Client SDK for C#
+﻿<div align="center">
+  <h1>C# FlowSynx.Client</h1>
+  <p><i>C# SDK for FlowSynx</i></p>
 
-[![dotnet][dotnet-budge]][dotnet-url] [![License: MIT][mit-badge]][mit-url] [![Build Status][actions-badge]][actions-url] [![FOSSA Status][fossa-badge]][fossa-url]
+  [![dotnet][dotnet-budge]][dotnet-url] [![License: MIT][mit-badge]][mit-url] [![Build Status][actions-badge]][actions-url] [![FOSSA Status][fossa-badge]][fossa-url]
 
-[mit-badge]: https://img.shields.io/github/license/flowsynx/csharp-sdk?style=flat&label=License&logo=github
-[mit-url]: https://github.com/flowsynx/csharp-sdk/blob/master/LICENSE
-[actions-badge]: https://github.com/flowsynx/csharp-sdk/actions/workflows/sdk_build.yml/badge.svg?branch=master
-[actions-url]: https://github.com/flowsynx/csharp-sdk/actions?workflow=build-nuget
-[fossa-badge]: https://app.fossa.com/api/projects/git%2Bgithub.com%2Fflowsynx%2Fcsharp-sdk.svg?type=shield&issueType=license
-[fossa-url]: https://app.fossa.com/projects/git%2Bgithub.com%2Fflowsynx%2Fcsharp-sdk?ref=badge_shield&issueType=license
-[dotnet-budge]: https://img.shields.io/badge/.NET-9.0-blue
-[dotnet-url]: https://dotnet.microsoft.com/en-us/download/dotnet/9.0
+  [mit-badge]: https://img.shields.io/github/license/flowsynx/csharp-sdk?style=flat&label=License&logo=github
+  [mit-url]: https://github.com/flowsynx/csharp-sdk/blob/master/LICENSE
+  [actions-badge]: https://github.com/flowsynx/csharp-sdk/actions/workflows/sdk_build.yml/badge.svg?branch=master
+  [actions-url]: https://github.com/flowsynx/csharp-sdk/actions?workflow=build-nuget
+  [fossa-badge]: https://app.fossa.com/api/projects/git%2Bgithub.com%2Fflowsynx%2Fcsharp-sdk.svg?type=shield&issueType=license
+  [fossa-url]: https://app.fossa.com/projects/git%2Bgithub.com%2Fflowsynx%2Fcsharp-sdk?ref=badge_shield&issueType=license
+  [dotnet-budge]: https://img.shields.io/badge/.NET-9.0-blue
+  [dotnet-url]: https://dotnet.microsoft.com/en-us/download/dotnet/9.0
+</div>
 
 **FlowSynx.Client** is a modern, extensible C# SDK designed to integrate seamlessly with 
 the [FlowSynx Workflow Automation Engine](https://flowsynx.io), providing a streamlined way to interact with its powerful REST API. 
 This SDK enables developers to manage workflows, plugins, executions, configurations, and more through a simple, fluent .NET API.
 
-## 🚀 Features
+## Features
 - Connect securely to FlowSynx via REST
 - Manage workflows and plugin configurations
 - Trigger and monitor workflow executions
@@ -24,14 +27,14 @@ This SDK enables developers to manage workflows, plugins, executions, configurat
 - Lightweight, dependency-free architecture
 - Built for .NET 9.0 with extensibility and clean architecture in mind
 
-## 📦 Installation
+## Installation
 You can install the SDK via [NuGet](https://www.nuget.org/packages/FlowSynx.Client):
 
 ```
 dotnet add package FlowSynx.Client
 ```
 
-## 🧩 Usage
+## Usage
 1. Configure the Client
 
 Make sure the blow package are added to you project:
@@ -74,6 +77,6 @@ var workflowRequest = new ExecuteWorkflowRequest { WorkflowId = workflowId };
 var result = await _flowSynxClient.Workflows.ExecuteAsync(workflowRequest, cancellationToken);
 ```
 
-## ✅ Requirements
+## Requirements
 - .NET 9.0 or later
 - Compatible with Windows, Linux, macOS
