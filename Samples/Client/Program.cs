@@ -26,10 +26,10 @@ var client = host.Services.GetRequiredService<IFlowSynxClient>();
 
 Example[] Examples = new Example[]
 {
-    new PluginsList(client),          // 2
-    new PluginDetails(client),        // 3
-    new Health(client),               // 4
-    new VersionExample(client),       // 5
+    new PluginsList(client),          // 0
+    new PluginDetails(client),        // 1
+    new Health(client),               // 2
+    new VersionExample(client),       // 3
 };
 
 if (args.Length > 0 && int.TryParse(args[0], out var index) && index >= 0 && index < Examples.Length)

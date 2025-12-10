@@ -10,8 +10,8 @@
   [actions-url]: https://github.com/flowsynx/csharp-sdk/actions?workflow=build-nuget
   [fossa-badge]: https://app.fossa.com/api/projects/git%2Bgithub.com%2Fflowsynx%2Fcsharp-sdk.svg?type=shield&issueType=license
   [fossa-url]: https://app.fossa.com/projects/git%2Bgithub.com%2Fflowsynx%2Fcsharp-sdk?ref=badge_shield&issueType=license
-  [dotnet-budge]: https://img.shields.io/badge/.NET-9.0-blue
-  [dotnet-url]: https://dotnet.microsoft.com/en-us/download/dotnet/9.0
+  [dotnet-budge]: https://img.shields.io/badge/.NET-10.0-blue
+  [dotnet-url]: https://dotnet.microsoft.com/en-us/download/dotnet/10.0
 </div>
 
 **FlowSynx.Client** is a modern, extensible C# SDK designed to integrate seamlessly with 
@@ -78,5 +78,5 @@ var result = await _flowSynxClient.Workflows.ExecuteAsync(workflowRequest, cance
 ```
 
 ## Requirements
-- .NET 9.0 or later
+- .NET 10.0 or later
 - Compatible with Windows, Linux, macOS
