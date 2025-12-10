@@ -45,16 +45,6 @@ public class FlowSynxServiceFactory : IFlowSynxServiceFactory
     }
 
     /// <summary>
-    /// Creates an instance of <see cref="IPluginConfigService"/> using the provided HTTP request handler.
-    /// </summary>
-    /// <param name="httpRequestHandler">The HTTP request handler used for making requests related to plugin configuration.</param>
-    /// <returns>An instance of <see cref="IPluginConfigService"/>.</returns>
-    public IPluginConfigService CreatePluginConfigService(IHttpRequestHandler httpRequestHandler)
-    {
-        return new PluginConfigService(httpRequestHandler);
-    }
-
-    /// <summary>
     /// Creates an instance of <see cref="ILogsService"/> using the provided HTTP request handler.
     /// </summary>
     /// <param name="httpRequestHandler">The HTTP request handler used for making requests related to logs.</param>

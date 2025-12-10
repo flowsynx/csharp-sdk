@@ -28,12 +28,6 @@ public interface IFlowSynxClient
     IAuditService Audits { get; }
 
     /// <summary>
-    /// Gets the plugin configuration service for managing plugin configurations.
-    /// </summary>
-    /// <value>The plugin configuration service.</value>
-    IPluginConfigService PluginConfig { get; }
-
-    /// <summary>
     /// Gets the logs service for interacting with logs related to the FlowSynx client.
     /// </summary>
     /// <value>The logs service.</value>

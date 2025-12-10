@@ -52,16 +52,6 @@ public class FlowSynxServiceFactoryTests
     }
 
     [Fact]
-    public void CreatePluginConfigService_ReturnsPluginConfigService()
-    {
-        var mockHttpRequestService = new Mock<IHttpRequestHandler>();
-        var service = _factory.CreatePluginConfigService(mockHttpRequestService.Object);
-
-        Assert.NotNull(service);
-        Assert.IsAssignableFrom<IPluginConfigService>(service);
-    }
-
-    [Fact]
     public void CreateLogsService_ReturnsLogsService()
     {
         var mockHttpRequestService = new Mock<IHttpRequestHandler>();

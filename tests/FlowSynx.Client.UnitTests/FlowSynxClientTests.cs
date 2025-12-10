@@ -20,7 +20,6 @@ public class FlowSynxClientTests
         var mockHttpRequestService = new Mock<IHttpRequestHandler>();
 
         var mockAuditService = new Mock<IAuditService>();
-        var mockPluginConfigService = new Mock<IPluginConfigService>();
         var mockLogsService = new Mock<ILogsService>();
         var mockPluginsService = new Mock<IPluginsService>();
         var mockWorkflowsService = new Mock<IWorkflowsService>();
@@ -30,7 +29,6 @@ public class FlowSynxClientTests
         var mockFactory = new Mock<IFlowSynxServiceFactory>();
         mockFactory.Setup(f => f.CreateHttpRequestHandler(baseAddress, mockAuthStrategy.Object)).Returns(mockHttpRequestService.Object);
         mockFactory.Setup(f => f.CreateAuditService(mockHttpRequestService.Object)).Returns(mockAuditService.Object);
-        mockFactory.Setup(f => f.CreatePluginConfigService(mockHttpRequestService.Object)).Returns(mockPluginConfigService.Object);
         mockFactory.Setup(f => f.CreateLogsService(mockHttpRequestService.Object)).Returns(mockLogsService.Object);
         mockFactory.Setup(f => f.CreatePluginsService(mockHttpRequestService.Object)).Returns(mockPluginsService.Object);
         mockFactory.Setup(f => f.CreateWorkflowsService(mockHttpRequestService.Object)).Returns(mockWorkflowsService.Object);
@@ -42,7 +40,6 @@ public class FlowSynxClientTests
 
         // Assert
         Assert.Equal(mockAuditService.Object, client.Audits);
-        Assert.Equal(mockPluginConfigService.Object, client.PluginConfig);
         Assert.Equal(mockLogsService.Object, client.Logs);
         Assert.Equal(mockPluginsService.Object, client.Plugins);
         Assert.Equal(mockWorkflowsService.Object, client.Workflows);
@@ -51,7 +48,6 @@ public class FlowSynxClientTests
 
         mockFactory.Verify(f => f.CreateHttpRequestHandler(baseAddress, mockAuthStrategy.Object), Times.Once);
         mockFactory.Verify(f => f.CreateAuditService(mockHttpRequestService.Object), Times.Once);
-        mockFactory.Verify(f => f.CreatePluginConfigService(mockHttpRequestService.Object), Times.Once);
         mockFactory.Verify(f => f.CreateLogsService(mockHttpRequestService.Object), Times.Once);
         mockFactory.Verify(f => f.CreatePluginsService(mockHttpRequestService.Object), Times.Once);
         mockFactory.Verify(f => f.CreateWorkflowsService(mockHttpRequestService.Object), Times.Once);

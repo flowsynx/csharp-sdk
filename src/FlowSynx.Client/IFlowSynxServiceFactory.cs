@@ -25,13 +25,6 @@ public interface IFlowSynxServiceFactory
     IAuditService CreateAuditService(IHttpRequestHandler httpRequestHandler);
 
     /// <summary>
-    /// Creates an instance of the plugin configuration service to manage plugin configurations.
-    /// </summary>
-    /// <param name="httpRequestHandler">The HTTP request handler used to make API calls.</param>
-    /// <returns>An instance of <see cref="IPluginConfigService"/>.</returns>
-    IPluginConfigService CreatePluginConfigService(IHttpRequestHandler httpRequestHandler);
-
-    /// <summary>
     /// Creates an instance of the logs service to manage and retrieve logs.
     /// </summary>
     /// <param name="httpRequestHandler">The HTTP request handler used to make API calls.</param>

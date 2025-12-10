@@ -30,7 +30,6 @@ public class FlowSynxClient : IFlowSynxClient
         _httpRequestHandler = serviceFactory.CreateHttpRequestHandler(connection.BaseAddress, authenticationStrategy);
 
         Audits = serviceFactory.CreateAuditService(_httpRequestHandler);
-        PluginConfig = serviceFactory.CreatePluginConfigService(_httpRequestHandler);
         Logs = serviceFactory.CreateLogsService(_httpRequestHandler);
         Metrics = serviceFactory.CreateMetricsService(_httpRequestHandler);
         Plugins = serviceFactory.CreatePluginsService(_httpRequestHandler);
@@ -46,7 +45,6 @@ public class FlowSynxClient : IFlowSynxClient
         _httpRequestHandler.SetAuthenticationStrategy(strategy);
 
     public IAuditService Audits { get; }
-    public IPluginConfigService PluginConfig { get; }
     public ILogsService Logs { get; }
     public IMetricsService Metrics { get; }
     public IPluginsService Plugins { get; }

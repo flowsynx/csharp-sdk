@@ -26,8 +26,6 @@ var client = host.Services.GetRequiredService<IFlowSynxClient>();
 
 Example[] Examples = new Example[]
 {
-    new PluginConfigList(client),     // 0
-    new AddPluginConfig(client),      // 1
     new PluginsList(client),          // 2
     new PluginDetails(client),        // 3
     new Health(client),               // 4
