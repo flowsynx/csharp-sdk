@@ -88,4 +88,20 @@ public class PluginsService: IPluginsService
         return await _httpRequestHandler
             .SendRequestAsync<UninstallPluginRequest, Result<Unit>>(requestMessage, cancellationToken);
     }
+
+    public async Task<HttpResult<PaginatedResult<PluginsFullDetailsListResponse>>> PluginsFullDetailsListAsync(
+        PluginsFullDetailsListRequest request,
+        CancellationToken cancellationToken = default)
+    {
+        var queryString = QueryHelper.BuildPaginationQuery(request);
+
+        var requestMessage = new Request
+        {
+            HttpMethod = HttpMethod.Get,
+            Uri = $"plugins/full{queryString}"
+        };
+
+        return await _httpRequestHandler
+            .SendRequestAsync<PaginatedResult<PluginsFullDetailsListResponse>>(requestMessage, cancellationToken);
+    }
 }

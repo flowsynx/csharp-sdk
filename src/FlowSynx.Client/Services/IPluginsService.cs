@@ -72,4 +72,15 @@ public interface IPluginsService
     Task<HttpResult<Result<Unit>>> UninstallAsync(
         UninstallPluginRequest request,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Asynchronously retrieves a paginated list of full plugin details from the specified registries.
+    /// </summary>
+    /// <param name="request">The parameters used to filter, sort, and paginate the list of full plugin details. Cannot be null.</param>
+    /// <param name="cancellationToken">A cancellation token that can be used to cancel the asynchronous operation.</param>
+    /// <returns>A task that represents the asynchronous operation. The task result contains an HTTP result wrapping a paginated
+    /// list of full plugin details responses.</returns>
+    Task<HttpResult<PaginatedResult<PluginsFullDetailsListResponse>>> PluginsFullDetailsListAsync(
+        PluginsFullDetailsListRequest request,
+        CancellationToken cancellationToken = default);
 }
